@@ -1,2 +1,2 @@
 # feed-reader
-To handle XML and RSS from feed sources
+This is under development, still not available to use.
