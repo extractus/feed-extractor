@@ -1,0 +1,38 @@
+{
+  "version": "0.0.1",
+  "name": "feed-reader",
+  "description": "Handle ATOM and RSS feed",
+  "homepage": "http://techpush.net",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ndaidong/feed-reader.git"
+  },
+  "author": "Dong Nguyen <ndaidong@gmail.com> (https://twitter.com/ndaidong)",
+  "main": "./index.js",
+  "engines": {
+    "node": ">= 4.0"
+  },
+  "scripts": {
+    "test": "mocha test"
+  },
+  "dependencies": {
+    "bellajs": "latest",
+    "bluebird": "latest",
+    "request": "latest",
+    "xml2json": "latest"
+  },
+  "devDependencies": {
+    "mocha": "latest",
+    "chai": "latest"
+  },
+  "license": "MIT",
+  "maintainers": [
+    "ndaidong <ndaidong@gmail.com>"
+  ],
+  "bugs": {
+    "url": "https://github.com/ndaidong/feed-reader/issues"
+  },
+  "directories": {
+    "test": "test"
+  }
+}
