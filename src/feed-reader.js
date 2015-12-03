@@ -35,6 +35,59 @@ var toJSON = (source) => {
   });
 }
 
+
+var toRSS = (res) => {
+  let a = {
+    title: res.title,
+    description: res.description,
+    entries: []
+  }
+  if(res.entries){
+    let es = [];
+    res.entries.forEach((item) => {
+      let title = item.title;
+      let description = item.description;
+      let pubDate = item.pubDate;
+      let creator = item['dc:creator'];
+      let content = item['content:encoded'];
+      es.push({
+        link: item.link,
+        title: item.title,
+        description: description,
+        pubDate: pubDate,
+        creator: creator
+      });
+    });
+    a.entries = es;
+  }
+  console.log(a);
+  return a;
+}
+
+
+var parse = (url) => {
+  return new Promise((resolve, reject) => {
+    toJSON(url).then((o) => {
+      if(o.rss && o.rss.channel){
+        let t = o.rss.channel;
+        let a = {
+          title: t.title,
+          description: t.description,
+          entries: t.item
+        }
+        return toRSS(a);
+      }
+      else{
+        console.log(o);
+      }
+      return reject(new Error('No item added'));
+    }).catch((e) => {
+      console.log(e);
+      return reject(e);
+    });
+  });
+}
+
 module.exports = {
-  toJSON: toJSON
+  parse: parse
 }
