@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1",
+  "version": "0.1.1",
   "name": "feed-reader",
   "description": "Handle ATOM and RSS feed",
   "homepage": "http://techpush.net",
@@ -18,6 +18,8 @@
   "dependencies": {
     "bellajs": "latest",
     "bluebird": "latest",
+    "friendly-xml": "latest",
+    "html-entities": "latest",
     "request": "latest",
     "xml2json": "latest"
   },
