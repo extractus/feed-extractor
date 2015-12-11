@@ -2,7 +2,7 @@
 Util for parse ATOM and RSS feed resources and normalize them to JSON object.
 
  [![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
- ![Travis](https://travis-ci.org/techpush/feed-reader.svg?branch=master)
+ ![Travis](https://travis-ci.org/ndaidong/feed-reader.svg?branch=master)
 
 ### Installation
 
