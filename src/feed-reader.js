@@ -101,7 +101,7 @@ var normalize = (link, title, pubDate, creator, description, content) => {
 var toRSS = (res) => {
   let a = {
     title: res.title || '',
-    description: res.description || '',
+    link: res.link,
     entries: []
   }
   if(res.entries){
@@ -123,7 +123,7 @@ var toRSS = (res) => {
 var toATOM = (res) => {
   let a = {
     title: res.title || '',
-    description: res.description || '',
+    link: res.link,
     entries: []
   }
   if(res.entries){
@@ -170,18 +170,26 @@ var parse = (url) => {
       let result;
       if(o.rss && o.rss.channel){
         let t = o.rss.channel;
+        let ot = t.title || '';
+        if(bella.isObject(ot)){
+          t.title = ot.type === 'text' ? ot.$t : '';
+        }
         let a = {
           title: t.title,
-          description: t.description,
+          link: url,
           entries: t.item
         }
         result = toRSS(a);
       }
       else if(o.feed && o.feed.entry){
         let t = o.feed;
+        let ot = t.title || '';
+        if(bella.isObject(ot)){
+          t.title = ot.type === 'text' ? ot.$t : '';
+        }
         let a = {
           title: t.title,
-          description: t.description,
+          link: url,
           entries: t.entry
         }
         result = toATOM(a);
@@ -194,6 +202,19 @@ var parse = (url) => {
       return reject(e);
     });
   });
+}
+
+let url = '';
+var dtest = (src) => {
+  parse(src).then((re) => {
+    console.log(re);
+  }).catch((er) => {
+    console.log(er);
+  });
+}
+
+if(url){
+  dtest(url);
 }
 
 module.exports = {

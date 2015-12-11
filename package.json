@@ -1,5 +1,5 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.14",
   "name": "feed-reader",
   "description": "Handle ATOM and RSS feed",
   "homepage": "http://techpush.net",
@@ -20,13 +20,21 @@
     "bluebird": "latest",
     "friendly-xml": "latest",
     "html-entities": "latest",
-    "request": "latest",
+    "node-fetch": "latest",
     "xml2json": "latest"
   },
   "devDependencies": {
     "mocha": "latest",
     "chai": "latest"
   },
+  "keywords": [
+    "extractor",
+    "parser",
+    "feed",
+    "rss",
+    "atom",
+    "util"
+  ],
   "license": "MIT",
   "maintainers": [
     "ndaidong <ndaidong@gmail.com>"
