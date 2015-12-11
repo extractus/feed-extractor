@@ -1,7 +1,7 @@
 # feed-reader
 Util for parse ATOM and RSS feed resources and normalize them to JSON object.
 
- [![NPM](https://badge.fury.io/js/oembed-auto-es6.svg)](https://badge.fury.io/js/oembed-auto-es6)
+ [![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
  ![Travis](https://travis-ci.org/techpush/feed-reader.svg?branch=master)
 
 ### Installation
