@@ -1,5 +1,5 @@
 # feed-reader
-oEmbed extractor, based on [oembed-auto](https://github.com/inspiredjw/oembed-auto) by JeongWoo Chang
+Util for handling ATOM and RSS feed as JSON object.
 
  [![NPM](https://badge.fury.io/js/oembed-auto-es6.svg)](https://badge.fury.io/js/oembed-auto-es6)
  ![Travis](https://travis-ci.org/techpush/feed-reader.svg?branch=master)
