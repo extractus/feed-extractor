@@ -110,8 +110,8 @@ var toRSS = (res) => {
       let title = item.title;
       let description = item.description;
       let pubDate = item.pubDate;
-      let creator = item['dc:creator'] || '';
-      let content = item['content:encoded'] || '';
+      let creator = item['dc:creator'] || item.author || item.creator || '';
+      let content = item['content:encoded'] || item.content || '';
 
       return normalize(link, title, pubDate, creator, description, content);
     }
