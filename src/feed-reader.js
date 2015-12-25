@@ -16,70 +16,69 @@ var Entity = new Entities();
 var toJSON = (source) => {
   return new Promise((resolve, reject) => {
     fetch(source).then((res) => {
-      if(res.ok && res.status === 200){
+      if (res.ok && res.status === 200) {
         return res.text();
       }
       throw new Error('Fetching failed: ' + source);
     }).then((xml) => {
       let fallback = () => {
         FXML.ParseString(xml, (ob) => {
-          if(ob && bella.isObject(ob)){
+          if (ob && bella.isObject(ob)) {
             return resolve(ob);
           }
           return reject(new Error('Parsing failed: ' + source));
         });
-      }
-      try{
+      };
+
+      try {
         let json = parser.toJson(xml);
         let ob = JSON.parse(json);
-        if(ob && bella.isObject(ob)){
+        if (ob && bella.isObject(ob)) {
           return resolve(ob);
         }
         return fallback();
-      }
-      catch(e){
+      } catch (e) {
         return fallback(e);
       }
     }).catch((err) => {
       return reject(err);
     });
   });
-}
+};
 
 var normalize = (link, title, pubDate, creator, description, content) => {
 
-  if(!link || !title){
+  if (!link || !title) {
     return false;
   }
 
   let pubtime = bella.date.utc(pubDate);
 
-  if(!pubtime){
+  if (!pubtime) {
     return false;
   }
 
-  if(creator){
+  if (creator) {
     creator = Entity.decode(creator);
     creator = bella.ucwords(creator);
   }
 
-  if(content){
+  if (content) {
     content = Entity.decode(content);
   }
 
-  if(description){
+  if (description) {
     description = Entity.decode(description);
     description = bella.stripTags(description);
-  }
-  else if(content){
+  } else if (content) {
     description = bella.stripTags(content);
   }
 
-  if(description){
+  if (description) {
     description = description.replace(/(\r\n|\n|\r)/gm, ' ');
   }
 
-  if(description.length > 160){
+  if (description.length > 160) {
     description = bella.truncate(description, 156);
   }
   description = Entity.decode(description);
@@ -95,16 +94,17 @@ var normalize = (link, title, pubDate, creator, description, content) => {
     publishedDate: pubtime,
     author: creator,
     content: content
-  }
-}
+  };
+};
 
 var toRSS = (res) => {
   let a = {
     title: res.title || '',
     link: res.link,
     entries: []
-  }
-  if(res.entries){
+  };
+
+  if (res.entries) {
     let modify = (item) => {
       let link = item.link;
       let title = item.title;
@@ -114,30 +114,31 @@ var toRSS = (res) => {
       let content = item['content:encoded'] || item.content || '';
 
       return normalize(link, title, pubDate, creator, description, content);
-    }
+    };
+
     a.entries = res.entries.map(modify);
   }
   return a;
-}
+};
 
 var toATOM = (res) => {
   let a = {
     title: res.title || '',
     link: res.link,
     entries: []
-  }
-  if(res.entries){
+  };
+  if (res.entries) {
     let modify = (item) => {
       let pubDate = item.updated || item.published;
       let title = item.title;
-      if(bella.isObject(title) && title.$t){
+      if (bella.isObject(title) && title.$t) {
         title = title.$t;
       }
       let link = item.link;
-      if(bella.isArray(link) && link.length > 0){
+      if (bella.isArray(link) && link.length > 0) {
         let tmpLink = '';
-        for(let i = 0; i < link.length; i++){
-          if(link[i].rel === 'alternate'){
+        for (let i = 0; i < link.length; i++) {
+          if (link[i].rel === 'alternate') {
             tmpLink = link[i].href;
             break;
           }
@@ -147,54 +148,54 @@ var toATOM = (res) => {
       let description = item.summary || item.description || '';
 
       let creator = item.author;
-      if(bella.isObject(creator) && creator.name){
+      if (bella.isObject(creator) && creator.name) {
         creator = creator.name;
       }
 
       let content = item.content;
-      if(bella.isObject(content) && content.$t){
+      if (bella.isObject(content) && content.$t) {
         content = content.$t;
       }
 
       return normalize(link, title, pubDate, creator, description, content);
-    }
+    };
+
     a.entries = res.entries.map(modify);
   }
   return a;
-}
+};
 
 
 var parse = (url) => {
   return new Promise((resolve, reject) => {
     toJSON(url).then((o) => {
       let result;
-      if(o.rss && o.rss.channel){
+      if (o.rss && o.rss.channel) {
         let t = o.rss.channel;
         let ot = t.title || '';
-        if(bella.isObject(ot)){
+        if (bella.isObject(ot)) {
           t.title = ot.type === 'text' ? ot.$t : '';
         }
         let a = {
           title: t.title,
           link: url,
           entries: t.item
-        }
+        };
         result = toRSS(a);
-      }
-      else if(o.feed && o.feed.entry){
+      } else if (o.feed && o.feed.entry) {
         let t = o.feed;
         let ot = t.title || '';
-        if(bella.isObject(ot)){
+        if (bella.isObject(ot)) {
           t.title = ot.type === 'text' ? ot.$t : '';
         }
         let a = {
           title: t.title,
           link: url,
           entries: t.entry
-        }
+        };
         result = toATOM(a);
       }
-      if(result && result.entries && result.entries.length){
+      if (result && result.entries && result.entries.length) {
         return resolve(result);
       }
       return reject(new Error('Parsing failed'));
@@ -202,21 +203,9 @@ var parse = (url) => {
       return reject(e);
     });
   });
-}
+};
 
-let url = '';
-var dtest = (src) => {
-  parse(src).then((re) => {
-    console.log(re);
-  }).catch((er) => {
-    console.log(er);
-  });
-}
-
-if(url){
-  dtest(url);
-}
 
 module.exports = {
   parse: parse
-}
+};
