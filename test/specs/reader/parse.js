@@ -55,7 +55,7 @@ var testOne = (url) => {
       });
 
       it(' should have required properties', (done) => {
-        expect(feed).to.include.keys(['link', 'title', 'entries']);
+        expect(feed).to.include.keys([ 'link', 'title', 'entries' ]);
         done();
       });
 
@@ -84,7 +84,7 @@ var testOne = (url) => {
             });
 
             it(' should have required properties', (done) => {
-              expect(entry).to.include.keys(['link', 'title', 'contentSnippet', 'publishedDate', 'content']);
+              expect(entry).to.include.keys([ 'link', 'title', 'contentSnippet', 'publishedDate', 'content' ]);
               done();
             });
 
