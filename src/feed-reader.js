@@ -144,7 +144,10 @@ var toATOM = (res) => {
           }
         }
         link = tmpLink;
+      } else if (bella.isObject(link) && bella.hasProperty(link, 'href')) {
+        link = link.href;
       }
+
       let description = item.summary || item.description || '';
 
       let creator = item.author;
@@ -156,7 +159,6 @@ var toATOM = (res) => {
       if (bella.isObject(content) && content.$t) {
         content = content.$t;
       }
-
       return normalize(link, title, pubDate, creator, description, content);
     };
 
@@ -204,7 +206,6 @@ var parse = (url) => {
     });
   });
 };
-
 
 module.exports = {
   parse: parse
