@@ -58,23 +58,23 @@ var normalize = (link, title, pubDate, creator, description, content) => {
     return false;
   }
 
-  if (creator) {
+  if (creator && bella.isString(creator)) {
     creator = Entity.decode(creator);
     creator = bella.ucwords(creator);
   }
 
-  if (content) {
+  if (content && bella.isString(content)) {
     content = Entity.decode(content);
   }
 
-  if (description) {
+  if (description && bella.isString(description)) {
     description = Entity.decode(description);
     description = bella.stripTags(description);
   } else if (content) {
     description = bella.stripTags(content);
   }
 
-  if (description) {
+  if (description && bella.isString(description)) {
     description = description.replace(/(\r\n|\n|\r)/gm, ' ');
   }
 
