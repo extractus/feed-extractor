@@ -6,12 +6,16 @@
 'use strict'; // to use "let" keyword
 
 var Promise = require('bluebird');
-var bella = require('bellajs');
 var parser = require('xml2json');
 var fetch = require('node-fetch');
 var FXML = require('friendly-xml');
 var Entities = require('html-entities').XmlEntities;
 var Entity = new Entities();
+
+var bella = require('bellajs');
+var isString = bella.isString;
+var isArray = bella.isArray;
+var isObject = bella.isObject;
 
 var toJSON = (source) => {
   return new Promise((resolve, reject) => {
@@ -23,7 +27,7 @@ var toJSON = (source) => {
     }).then((xml) => {
       let fallback = () => {
         FXML.ParseString(xml, (ob) => {
-          if (ob && bella.isObject(ob)) {
+          if (ob && isObject(ob)) {
             return resolve(ob);
           }
           return reject(new Error('Parsing failed: ' + source));
@@ -33,7 +37,7 @@ var toJSON = (source) => {
       try {
         let json = parser.toJson(xml);
         let ob = JSON.parse(json);
-        if (ob && bella.isObject(ob)) {
+        if (ob && isObject(ob)) {
           return resolve(ob);
         }
         return fallback();
@@ -48,7 +52,9 @@ var toJSON = (source) => {
 
 var normalize = (link, title, pubDate, creator, description, content) => {
 
-  if (!link || !title) {
+  if (!link || !title
+    || !isString(link) || !isString(title)
+    || link.length < 10 || title.length < 10) {
     return false;
   }
 
@@ -58,34 +64,38 @@ var normalize = (link, title, pubDate, creator, description, content) => {
     return false;
   }
 
-  if (creator && bella.isString(creator)) {
+  if (creator && isString(creator)) {
     creator = Entity.decode(creator);
     creator = bella.ucwords(creator);
   }
 
-  if (content && bella.isString(content)) {
+  if (content && isString(content)) {
     content = Entity.decode(content);
   }
 
-  if (description && bella.isString(description)) {
+  if (description && isString(description)) {
     description = Entity.decode(description);
     description = bella.stripTags(description);
   } else if (content) {
     description = bella.stripTags(content);
   }
 
-  if (description && bella.isString(description)) {
+  if (description && isString(description)) {
     description = description.replace(/(\r\n|\n|\r)/gm, ' ');
   }
 
-  if (description.length > 160) {
+  if (description && description.length > 160) {
     description = bella.truncate(description, 156);
   }
-  description = Entity.decode(description);
 
-  title = Entity.decode(title);
+  try {
+    description = Entity.decode(description);
+    title = Entity.decode(title);
+    link = Entity.decode(link);
+  } catch (e) {
+    return false;
+  }
 
-  link = Entity.decode(link);
 
   return {
     link: link,
@@ -131,11 +141,11 @@ var toATOM = (res) => {
     let modify = (item) => {
       let pubDate = item.updated || item.published;
       let title = item.title;
-      if (bella.isObject(title) && title.$t) {
+      if (isObject(title) && title.$t) {
         title = title.$t;
       }
       let link = item.link;
-      if (bella.isArray(link) && link.length > 0) {
+      if (isArray(link) && link.length > 0) {
         let tmpLink = '';
         for (let i = 0; i < link.length; i++) {
           if (link[i].rel === 'alternate') {
@@ -144,19 +154,19 @@ var toATOM = (res) => {
           }
         }
         link = tmpLink;
-      } else if (bella.isObject(link) && bella.hasProperty(link, 'href')) {
+      } else if (isObject(link) && bella.hasProperty(link, 'href')) {
         link = link.href;
       }
 
       let description = item.summary || item.description || '';
 
       let creator = item.author;
-      if (bella.isObject(creator) && creator.name) {
+      if (isObject(creator) && creator.name) {
         creator = creator.name;
       }
 
       let content = item.content;
-      if (bella.isObject(content) && content.$t) {
+      if (isObject(content) && content.$t) {
         content = content.$t;
       }
       return normalize(link, title, pubDate, creator, description, content);
@@ -175,7 +185,7 @@ var parse = (url) => {
       if (o.rss && o.rss.channel) {
         let t = o.rss.channel;
         let ot = t.title || '';
-        if (bella.isObject(ot)) {
+        if (isObject(ot)) {
           t.title = ot.type === 'text' ? ot.$t : '';
         }
         let a = {
@@ -187,7 +197,7 @@ var parse = (url) => {
       } else if (o.feed && o.feed.entry) {
         let t = o.feed;
         let ot = t.title || '';
-        if (bella.isObject(ot)) {
+        if (isObject(ot)) {
           t.title = ot.type === 'text' ? ot.$t : '';
         }
         let a = {
