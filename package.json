@@ -16,7 +16,7 @@
     "test": "./node_modules/.bin/mocha test"
   },
   "dependencies": {
-    "bellajs": "^5.1.42",
+    "bellajs": "^5.1.3",
     "bluebird": "^3.4.0",
     "friendly-xml": "^1.0.1",
     "html-entities": "^1.2.0",
