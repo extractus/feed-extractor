@@ -7,23 +7,38 @@ Util for parse ATOM and RSS feed resources and normalize them to JSON object.
  ![devDependency Status](https://david-dm.org/ndaidong/feed-reader.svg)
  [![Known Vulnerabilities](https://snyk.io/test/npm/feed-reader/badge.svg)](https://snyk.io/test/npm/feed-reader)
 
-### Installation
+### API & Usage
 
 ```
 npm install feed-reader
 ```
 
-### Usage
+This module provides only one method:
+
+- .parse(String feedURL)
+
+In which, feedURL is the url to RSS or ATOM resource.
+
+For example:
 
 ```
-import FeedReader from 'feed-reader';
+var reader = require('feed-reader');
+reader.parse(SOME_RSS_URL);
+```
+
+Result is a Promise. View the example below for more detail:
+
+```
+var parse = require('feed-reader').parse;
 
 let url = 'https://news.google.com/news/feeds?pz=1&cf=all&ned=us&hl=en&q=nodejs&output=rss';
 
-FeedReader.parse(url).then((feed) => {
+parse(url).then((feed) => {
   console.log(feed);
 }).catch((err) => {
   console.log(err);
+}).finally(() => {
+  console.log('Everything done');
 });
 ```
 
@@ -34,7 +49,5 @@ FeedReader.parse(url).then((feed) => {
 git clone https://github.com/ndaidong/feed-reader.git
 cd feed-reader
 npm install
-mocha
+npm test
 ```
-
- _* Ensure that you have [mocha](https://mochajs.org/) installed_

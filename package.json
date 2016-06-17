@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.01",
   "name": "feed-reader",
   "description": "Handle ATOM and RSS feed",
   "homepage": "https://www.npmjs.com/package/feed-reader",
