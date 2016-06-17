@@ -94,7 +94,6 @@ var normalize = ({link, title, pubDate, author, contentSnippet, content}) => {
     return false;
   }
 
-
   return {
     link,
     title,
