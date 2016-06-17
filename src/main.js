@@ -3,16 +3,14 @@
  * @ndaidong
  **/
 
-'use strict'; // to use "let" keyword
-
-var Promise = require('bluebird');
+var bella = require('bellajs');
+var Promise = require('promise-wtf');
 var parser = require('xml2json');
 var fetch = require('node-fetch');
 var FXML = require('friendly-xml');
 var Entities = require('html-entities').XmlEntities;
 var Entity = new Entities();
 
-var bella = require('bellajs');
 var isString = bella.isString;
 var isArray = bella.isArray;
 var isObject = bella.isObject;
@@ -26,7 +24,7 @@ var toJSON = (source) => {
       throw new Error('Fetching failed: ' + source);
     }).then((xml) => {
       let fallback = () => {
-        FXML.ParseString(xml, (ob) => {
+        FXML.ParseString(xml, (ob) => { // eslint-disable-line new-cap
           if (ob && isObject(ob)) {
             return resolve(ob);
           }
@@ -50,46 +48,46 @@ var toJSON = (source) => {
   });
 };
 
-var normalize = (link, title, pubDate, creator, description, content) => {
+var normalize = ({link, title, pubDate, author, contentSnippet, content}) => {
 
-  if (!link || !title
-    || !isString(link) || !isString(title)
-    || link.length < 10 || title.length < 10) {
+  if (!link || !title ||
+    !isString(link) || !isString(title) ||
+    link.length < 10 || title.length < 10) {
     return false;
   }
 
-  let pubtime = bella.date.utc(pubDate);
+  let publishedDate = bella.date.utc(pubDate);
 
-  if (!pubtime) {
+  if (!publishedDate) {
     return false;
   }
 
-  if (creator && isString(creator)) {
-    creator = Entity.decode(creator);
-    creator = bella.ucwords(creator);
+  if (author && isString(author)) {
+    author = Entity.decode(author);
+    author = bella.ucwords(author);
   }
 
   if (content && isString(content)) {
     content = Entity.decode(content);
   }
 
-  if (description && isString(description)) {
-    description = Entity.decode(description);
-    description = bella.stripTags(description);
+  if (contentSnippet && isString(contentSnippet)) {
+    contentSnippet = Entity.decode(contentSnippet);
+    contentSnippet = bella.stripTags(contentSnippet);
   } else if (content) {
-    description = bella.stripTags(content);
+    contentSnippet = bella.stripTags(content);
   }
 
-  if (description && isString(description)) {
-    description = description.replace(/(\r\n|\n|\r)/gm, ' ');
+  if (contentSnippet && isString(contentSnippet)) {
+    contentSnippet = contentSnippet.replace(/(\r\n|\n|\r)/gm, ' ');
   }
 
-  if (description && description.length > 160) {
-    description = bella.truncate(description, 156);
+  if (contentSnippet && contentSnippet.length > 160) {
+    contentSnippet = bella.truncate(contentSnippet, 156);
   }
 
   try {
-    description = Entity.decode(description);
+    contentSnippet = Entity.decode(contentSnippet);
     title = Entity.decode(title);
     link = Entity.decode(link);
   } catch (e) {
@@ -98,12 +96,12 @@ var normalize = (link, title, pubDate, creator, description, content) => {
 
 
   return {
-    link: link,
-    title: title,
-    contentSnippet: description,
-    publishedDate: pubtime,
-    author: creator,
-    content: content
+    link,
+    title,
+    contentSnippet,
+    publishedDate,
+    author,
+    content
   };
 };
 
@@ -118,12 +116,11 @@ var toRSS = (res) => {
     let modify = (item) => {
       let link = item.link;
       let title = item.title;
-      let description = item.description;
+      let contentSnippet = item.description;
       let pubDate = item.pubDate;
-      let creator = item['dc:creator'] || item.author || item.creator || '';
-      let content = item['content:encoded'] || item.content || '';
-
-      return normalize(link, title, pubDate, creator, description, content);
+      let author = item['dc:creator'] || item.author || item.creator || '';
+      let content = item['content:encoded'] || item.content || item.description || '';
+      return normalize({link, title, pubDate, author, contentSnippet, content});
     };
 
     a.entries = res.entries.map(modify);
@@ -158,18 +155,18 @@ var toATOM = (res) => {
         link = link.href;
       }
 
-      let description = item.summary || item.description || '';
+      let contentSnippet = item.summary || item.description || '';
 
-      let creator = item.author;
-      if (isObject(creator) && creator.name) {
-        creator = creator.name;
+      let author = item.author;
+      if (isObject(author) && author.name) {
+        author = author.name;
       }
 
       let content = item.content;
       if (isObject(content) && content.$t) {
         content = content.$t;
       }
-      return normalize(link, title, pubDate, creator, description, content);
+      return normalize({link, title, pubDate, author, contentSnippet, content});
     };
 
     a.entries = res.entries.map(modify);
@@ -218,5 +215,5 @@ var parse = (url) => {
 };
 
 module.exports = {
-  parse: parse
+  parse
 };

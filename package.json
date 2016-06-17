@@ -1,31 +1,38 @@
 {
-  "version": "0.1.61",
+  "version": "1.0.0",
   "name": "feed-reader",
   "description": "Handle ATOM and RSS feed",
-  "homepage": "http://techpush.net",
+  "homepage": "https://www.npmjs.com/package/feed-reader",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ndaidong/feed-reader.git"
+    "url": "https://github.com/ndaidong/feed-reader"
   },
   "author": "@ndaidong",
   "main": "./index.js",
   "engines": {
-    "node": ">= 4.0"
+    "node": ">= 6.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha test"
+    "test": "./node_modules/.bin/snyk test && ./node_modules/.bin/tape test/start.js | tap-spec",
+    "coverage": "./node_modules/.bin/nyc tape test/start.js | tap-spec",
+    "report": "npm run coverage && ./node_modules/.bin/nyc report --reporter=lcov",
+    "coveralls": "npm run report && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "snyk": "./node_modules/.bin/snyk wizard"
   },
   "dependencies": {
-    "bellajs": "5.1.3",
-    "bluebird": "^3.4.0",
+    "bellajs": "^5.2.2",
     "friendly-xml": "^1.0.1",
     "html-entities": "^1.2.0",
     "node-fetch": "^1.5.3",
+    "promise-wtf": "^0.1.25",
     "xml2json": "^0.9.1"
   },
   "devDependencies": {
-    "mocha-latest": "latest",
-    "chai": "latest"
+    "coveralls": "latest",
+    "nyc": "latest",
+    "snyk": "latest",
+    "tap-spec": "latest",
+    "tape": "latest"
   },
   "keywords": [
     "extractor",
