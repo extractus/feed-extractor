@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<feed
+ xmlns="http://www.w3.org/2005/Atom"
+ xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+ xmlns:syn="http://purl.org/rss/1.0/modules/syndication/"
+ xml:lang="en-us"
+>
+
+<title>use Perl</title>
+<id>http://use.perl.org/</id>
+<link href="http://use.perl.org/"/>
+<link rel="self" href="http://use.perl.org/index.atom"/>
+<subtitle>All the Perl that's Practical to Extract and Report</subtitle>
+<rights>use Perl; is Copyright 1998-2006, Chris Nandor. Stories, comments, journals, and other submissions posted on use Perl; are Copyright their respective owners.</rights>
+<updated>2012-01-25T01:40:17+00:00</updated>
+<author>
+ <name>pudge</name>
+ <email>pudge@perl.org</email>
+</author>
+<category term="Technology"/>
+<syn:updatePeriod>hourly</syn:updatePeriod>
+<syn:updateFrequency>1</syn:updateFrequency>
+<syn:updateBase>1970-01-01T00:00+00:00</syn:updateBase>
+<logo>http://use.perl.org/images/topics/useperl.gif</logo>
+
+<entry>
+<id>http://use.perl.org/article.pl?sid=10/04/13/1953252&amp;from=rss</id>
+<title>Perl 5.12.0 is now available</title>
+<link href="http://use.perl.org/article.pl?sid=10/04/13/1953252&amp;from=rss"/>
+<summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"> 'Please would you tell me,' said Alice, a little timidly, for she was not quite sure whether it was good manners for her to speak first, 'why your cat grins like that?' 'It's a Cheshire cat,' said the Duchess, 'and that's why. Pig!' She said the last word with such sudden violence that Alice quite jumped; but she saw in another moment that it was addressed to the baby, and not to her, so she took courage, and went on again:-- 'I didn't know that Cheshire cats always grinned; in fact, I didn't know that cats COULD grin.' 'They all can,' said the Duchess; 'and most of 'em do.' -- Lewis Carroll, /Alice's Adventures in Wonderland/On behalf of Perl's development team, It gives me great pleasure to announce the release of Perl 5.12.0.Perl 5.12.0 represents approximately two years of development since version 5.10.0 and contains over 750,000 lines of changes across over 3,000 files from over 200 authors and committers.SHA-1 signatures for this release: f533687077e2da113b48a6c5e578f4a206fbf173 perl-5.12.0.tar.bz2 5341e60d099fdda71bc33b2a36e417fc0926518f perl-5.12.0.tar.gz You can download this release from your nearest CPAN mirror or from: http://search.cpan.org/dist/perl-5.12.0/<p><a href="http://use.perl.org/article.pl?sid=10/04/13/1953252&amp;from=rss">Read more of this story</a> at use Perl.</p></div></summary>
+<updated>2010-04-13T19:53:00+00:00</updated>
+<author>
+ <name>jesse</name>
+</author>
+<category term="releases"/>
+<slash:section>mainpage</slash:section>
+<slash:comments>1</slash:comments>
+<slash:hit_parade>1,1,1,0,0,0,0</slash:hit_parade>
+</entry>
+
+<entry>
+<id>http://use.perl.org/article.pl?sid=10/04/12/1418217&amp;from=rss</id>
+<title>Call for venue for YAPC::Europe 2011</title>
+<link href="http://use.perl.org/article.pl?sid=10/04/12/1418217&amp;from=rss"/>
+<summary type="html">BooK writes "While YAPC::Europe 2010 preparations are well underway in Pisa, it is time for the YAPC::Europe Foundation (YEF) to look for suitable sites for the 2011 conference. Any dedicated group interested in hosting YAPC::Europe::2011 should send a brief statement of intent to venue@yapceurope.org. This should be followed by a complete application. The deadline for applications is June 30, 2010. For details on how to prepare your complete application, consider the examples of previous conferences. If your proposal is selected, it will be added to the others on this page (you will have the opportunity to remove private information first). Be certain to include contact information (including telephone numbers) for at least two members of the group. You may also direct any questions to the aforementioned email address. A decision on the location will be publicly announced at the start of the Pisa conference. Looking forward to your submissions, &amp;nbsp;Philippe Bruhat (BooK) &amp;nbsp;on behalf of the YAPC::Europe Venue Committee"&lt;p&gt;&lt;a href="http://use.perl.org/article.pl?sid=10/04/12/1418217&amp;amp;from=rss"&gt;Read more of this story&lt;/a&gt; at use Perl.&lt;/p&gt;</summary>
+<updated>2010-04-12T14:37:00+00:00</updated>
+<author>
+ <name>rafael</name>
+</author>
+<category term="yapce"/>
+<slash:section>yapc</slash:section>
+<slash:hit_parade>0,0,0,0,0,0,0</slash:hit_parade>
+</entry>
+
+
+<entry>
+<id>http://use.perl.org/article.pl?sid=10/03/19/2216230&amp;from=rss</id>
+<title>Nordic Perl Workshop 2010</title>
+<link href="http://use.perl.org/article.pl?sid=10/03/19/2216230&amp;from=rss"/>
+<summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Steinn E. Sigurdarson writes "This years Nordic Perl Workshop takes place the first weekend of May in Reykjav&#237;k, Iceland. This is the first time the event is held in Iceland, but hopefully not the last. Registration and more details are available on the workshop website."<p><a href="http://use.perl.org/article.pl?sid=10/03/19/2216230&amp;from=rss">Read more of this story</a> at use Perl.</p></div></summary>
+<updated>2010-03-19T22:36:00+00:00</updated>
+<author>
+ <name>brian_d_foy</name>
+</author>
+<category term="events"/>
+<slash:section>news</slash:section>
+<slash:hit_parade>0,0,0,0,0,0,0</slash:hit_parade>
+</entry>
+
+</feed>

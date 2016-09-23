@@ -4,7 +4,7 @@ A node package for handling ATOM/RSS resources and normalize to JSON object.
  [![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
  ![Travis](https://travis-ci.org/ndaidong/feed-reader.svg?branch=master)
  [![Coverage Status](https://coveralls.io/repos/github/ndaidong/feed-reader/badge.svg?branch=master)](https://coveralls.io/github/ndaidong/feed-reader?branch=master)
- ![devDependency Status](https://david-dm.org/ndaidong/feed-reader.svg)
+[![Dependency Status](https://www.versioneye.com/user/projects/56724e25107997002d00055d/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/56724e25107997002d00055d)
  [![Known Vulnerabilities](https://snyk.io/test/npm/feed-reader/badge.svg)](https://snyk.io/test/npm/feed-reader)
 
 ### API & Usage
@@ -51,3 +51,8 @@ cd feed-reader
 npm install
 npm test
 ```
+
+
+# License
+
+The MIT License (MIT)

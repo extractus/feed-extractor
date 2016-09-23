@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:cc="http://cyber.law.harvard.edu/rss/creativeCommonsRssModule.html">
+    <channel>
+        <title><![CDATA[Google Developers - Medium]]></title>
+        <description><![CDATA[Engineering and technology articles for developers, written and curated by Googlers. The views expressed are those of the authors and don’t necessarily reflect those of Google. - Medium]]></description>
+        <link>https://medium.com/google-developers?source=rss----2e5ce7f173a5---4</link>
+        <image>
+            <url>https://cdn-static-1.medium.com/_/fp/img/default-preview-image-v2.MXL-j6S8fTEd8UFP_foEEw.png</url>
+            <title>Google Developers - Medium</title>
+            <link>https://medium.com/google-developers?source=rss----2e5ce7f173a5---4</link>
+        </image>
+        <generator>Medium</generator>
+        <lastBuildDate>Fri, 23 Sep 2016 02:53:34 GMT</lastBuildDate>
+        <atom:link href="https://medium.com/feed/google-developers" rel="self" type="application/rss+xml"/>
+        <webMaster><![CDATA[yourfriends@medium.com]]></webMaster>
+        <atom:link href="http://medium.superfeedr.com" rel="hub"/>
+        <item>
+            <title><![CDATA[Android Data Binding: Observability]]></title>
+            <description><![CDATA[<div class="medium-feed-item"><p class="medium-feed-image"><a href="https://medium.com/google-developers/android-data-binding-observability-9de4ff3fe038?source=rss----2e5ce7f173a5---4"><img src="https://d262ilb51hltx0.cloudfront.net/max/800/1*L5QWfGL5yB_9Nf1pc21ZgQ.jpeg" width="800"></a></p><p class="medium-feed-snippet">Keeping the UI Up-to-Date</p><p class="medium-feed-link"><a href="https://medium.com/google-developers/android-data-binding-observability-9de4ff3fe038?source=rss----2e5ce7f173a5---4">Continue reading on Google Developers »</a></p></div>]]></description>
+            <link>https://medium.com/google-developers/android-data-binding-observability-9de4ff3fe038?source=rss----2e5ce7f173a5---4</link>
+            <guid isPermaLink="false">https://medium.com/p/9de4ff3fe038</guid>
+            <dc:creator><![CDATA[George Mount]]></dc:creator>
+            <pubDate>Thu, 22 Sep 2016 20:23:50 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Android Data Binding: Custom Setters]]></title>
+            <description><![CDATA[<div class="medium-feed-item"><p class="medium-feed-image"><a href="https://medium.com/google-developers/android-data-binding-custom-setters-55a25a7aea47?source=rss----2e5ce7f173a5---4"><img src="https://d262ilb51hltx0.cloudfront.net/max/1012/1*SUZUVog_MUeoBOCpWmd15w.jpeg" width="1012"></a></p><p class="medium-feed-snippet">Make Data Binding Do What You Want</p><p class="medium-feed-link"><a href="https://medium.com/google-developers/android-data-binding-custom-setters-55a25a7aea47?source=rss----2e5ce7f173a5---4">Continue reading on Google Developers »</a></p></div>]]></description>
+            <link>https://medium.com/google-developers/android-data-binding-custom-setters-55a25a7aea47?source=rss----2e5ce7f173a5---4</link>
+            <guid isPermaLink="false">https://medium.com/p/55a25a7aea47</guid>
+            <dc:creator><![CDATA[George Mount]]></dc:creator>
+            <pubDate>Fri, 26 Aug 2016 17:25:20 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Developer Show — TL;DR 036]]></title>
+            <description><![CDATA[<div class="medium-feed-item"><p class="medium-feed-snippet">Highlights: Chrome 53 Beta, Payment Request API, Parsey McParseface, Association for Computational Linguistics, AdWords, Google Cloud&#x2026;</p><p class="medium-feed-link"><a href="https://medium.com/google-developers/the-developer-show-tl-dr-036-bcf8d97af4f9?source=rss----2e5ce7f173a5---4">Continue reading on Google Developers »</a></p></div>]]></description>
+            <link>https://medium.com/google-developers/the-developer-show-tl-dr-036-bcf8d97af4f9?source=rss----2e5ce7f173a5---4</link>
+            <guid isPermaLink="false">https://medium.com/p/bcf8d97af4f9</guid>
+            <dc:creator><![CDATA[timothyjordan]]></dc:creator>
+            <pubDate>Fri, 12 Aug 2016 21:56:28 GMT</pubDate>
+        </item>
+    </channel>
+</rss>
