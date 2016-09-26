@@ -111,7 +111,9 @@ var toRSS = (res) => {
     entries: []
   };
 
-  if (res.entries) {
+  let ls = res.entries || [];
+  if (ls && isArray(ls)) {
+
     let modify = (item) => {
       let link = item.link;
       let title = item.title;
@@ -122,7 +124,7 @@ var toRSS = (res) => {
       return normalize({link, title, pubDate, author, contentSnippet, content});
     };
 
-    a.entries = res.entries.map(modify);
+    a.entries = ls.map(modify);
   }
   return a;
 };
@@ -133,7 +135,10 @@ var toATOM = (res) => {
     link: res.link,
     entries: []
   };
-  if (res.entries) {
+
+  let ls = res.entries || [];
+  if (ls && isArray(ls)) {
+
     let modify = (item) => {
       let pubDate = item.updated || item.published;
       let title = item.title;
@@ -156,19 +161,28 @@ var toATOM = (res) => {
 
       let contentSnippet = item.summary || item.description || '';
 
-      let author = item.author;
+      let author = item.author || '';
       if (isObject(author) && author.name) {
         author = author.name;
       }
 
-      let content = item.content;
-      if (isObject(content) && content.$t) {
-        content = content.$t;
+      let content = item.content || contentSnippet || '';
+
+      if (isArray(content)) {
+        content = content[0];
       }
+      if (isObject(content)) {
+        if (content.$t) {
+          content = content.$t;
+        } else {
+          content = '';
+        }
+      }
+
       return normalize({link, title, pubDate, author, contentSnippet, content});
     };
 
-    a.entries = res.entries.map(modify);
+    a.entries = ls.map(modify);
   }
   return a;
 };
@@ -204,6 +218,10 @@ var parse = (url) => {
         result = toATOM(a);
       }
       if (result && result.entries && result.entries.length) {
+        let arr = result.entries;
+        result.entries = arr.filter((item) => {
+          return item !== false;
+        });
         return resolve(result);
       }
       return reject(new Error('Parsing failed'));
