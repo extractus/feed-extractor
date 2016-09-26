@@ -84,10 +84,23 @@ var testOneEntry = (entry, t) => {
     .get('')
     .reply(404, 0);
 
-  test(`Parse RSS feed: fail`, {timeout: 5000}, (t) => {
-
+  test(`Fetch RSS feed: fail`, {timeout: 5000}, (t) => {
     parse(URL).catch((e) => {
-      t.equals(e.message, `Fetching failed: ${URL}`, 'Error occurs while partsing RSS');
+      t.equals(e.message, `Fetching failed: ${URL}`, 'Error occurs while fetching RSS');
+    }).finally(t.end);
+  });
+
+})();
+
+(() => {
+
+  nock(URL)
+    .get('')
+    .reply(200, 'hello world');
+
+  test(`Parse RSS feed: fail`, {timeout: 5000}, (t) => {
+    parse(URL).catch((e) => {
+      t.equals(e.message, `Parsing failed: ${URL}`, 'Error occurs while parsing RSS');
     }).finally(t.end);
   });
 

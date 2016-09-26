@@ -84,10 +84,23 @@ var testOneEntry = (entry, t) => {
     .get('')
     .reply(404, 0);
 
-  test(`Parse ATOM feed: fail`, {timeout: 5000}, (t) => {
-
+  test(`Fetch ATOM feed: fail`, {timeout: 5000}, (t) => {
     parse(URL).catch((e) => {
-      t.equals(e.message, `Fetching failed: ${URL}`, 'Error output here');
+      t.equals(e.message, `Fetching failed: ${URL}`, 'Error occurs while fetching ATOM');
+    }).finally(t.end);
+  });
+
+})();
+
+(() => {
+
+  nock(URL)
+    .get('')
+    .reply(200, 'hello world');
+
+  test(`Parse ATOM feed: fail`, {timeout: 5000}, (t) => {
+    parse(URL).catch((e) => {
+      t.equals(e.message, `Parsing failed: ${URL}`, 'Error occurs while parsing ATOM');
     }).finally(t.end);
   });
 
