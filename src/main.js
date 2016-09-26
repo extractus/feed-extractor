@@ -50,9 +50,7 @@ var toJSON = (source) => {
 
 var normalize = ({link, title, pubDate, author, contentSnippet, content}) => {
 
-  if (!link || !title ||
-    !isString(link) || !isString(title) ||
-    link.length < 10 || title.length < 10) {
+  if (!link || !title || !isString(link) || !isString(title)) {
     return false;
   }
 
