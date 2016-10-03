@@ -2,9 +2,9 @@
 A node package for handling ATOM/RSS resources and normalize to JSON object.
 
  [![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
- ![Travis](https://travis-ci.org/ndaidong/feed-reader.svg?branch=master)
+[![Build Status](https://travis-ci.org/ndaidong/feed-reader.svg?branch=master)](https://travis-ci.org/ndaidong/feed-reader)
  [![Coverage Status](https://coveralls.io/repos/github/ndaidong/feed-reader/badge.svg?branch=master)](https://coveralls.io/github/ndaidong/feed-reader?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/57eb75fdbd6fa6004e124610/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57eb75fdbd6fa6004e124610)
+[![dependencies Status](https://david-dm.org/ndaidong/feed-reader/status.svg)](https://david-dm.org/ndaidong/feed-reader)
  [![Known Vulnerabilities](https://snyk.io/test/npm/feed-reader/badge.svg)](https://snyk.io/test/npm/feed-reader)
 
 ### API & Usage
