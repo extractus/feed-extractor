@@ -54,7 +54,17 @@ var normalize = ({link, title, pubDate, author, contentSnippet, content}) => {
     return false;
   }
 
-  let publishedDate = bella.date.utc(pubDate);
+
+  let publishedDate;
+
+  try {
+    let date = bella.date(pubDate);
+    if (date) {
+      publishedDate = date.utc();
+    }
+  } catch (e) {
+    return false;
+  }
 
   if (!publishedDate) {
     return false;
