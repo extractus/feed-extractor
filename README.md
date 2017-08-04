@@ -1,11 +1,11 @@
 # feed-reader
 A node package for handling ATOM/RSS resources and normalize to JSON object.
 
- [![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
+[![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
 [![Build Status](https://travis-ci.org/ndaidong/feed-reader.svg?branch=master)](https://travis-ci.org/ndaidong/feed-reader)
- [![Coverage Status](https://coveralls.io/repos/github/ndaidong/feed-reader/badge.svg?branch=master)](https://coveralls.io/github/ndaidong/feed-reader?branch=master)
- [![Dependency Status](https://gemnasium.com/badges/github.com/ndaidong/feed-reader.svg)](https://gemnasium.com/github.com/ndaidong/feed-reader)
- [![Known Vulnerabilities](https://snyk.io/test/npm/feed-reader/badge.svg)](https://snyk.io/test/npm/feed-reader)
+[![Coverage Status](https://coveralls.io/repos/github/ndaidong/feed-reader/badge.svg?branch=master)](https://coveralls.io/github/ndaidong/feed-reader?branch=master)
+[![Dependency Status](https://gemnasium.com/badges/github.com/ndaidong/feed-reader.svg)](https://gemnasium.com/github.com/ndaidong/feed-reader)
+[![NSP Status](https://nodesecurity.io/orgs/techpush/projects/e42b6eb4-f3ef-4a91-84d9-86f6dfa245a6/badge)](https://nodesecurity.io/orgs/techpush/projects/e42b6eb4-f3ef-4a91-84d9-86f6dfa245a6)
 
 ### API & Usage
 
