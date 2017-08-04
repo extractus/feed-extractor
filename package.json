@@ -1,5 +1,5 @@
 {
-  "version": "1.1.2",
+  "version": "1.1.3",
   "name": "feed-reader",
   "description": "Handle ATOM and RSS feed",
   "homepage": "https://www.npmjs.com/package/feed-reader",
@@ -14,16 +14,18 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "snyk": "snyk test",
+    "nsp": "nsp check --output checkstyle",
     "tape": "nyc tape test/start.js | tap-spec",
     "report": "nyc report --reporter=lcov",
-    "pretest": "npm run lint && npm run snyk",
+    "pretest": "npm run lint && npm run nsp",
     "test": "npm run tape",
     "posttest": "npm run report",
-    "coveralls": "npm test && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "npm test && cat ./coverage/lcov.info | coveralls",
+    "reset": "node reset"
   },
   "dependencies": {
-    "bellajs": "6.x.x",
+    "bella-date": "1.x.x",
+    "bellajs": "7.x.x",
     "friendly-xml": "1.x.x",
     "html-entities": "1.x.x",
     "node-fetch": "1.x.x",
@@ -36,7 +38,7 @@
     "eslint-config-ggc": "latest",
     "nock": "latest",
     "nyc": "latest",
-    "snyk": "latest",
+    "nsp": "latest",
     "tap-spec": "latest",
     "tape": "latest"
   },

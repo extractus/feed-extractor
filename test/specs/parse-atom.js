@@ -56,10 +56,10 @@ var testOneEntry = (entry, t) => {
     .reply(200, DATA);
 
 
-  test(`Parse ATOM feed: .parse(${URL})`, {timeout: 5000}, (t) => {
+  test(`Parse ATOM feed: .parse(${URL})`, (t) => {
 
     parse(URL).then((feed) => {
-
+      console.log(feed);
       t.ok(bella.isObject(feed), 'feed must be an object.');
 
       t.ok(isGoodEntry(feed.title), 'feed.title must be valid.');
