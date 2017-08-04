@@ -43,7 +43,7 @@ var testOneEntry = (entry, t) => {
   t.ok(hasRequiredKeys(entry), 'entry must have required keys');
   t.ok(isGoodEntry(entry.link), 'entry.link must be valid.');
   t.ok(isGoodEntry(entry.title), 'entry.title must be valid.');
-  t.ok(isGoodEntry(entry.contentSnippet), 'entry.contentSnippet must be valid.');
+  t.ok(isGoodEntry(entry.contentSnippet, false), 'entry.contentSnippet must be valid.');
   t.ok(isGoodEntry(entry.publishedDate), 'entry.publishedDate must be valid.');
   t.ok(isGoodEntry(entry.author, false), 'entry.author must be valid.');
   t.ok(isGoodEntry(entry.content, false), 'entry.content must be valid.');

@@ -3,17 +3,19 @@
  * @ndaidong
  **/
 
-var bella = require('bellajs');
-var Promise = require('promise-wtf');
+global.Promise = require('promise-wtf');
+
 var parser = require('xml2json');
 var fetch = require('node-fetch');
 var FXML = require('friendly-xml');
-var Entities = require('html-entities').XmlEntities;
-var Entity = new Entities();
 
-var isString = bella.isString;
-var isArray = bella.isArray;
-var isObject = bella.isObject;
+var {
+  isArray,
+  isObject,
+  hasProperty
+} = require('bellajs');
+
+var normalize = require('./utils/normalize');
 
 var toJSON = (source) => {
   return new Promise((resolve, reject) => {
@@ -48,70 +50,6 @@ var toJSON = (source) => {
   });
 };
 
-var normalize = ({link, title, pubDate, author, contentSnippet, content}) => {
-
-  if (!link || !title || !isString(link) || !isString(title)) {
-    return false;
-  }
-
-
-  let publishedDate;
-
-  try {
-    let date = bella.date(pubDate);
-    if (date) {
-      publishedDate = date.utc();
-    }
-  } catch (e) {
-    return false;
-  }
-
-  if (!publishedDate) {
-    return false;
-  }
-
-  if (author && isString(author)) {
-    author = Entity.decode(author);
-    author = bella.ucwords(author);
-  }
-
-  if (content && isString(content)) {
-    content = Entity.decode(content);
-  }
-
-  if (contentSnippet && isString(contentSnippet)) {
-    contentSnippet = Entity.decode(contentSnippet);
-    contentSnippet = bella.stripTags(contentSnippet);
-  } else if (content) {
-    contentSnippet = bella.stripTags(content);
-  }
-
-  if (contentSnippet && isString(contentSnippet)) {
-    contentSnippet = contentSnippet.replace(/(\r\n|\n|\r)/gm, ' ');
-  }
-
-  if (contentSnippet && contentSnippet.length > 160) {
-    contentSnippet = bella.truncate(contentSnippet, 156);
-  }
-
-  try {
-    contentSnippet = Entity.decode(contentSnippet);
-    title = Entity.decode(title);
-    link = Entity.decode(link);
-  } catch (e) {
-    return false;
-  }
-
-  return {
-    link,
-    title,
-    contentSnippet,
-    publishedDate,
-    author,
-    content
-  };
-};
-
 var toRSS = (res) => {
   let a = {
     title: res.title || '',
@@ -132,7 +70,9 @@ var toRSS = (res) => {
       return normalize({link, title, pubDate, author, contentSnippet, content});
     };
 
-    a.entries = ls.map(modify);
+    a.entries = ls.map(modify).filter((item) => {
+      return item !== false;
+    });
   }
   return a;
 };
@@ -163,7 +103,7 @@ var toATOM = (res) => {
           }
         }
         link = tmpLink;
-      } else if (isObject(link) && bella.hasProperty(link, 'href')) {
+      } else if (isObject(link) && hasProperty(link, 'href')) {
         link = link.href;
       }
 
@@ -190,7 +130,9 @@ var toATOM = (res) => {
       return normalize({link, title, pubDate, author, contentSnippet, content});
     };
 
-    a.entries = ls.map(modify);
+    a.entries = ls.map(modify).filter((item) => {
+      return item !== false;
+    });
   }
   return a;
 };

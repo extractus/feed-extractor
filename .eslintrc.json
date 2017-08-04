@@ -1,3 +1,7 @@
 {
-  "extends": "eslint-config-ggc"
+  "extends": "eslint-config-ggc",
+  "rules": {
+  	"max-nested-callbacks": 0,
+  	"no-console": 0
+  }
 }
