@@ -5,19 +5,19 @@
 
 global.Promise = require('promise-wtf');
 
-var parser = require('xml2json');
-var fetch = require('node-fetch');
-var FXML = require('friendly-xml');
+const parser = require('xml2json');
+const fetch = require('node-fetch');
+const FXML = require('friendly-xml');
 
-var {
+const {
   isArray,
   isObject,
-  hasProperty
+  hasProperty,
 } = require('bellajs');
 
-var normalize = require('./utils/normalize');
+const normalize = require('./utils/normalize');
 
-var toJSON = (source) => {
+const toJSON = (source) => {
   return new Promise((resolve, reject) => {
     fetch(source).then((res) => {
       if (res.ok && res.status === 200) {
@@ -50,16 +50,15 @@ var toJSON = (source) => {
   });
 };
 
-var toRSS = (res) => {
+const toRSS = (res) => {
   let a = {
     title: res.title || '',
     link: res.link,
-    entries: []
+    entries: [],
   };
 
   let ls = res.entries || [];
   if (ls && isArray(ls)) {
-
     let modify = (item) => {
       let link = item.link;
       let title = item.title;
@@ -77,16 +76,15 @@ var toRSS = (res) => {
   return a;
 };
 
-var toATOM = (res) => {
+const toATOM = (res) => {
   let a = {
     title: res.title || '',
     link: res.link,
-    entries: []
+    entries: [],
   };
 
   let ls = res.entries || [];
   if (ls && isArray(ls)) {
-
     let modify = (item) => {
       let pubDate = item.updated || item.published;
       let title = item.title;
@@ -138,7 +136,7 @@ var toATOM = (res) => {
 };
 
 
-var parse = (url) => {
+const parse = (url) => {
   return new Promise((resolve, reject) => {
     toJSON(url).then((o) => {
       let result;
@@ -151,7 +149,7 @@ var parse = (url) => {
         let a = {
           title: t.title,
           link: url,
-          entries: t.item
+          entries: t.item,
         };
         result = toRSS(a);
       } else if (o.feed && o.feed.entry) {
@@ -163,7 +161,7 @@ var parse = (url) => {
         let a = {
           title: t.title,
           link: url,
-          entries: t.entry
+          entries: t.entry,
         };
         result = toATOM(a);
       }
@@ -182,5 +180,5 @@ var parse = (url) => {
 };
 
 module.exports = {
-  parse
+  parse,
 };

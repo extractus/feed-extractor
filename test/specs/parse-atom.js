@@ -3,24 +3,29 @@
  * @ndaidong
  */
 
-var fs = require('fs');
-var test = require('tape');
-var nock = require('nock');
-var bella = require('bellajs');
+const fs = require('fs');
+const test = require('tape');
+const nock = require('nock');
+const bella = require('bellajs');
 
-var parse = require('../../src/main').parse;
+const {
+  error,
+  info,
+} = require('../../src/utils/logger');
+
+const parse = require('../../src/main').parse;
 
 const URL = 'http://use.perl.org/use.perl.org/index.atom';
 const DATA = fs.readFileSync('./test/data/sample-atom.txt', 'utf8');
 
-var hasRequiredKeys = (o) => {
+const hasRequiredKeys = (o) => {
   let structure = [
     'link',
     'title',
     'contentSnippet',
     'publishedDate',
     'author',
-    'content'
+    'content',
   ];
 
   return structure.every((k) => {
@@ -28,7 +33,8 @@ var hasRequiredKeys = (o) => {
   });
 };
 
-var isGoodEntry = (prop, isRequired = true) => {
+
+const isGoodEntry = (prop, isRequired = true) => {
   if (!bella.isString(prop)) {
     return false;
   }
@@ -38,7 +44,8 @@ var isGoodEntry = (prop, isRequired = true) => {
   return true;
 };
 
-var testOneEntry = (entry, t) => {
+
+const testOneEntry = (entry, t) => {
   t.ok(bella.isObject(entry), 'entry must be an object.');
   t.ok(hasRequiredKeys(entry), 'entry must have required keys');
   t.ok(isGoodEntry(entry.link), 'entry.link must be valid.');
@@ -50,16 +57,13 @@ var testOneEntry = (entry, t) => {
 };
 
 (() => {
-
   nock(URL)
     .get('')
     .reply(200, DATA);
 
-
   test(`Parse ATOM feed: .parse(${URL})`, (t) => {
-
     parse(URL).then((feed) => {
-      console.log(feed);
+      info(feed);
       t.ok(bella.isObject(feed), 'feed must be an object.');
 
       t.ok(isGoodEntry(feed.title), 'feed.title must be valid.');
@@ -71,10 +75,6 @@ var testOneEntry = (entry, t) => {
       feed.entries.forEach((item) => {
         testOneEntry(item, t);
       });
-
-    }).catch((e) => {
-      console.log(e);
-    }).finally(t.end);
+    }).catch(error).finally(t.end);
   });
-
 })();

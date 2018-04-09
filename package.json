@@ -1,5 +1,5 @@
 {
-  "version": "1.1.3",
+  "version": "1.1.4",
   "name": "feed-reader",
   "description": "Handle ATOM and RSS feed",
   "homepage": "https://www.npmjs.com/package/feed-reader",
@@ -24,23 +24,24 @@
     "reset": "node reset"
   },
   "dependencies": {
-    "bella-date": "1.x.x",
-    "bellajs": "7.x.x",
-    "friendly-xml": "1.x.x",
-    "html-entities": "1.x.x",
-    "node-fetch": "1.x.x",
-    "promise-wtf": "1.x.x",
-    "xml2json": "0.x.x"
+    "bella-date": "^1.1.2",
+    "bellajs": "^7.2.0",
+    "friendly-xml": "^1.0.2",
+    "html-entities": "^1.2.1",
+    "node-fetch": "^1.7.3",
+    "promise-wtf": "^1.2.4",
+    "xml2json": "^0.11.2"
   },
   "devDependencies": {
-    "coveralls": "latest",
-    "eslint": "latest",
-    "eslint-config-ggc": "latest",
-    "nock": "latest",
-    "nyc": "latest",
-    "nsp": "latest",
-    "tap-spec": "latest",
-    "tape": "latest"
+    "debug": "^3.1.0",
+    "coveralls": "^3.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-goes": "^1.0.0",
+    "nock": "^9.2.3",
+    "nsp": "^3.2.1",
+    "nyc": "^11.6.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.9.0"
   },
   "keywords": [
     "extractor",
