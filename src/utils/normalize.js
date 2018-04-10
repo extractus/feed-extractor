@@ -1,25 +1,23 @@
 // utils --> normalize
 
-var Entities = require('html-entities').XmlEntities;
-var Entity = new Entities();
+const Entities = require('html-entities').XmlEntities;
+const Entity = new Entities();
 
-var {
+const {
   isString,
   ucwords,
   stripTags,
-  truncate
+  truncate,
 } = require('bellajs');
 
-var {
-  utc
+const {
+  utc,
 } = require('bella-date');
 
-var normalize = ({link, title, pubDate, author = '', contentSnippet = '', content = ''}) => {
-
+const normalize = ({link, title, pubDate, author = '', contentSnippet = '', content = ''}) => {
   if (!link || !title || !isString(link) || !isString(title)) {
     return false;
   }
-
 
   let publishedDate;
 
@@ -74,7 +72,7 @@ var normalize = ({link, title, pubDate, author = '', contentSnippet = '', conten
     contentSnippet,
     publishedDate,
     author,
-    content
+    content,
   };
 };
 
