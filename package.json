@@ -1,5 +1,5 @@
 {
-  "version": "1.1.4",
+  "version": "1.1.5",
   "name": "feed-reader",
   "description": "Handle ATOM and RSS feed",
   "homepage": "https://www.npmjs.com/package/feed-reader",
@@ -28,7 +28,7 @@
     "bellajs": "^7.2.0",
     "friendly-xml": "^1.0.2",
     "html-entities": "^1.2.1",
-    "node-fetch": "^1.7.3",
+    "node-fetch": "^2.1.2",
     "promise-wtf": "^1.2.4",
     "xml2json": "^0.11.2"
   },
