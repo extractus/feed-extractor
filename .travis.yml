@@ -9,11 +9,10 @@ addons:
     packages:
     - g++-4.8
 node_js:
+  - "10.1"
   - "9.11"
   - "8.11"
-  - "8.2"
   - "7.6"
-  - "7.0"
   - "6.0"
 install:
   - export CXX=g++-4.8
