@@ -1,184 +1,142 @@
 /**
- * Feed reader core
+ * Feed Reader
  * @ndaidong
  **/
 
-global.Promise = require('promise-wtf');
+import fetch from 'node-fetch';
+import convert from 'xml-js';
 
-const parser = require('xml2json');
-const fetch = require('node-fetch');
-const FXML = require('friendly-xml');
+import {XmlEntities} from 'html-entities';
 
-const {
+import {
+  isString,
   isArray,
   isObject,
   hasProperty,
-} = require('bellajs');
+  stripTags,
+  truncate,
+  md5,
+  utc as formatDate,
+} from 'bellajs';
 
-const normalize = require('./utils/normalize');
+import {contentLoadedCache} from './utils/store';
+import {info} from './utils/logger';
 
-const toJSON = (source) => {
-  return new Promise((resolve, reject) => {
-    fetch(source).then((res) => {
-      if (res.ok && res.status === 200) {
-        return res.text();
-      }
-      throw new Error('Fetching failed: ' + source);
-    }).then((xml) => {
-      let fallback = () => {
-        FXML.ParseString(xml, (ob) => { // eslint-disable-line new-cap
-          if (ob && isObject(ob)) {
-            return resolve(ob);
-          }
-          return reject(new Error('Parsing failed: ' + source));
-        });
-      };
 
-      try {
-        let json = parser.toJson(xml);
-        let ob = JSON.parse(json);
-        if (ob && isObject(ob)) {
-          return resolve(ob);
-        }
-        return fallback();
-      } catch (e) {
-        return fallback(e);
-      }
-    }).catch((err) => {
-      return reject(err);
-    });
-  });
+const Entity = new XmlEntities();
+
+const isRSS = (data) => {
+  return hasProperty(data, 'rss') && data.rss.channel;
 };
 
-const toRSS = (res) => {
-  let a = {
-    title: res.title || '',
-    link: res.link,
-    entries: [],
+const isAtom = (data) => {
+  return hasProperty(data, 'feed') && data.feed.entry;
+};
+
+const toDate = (val) => {
+  const td = val ? new Date(val) : false;
+  return td ? formatDate(td) : '';
+};
+
+const toText = (val) => {
+  const txt = isObject(val) ? (val._text || val._cdata || val.$t) : val;
+  return txt ? Entity.decode(String(txt).trim()) : '';
+};
+
+const toDesc = (val) => {
+  const txt = toText(val);
+  const stripped = stripTags(txt);
+  return truncate(stripped, 240);
+};
+
+const toLink = (val) => {
+  const getEntryLink = (links) => {
+    const link = links.find((item) => {
+      return item.rel === 'alternate';
+    });
+    return link ? toText(link.href) : '';
   };
-
-  let ls = res.entries || [];
-  if (ls && isArray(ls)) {
-    let modify = (item) => {
-      let link = item.link;
-      let title = item.title;
-      let contentSnippet = item.description;
-      let pubDate = item.pubDate;
-      let author = item['dc:creator'] || item.author || item.creator || '';
-      let content = item['content:encoded'] || item.content || item.description || '';
-      return normalize({link, title, pubDate, author, contentSnippet, content});
-    };
-
-    a.entries = ls.map(modify).filter((item) => {
-      return item !== false;
-    });
-  }
-  return a;
+  return isString(val) ? toText(val) :
+    isObject(val) && hasProperty(val, 'href') ? toText(val.href) :
+      isObject(val) && hasProperty(val, '_attributes') ? toText(val._attributes.href) :
+        isArray(val) ? getEntryLink(val) : '';
 };
 
-const toATOM = (res) => {
-  let a = {
-    title: res.title || '',
-    link: res.link,
-    entries: [],
+const nomalizeRssItem = (entry) => {
+  return {
+    title: toText(entry.title),
+    link: toLink(entry.link),
+    description: toDesc(entry.description),
+    pubDate: toDate(toText(entry.pubDate)),
   };
+};
 
-  let ls = res.entries || [];
-  if (ls && isArray(ls)) {
-    let modify = (item) => {
-      let pubDate = item.updated || item.published;
-      let title = item.title;
-      if (isObject(title) && title.$t) {
-        title = title.$t;
-      }
-      let link = item.link;
-      if (isArray(link) && link.length > 0) {
-        let tmpLink = '';
-        for (let i = 0; i < link.length; i++) {
-          if (link[i].rel === 'alternate') {
-            tmpLink = link[i].href;
-            break;
-          }
-        }
-        link = tmpLink;
-      } else if (isObject(link) && hasProperty(link, 'href')) {
-        link = link.href;
-      }
+const nomalizeAtomItem = (entry) => {
+  console.log(entry);
+  console.log(entry.content.div);
+  return {
+    title: toText(entry.title),
+    link: toLink(entry.link),
+    description: toDesc(entry.summary || entry.description),
+    pubDate: toDate(toText(entry.updated || entry.published)),
+  };
+};
 
-      let contentSnippet = item.summary || item.description || '';
+const parseRSS = (data) => {
+  const channel = data.rss.channel;
+  const items = channel.item || [];
+  return {
+    title: toText(channel.title),
+    pubDate: toDate(toText(channel.pubDate)),
+    entries: items.map(nomalizeRssItem),
+  };
+};
 
-      let author = item.author || '';
-      if (isObject(author) && author.name) {
-        author = author.name;
-      }
-
-      let content = item.content || contentSnippet || '';
-
-      if (isArray(content)) {
-        content = content[0];
-      }
-      if (isObject(content)) {
-        if (content.$t) {
-          content = content.$t;
-        } else {
-          content = '';
-        }
-      }
-
-      return normalize({link, title, pubDate, author, contentSnippet, content});
-    };
-
-    a.entries = ls.map(modify).filter((item) => {
-      return item !== false;
-    });
-  }
-  return a;
+const parseAtom = (data) => {
+  const feed = data.feed;
+  const items = feed.entry || [];
+  return {
+    title: toText(feed.title),
+    pubDate: toDate(toText(feed.updated || feed.published)),
+    entries: items.map(nomalizeAtomItem),
+  };
 };
 
 
-const parse = (url) => {
-  return new Promise((resolve, reject) => {
-    toJSON(url).then((o) => {
-      let result;
-      if (o.rss && o.rss.channel) {
-        let t = o.rss.channel;
-        let ot = t.title || '';
-        if (isObject(ot)) {
-          t.title = ot.type === 'text' ? ot.$t : '';
-        }
-        let a = {
-          title: t.title,
-          link: url,
-          entries: t.item,
-        };
-        result = toRSS(a);
-      } else if (o.feed && o.feed.entry) {
-        let t = o.feed;
-        let ot = t.title || '';
-        if (isObject(ot)) {
-          t.title = ot.type === 'text' ? ot.$t : '';
-        }
-        let a = {
-          title: t.title,
-          link: url,
-          entries: t.entry,
-        };
-        result = toATOM(a);
-      }
-      if (result && result.entries && result.entries.length) {
-        let arr = result.entries;
-        result.entries = arr.filter((item) => {
-          return item !== false;
-        });
-        return resolve(result);
-      }
-      return reject(new Error('Parsing failed'));
-    }).catch((e) => {
-      return reject(e);
-    });
-  });
+const getXML = async (url) => {
+  info(`Fetching html data from '${url}'`);
+  const opts = {
+    headers: {
+      'cache-control': 'max-age=0',
+      'accept': [
+        'text/html',
+        'application/xhtml+xml',
+        'application/xml;q=0.9',
+        'image/webp',
+        'image/apng',
+        '*/*;q=0.8',
+        'application/signed-exchange;v=b3;q=0.9',
+      ].join(','),
+      'user-agent': [
+        'Mozilla/5.0',
+        '(X11; Linux x86_64)',
+        'AppleWebKit/537.36',
+        '(KHTML, like Gecko)',
+        'Chrome/81.0.4044.129 Safari/537.36',
+      ].join(' '),
+    },
+  };
+  const res = await fetch(url, opts);
+  const content = await res.text();
+  info(`Done! Fetched data from '${url}. Saving into cache...'`);
+  const key = md5(url);
+  contentLoadedCache.set(key, content);
+  return content;
 };
 
-module.exports = {
-  parse,
+export const parse = async (url) => {
+  const content = await getXML(url);
+  const result = convert.xml2js(content, {compact: true, spaces: 2});
+  return isRSS(result) ? parseRSS(result) :
+    isAtom(result) ? parseAtom(result) : null;
 };

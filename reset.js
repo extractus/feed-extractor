@@ -5,22 +5,26 @@ const {
   unlinkSync,
 } = require('fs');
 
-const exec = require('child_process').execSync;
+const {execSync} = require('child_process');
 
 const dirs = [
+  'dist',
+  'docs',
   '.nyc_output',
   'coverage',
   'node_modules',
+  '.nuxt',
 ];
 
 const files = [
   'yarn.lock',
+  'pnpm-lock.yaml',
   'package-lock.json',
   'coverage.lcov',
 ];
 
 dirs.forEach((d) => {
-  exec(`rm -rf ${d}`);
+  execSync(`rm -rf ${d}`);
 });
 
 files.forEach((f) => {

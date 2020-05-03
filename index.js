@@ -1,6 +1,13 @@
-/**
- * Starting app
- * @ndaidong
-**/
-exports = module.exports = require('./src/main');
-exports.version = require('./package').version;
+// start
+
+const include = require('esm')(module, {
+  cjs: true,
+  mode: 'auto',
+  cache: false,
+  sourceMap: false,
+});
+
+const main = include('./src/main');
+main.version = include('./package').version;
+
+module.exports = main;

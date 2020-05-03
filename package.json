@@ -1,47 +1,39 @@
 {
-  "version": "1.1.6",
+  "version": "2.0.0",
   "name": "feed-reader",
-  "description": "Handle ATOM and RSS feed",
+  "description": "Extract ATOM/RSS content from given feed url",
   "homepage": "https://www.npmjs.com/package/feed-reader",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ndaidong/feed-reader"
+    "url": "git@github.com:ndaidong/feed-reader.git"
   },
   "author": "@ndaidong",
+  "module": "./src/main.js",
   "main": "./index.js",
   "engines": {
-    "node": ">= 6.0"
+    "node": ">= 8.6"
   },
   "scripts": {
+    "start": "DEBUG=feed-reader:* node index",
     "lint": "eslint .",
-    "nsp": "nsp check --output checkstyle",
-    "tape": "nyc tape test/start.js | tap-spec",
-    "report": "nyc report --reporter=lcov",
-    "pretest": "npm run lint && npm run nsp",
-    "test": "npm run tape",
-    "posttest": "npm run report",
-    "coveralls": "npm test && cat ./coverage/lcov.info | coveralls",
+    "pretest": "npm run lint",
+    "test": "tap tests/start.js --coverage --reporter=spec",
+    "eval": "DEBUG=feed-reader:* node -r esm tests/run",
     "reset": "node reset"
   },
   "dependencies": {
-    "bella-date": "^1.1.2",
-    "bellajs": "^7.2.0",
-    "friendly-xml": "^1.0.2",
-    "html-entities": "^1.2.1",
-    "node-fetch": "^2.1.2",
-    "promise-wtf": "^1.2.4",
-    "xml2json": "^0.11.2"
+    "bellajs": "^8.0.2",
+    "debug": "^4.1.1",
+    "esm": "^3.2.25",
+    "html-entities": "^1.3.1",
+    "lru-cache": "^5.1.1",
+    "node-fetch": "^2.6.0",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "debug": "^3.1.0",
-    "coveralls": "^3.0.0",
-    "eslint": "^4.19.1",
-    "eslint-config-goes": "^1.0.0",
-    "nock": "^9.2.3",
-    "nsp": "^3.2.1",
-    "nyc": "^11.6.0",
-    "tap-spec": "^4.1.1",
-    "tape": "^4.9.0"
+    "eslint-config-goes": "^1.1.8",
+    "nock": "^12.0.3",
+    "tap": "^14.10.7"
   },
   "keywords": [
     "extractor",
