@@ -1,4 +1,4 @@
-const { readFileSync, existsSync } = require('fs')
+const { readFileSync, writeFileSync, existsSync } = require('fs')
 
 const isValidUrl = require('./src/utils/isValidUrl')
 const { parse } = require('./index')
@@ -7,6 +7,7 @@ const extractFromUrl = async (url) => {
   try {
     const art = await parse(url)
     console.log(art)
+    writeFileSync('./output.json', JSON.stringify(art), 'utf8')
   } catch (err) {
     console.trace(err)
   }
@@ -17,6 +18,7 @@ const extractFromFile = async (fpath) => {
     const xml = readFileSync(fpath, 'utf8')
     const art = await parse(xml)
     console.log(art)
+    writeFileSync('./output.json', JSON.stringify(art), 'utf8')
   } catch (err) {
     console.trace(err)
   }
