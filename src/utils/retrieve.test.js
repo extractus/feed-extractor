@@ -14,7 +14,7 @@ const parseUrl = (url) => {
 }
 
 test('test retrieve from good source', async () => {
-  const url = 'http://some.where/good/page'
+  const url = 'https://some.where/good/page'
   const { baseUrl, path } = parseUrl(url)
   nock(baseUrl).head(path).reply(200)
   nock(baseUrl).get(path).reply(200, '<div>this is content</div>', {
@@ -25,7 +25,7 @@ test('test retrieve from good source', async () => {
 })
 
 test('test retrieve with invalid content type', async () => {
-  const url = 'http://some.where/bad/page'
+  const url = 'https://some.where/bad/page'
   const { baseUrl, path } = parseUrl(url)
   nock(baseUrl).head(path).reply(200)
   nock(baseUrl).get(path).reply(200, '', {
@@ -36,7 +36,7 @@ test('test retrieve with invalid content type', async () => {
 })
 
 test('test retrieve with invalid status', async () => {
-  const url = 'http://some.where/bad/page'
+  const url = 'https://some.where/bad/page'
   const { baseUrl, path } = parseUrl(url)
   nock(baseUrl).head(path).reply(500)
   const result = await retrieve(url)
