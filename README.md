@@ -2,10 +2,11 @@
 
 Extract ATOM/RSS content from given feed url.
 
-
 [![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
-[![Build Status](https://travis-ci.org/ndaidong/feed-reader.svg?branch=master)](https://travis-ci.org/ndaidong/feed-reader)
-[![Coverage Status](https://coveralls.io/repos/github/ndaidong/feed-reader/badge.svg?branch=master)](https://coveralls.io/github/ndaidong/feed-reader?branch=master)
+![CI test](https://github.com/ndaidong/feed-reader/workflows/ci-test/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/ndaidong/feed-reader/badge.svg)](https://coveralls.io/github/ndaidong/feed-reader)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ndaidong_feed-reader&metric=alert_status)](https://sonarcloud.io/dashboard?id=ndaidong_feed-reader)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 
 ### Usage
@@ -19,17 +20,15 @@ Then
 ```js
 const {
   parse
-} = require('feed-reader');
+} = require('feed-reader')
 
-
-const url = 'https://news.google.com/news/feeds?pz=1&cf=all&ned=us&hl=en&q=nodejs&output=rss';
+const url = 'https://news.google.com/news/feeds?pz=1&cf=all&ned=us&hl=en&q=nodejs&output=rss'
 
 parse(url).then((feed) => {
-  console.log(feed);
+  console.log(feed)
 }).catch((err) => {
-  console.log(err);
-});
-
+  console.log(err)
+})
 ```
 
 

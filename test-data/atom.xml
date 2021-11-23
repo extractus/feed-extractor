@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feed
+  xmlns="http://www.w3.org/2005/Atom">
+  <id>https://news.google.com/atom?hl=en-US&amp;gl=US&amp;ceid=US:en</id>
+  <generator>NFE/5.0</generator>
+  <title type="html">Top stories - Google News</title>
+  <subtitle>Google News</subtitle>
+  <updated>2021-11-20T10:43:17.000000000Z</updated>
+  <author>
+    <name>Google Inc.</name>
+    <email>news-webmaster@google.com</email>
+    <uri>https://news.google.com</uri>
+  </author>
+  <link href="https://news.google.com/atom?hl=en-US&amp;gl=US&amp;ceid=US:en" rel="self" type="application/atom+xml"/>
+  <link href="https://news.google.com/?hl=en-US&amp;gl=US&amp;ceid=US:en" rel="alternate" type="text/html"/>
+  <rights>2021 Google Inc.</rights>
+  <entry>
+    <id>https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2pPLWRxY0JCRVlmT2xQTzh2NmJTZ0FQAQ?oc=5</id>
+    <title type="html">Kyle Rittenhouse Breaks Silence After Not Guilty Verdict - NBC Chicago</title>
+    <updated>2021-11-20T07:25:12.000000000Z</updated>
+    <link href="https://news.google.com/__i/rss/rd/articles/CBMiZ2h0dHBzOi8vd3d3Lm5iY2NoaWNhZ28uY29tL25ld3MvbG9jYWwva3lsZS1yaXR0ZW5ob3VzZS1icmVha3Mtc2lsZW5jZS1hZnRlci1ub3QtZ3VpbHR5LXZlcmRpY3QvMjY4OTkzNi_SAWtodHRwczovL3d3dy5uYmNjaGljYWdvLmNvbS9uZXdzL2xvY2FsL2t5bGUtcml0dGVuaG91c2UtYnJlYWtzLXNpbGVuY2UtYWZ0ZXItbm90LWd1aWx0eS12ZXJkaWN0LzI2ODk5MzYvP2FtcA?oc=5" type="text/html"/>
+    <content type="html">Something new here</content>
+  </entry>
+  <entry>
+    <id>https://news.google.com/stories/CAAqNggKIjBDQklTSGpvSmMzUnZjbmt0TXpZd1NoRUtEd2lnODhTekJCRzl1Qmp5M1VNak5pZ0FQAQ?oc=5</id>
+    <title type="html">Biden gets first physical as president, power transferred to VP Harris - ABC News</title>
+    <updated>2021-11-19T23:26:15.000000000Z</updated>
+    <link href="https://news.google.com/__i/rss/rd/articles/CBMiZmh0dHBzOi8vYWJjbmV3cy5nby5jb20vUG9saXRpY3MvYmlkZW4tcGh5c2ljYWwtcHJlc2lkZW50LXBvd2VyLXRyYW5zZmVycmVkLXZwLWhhcnJpcy9zdG9yeT9pZD04MTI1OTAyMNIBamh0dHBzOi8vYWJjbmV3cy5nby5jb20vYW1wL1BvbGl0aWNzL2JpZGVuLXBoeXNpY2FsLXByZXNpZGVudC1wb3dlci10cmFuc2ZlcnJlZC12cC1oYXJyaXMvc3Rvcnk_aWQ9ODEyNTkwMjA?oc=5" type="text/html"/>
+    <content type="html">Something new here</content>
+  </entry>
+</feed>
