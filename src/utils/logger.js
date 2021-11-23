@@ -1,17 +1,13 @@
 // utils / logger
 
 const {
-  name,
-} = require('../../package.json');
+  name
+} = require('../../package.json')
 
-const debug = require('debug');
-
-const info = debug(`${name}:info`);
-const error = debug(`${name}:error`);
-const warning = debug(`${name}:warning`);
+const debug = require('debug')
 
 module.exports = {
-  info,
-  error,
-  warning,
-};
+  info: debug(`${name}:info`),
+  error: debug(`${name}:error`),
+  warning: debug(`${name}:warning`)
+}
