@@ -93,3 +93,21 @@ entryAttrs.forEach((k) => {
     expect(hasProperty(state.rssFeedEntry, k)).toBe(true)
   })
 })
+
+test('test parse from a more complicate atom source', async () => {
+  const url = 'https://headline.com/atom'
+  const xml = readFileSync('test-data/another-atom.xml', 'utf8')
+  const { baseUrl, path } = parseUrl(url)
+  nock(baseUrl).head(path).reply(200)
+  nock(baseUrl).get(path).reply(200, xml, {
+    'Content-Type': 'application/xml'
+  })
+  const result = await parse(url)
+  expect(result).toBeInstanceOf(Object)
+  feedAttrs.forEach((k) => {
+    expect(hasProperty(result, k)).toBe(true)
+  })
+  entryAttrs.forEach((k) => {
+    expect(hasProperty(result.entries[0], k)).toBe(true)
+  })
+})

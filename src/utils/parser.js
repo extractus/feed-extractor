@@ -94,7 +94,6 @@ const parseRSS = (xmldata) => {
 
 const parseAtom = (xmldata) => {
   const { feed = {} } = xmldata
-
   const {
     title = '',
     link = '',
@@ -105,7 +104,7 @@ const parseAtom = (xmldata) => {
     entry = []
   } = feed
 
-  const entries = entry.map(nomalizeAtomItem)
+  const entries = isArray(entry) ? entry.map(nomalizeAtomItem) : [nomalizeAtomItem(entry)]
 
   return {
     title: toText(title),
