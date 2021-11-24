@@ -19,7 +19,7 @@ module.exports = async (url) => {
     }
 
     const contentType = res.headers['content-type'] || ''
-    if (!contentType || !contentType.includes('/xml')) {
+    if (!contentType || !contentType.includes('xml')) {
       error(`Got invalid content-type (${contentType}) from "${url}"`)
       return null
     }
