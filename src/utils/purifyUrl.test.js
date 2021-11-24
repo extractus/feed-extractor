@@ -3,7 +3,20 @@
 
 const purifyUrl = require('./purifyUrl')
 
-test('test purifyUrl in detailt', () => {
+test('test purifyUrl() with invalid url', () => {
+  const urls = [
+    null,
+    '',
+    123,
+    {}
+  ]
+  urls.forEach((url) => {
+    const result = purifyUrl(url)
+    expect(result).toEqual(null)
+  })
+})
+
+test('test purifyUrl() removing regular marketing params', () => {
   const entries = [
     {
       url: 'https://some.where/article/abc-xyz',

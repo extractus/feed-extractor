@@ -39,6 +39,9 @@ test('test retrieve with invalid status', async () => {
   const url = 'https://some.where/bad/page'
   const { baseUrl, path } = parseUrl(url)
   nock(baseUrl).head(path).reply(500)
+  nock(baseUrl).get(path).reply(500, '<xml><message>Error 500</message></xml>', {
+    'Content-Type': 'application/xml'
+  })
   const result = await retrieve(url)
   expect(result).toBe(null)
 })
