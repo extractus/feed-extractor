@@ -8,8 +8,8 @@ const nock = require('nock')
 
 const { parse } = require('./main')
 
-const feedAttrs = 'title link description generator language updated entries'.split(' ')
-const entryAttrs = 'title link description pubDate'.split(' ')
+const feedAttrs = 'title link description generator language published entries'.split(' ')
+const entryAttrs = 'title link description published'.split(' ')
 
 const state = {}
 

@@ -53,7 +53,7 @@ const nomalizeRssItem = (entry) => {
     title: toText(entry.title),
     link: purifyUrl(toLink(entry.link)),
     description: toDesc(entry.description),
-    pubDate: toDate(toText(entry.pubDate))
+    published: toDate(toText(entry.pubDate))
   }
 }
 
@@ -62,7 +62,7 @@ const nomalizeAtomItem = (entry) => {
     title: toText(entry.title),
     link: purifyUrl(toLink(entry.link)),
     description: toDesc(entry.summary || entry.description || entry.content),
-    pubDate: toDate(toText(entry.updated || entry.published))
+    published: toDate(toText(entry.updated || entry.published))
   }
 }
 
@@ -87,7 +87,7 @@ const parseRSS = (xmldata) => {
     description,
     generator,
     language,
-    updated: toDate(lastBuildDate),
+    published: toDate(lastBuildDate),
     entries
   }
 }
@@ -112,7 +112,7 @@ const parseAtom = (xmldata) => {
     description: subtitle,
     generator,
     language,
-    updated: toDate(updated),
+    published: toDate(updated),
     entries
   }
 }

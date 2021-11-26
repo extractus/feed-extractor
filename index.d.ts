@@ -9,6 +9,6 @@ export interface FeedData {
     description?: string;
     generator?: string;
     language?: string;
-    updated?: date;
+    published?: date;
     entries?: array;
 }
