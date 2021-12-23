@@ -6,7 +6,7 @@ const { readFileSync } = require('fs')
 const { hasProperty } = require('bellajs')
 const nock = require('nock')
 
-const { parse } = require('./main')
+const { read } = require('./main')
 
 const feedAttrs = 'title link description generator language published entries'.split(' ')
 const entryAttrs = 'title link description published'.split(' ')
@@ -21,28 +21,43 @@ const parseUrl = (url) => {
   }
 }
 
-test('test parse a non-string link', async () => {
+test('test read a non-string link', async () => {
   const url = []
   const fn = async () => {
-    const re = await parse(url)
+    const re = await read(url)
     return re
   }
   expect(fn()).rejects.toThrow(Error)
 })
 
-test('test parse a fake link', async () => {
+test('test read a fake link', async () => {
   const url = 'https://somewhere.xyz/alpha/beta'
   const { baseUrl, path } = parseUrl(url)
   nock(baseUrl).head(path).reply(404)
   nock(baseUrl).get(path).reply(404)
   const fn = async () => {
-    const re = await parse(url)
+    const re = await read(url)
     return re
   }
   expect(fn()).rejects.toThrow(Error)
 })
 
-test('test parse from good atom source', async () => {
+test('test read from invalid xml', async () => {
+  const url = 'https://averybad-source.elsewhere/rss'
+  const xml = '<?xml version="1.0" encoding="UTF-8"><rss><oops></ooops>'
+  const { baseUrl, path } = parseUrl(url)
+  nock(baseUrl).head(path).reply(200)
+  nock(baseUrl).get(path).reply(200, xml, {
+    'Content-Type': 'application/xml'
+  })
+  const fn = async () => {
+    const re = await read(url)
+    return re
+  }
+  expect(fn()).rejects.toThrow(Error)
+})
+
+test('test read from good atom source', async () => {
   const url = 'https://news.google.com/atom'
   const xml = readFileSync('test-data/atom.xml', 'utf8')
   const { baseUrl, path } = parseUrl(url)
@@ -50,7 +65,7 @@ test('test parse from good atom source', async () => {
   nock(baseUrl).get(path).reply(200, xml, {
     'Content-Type': 'application/xml'
   })
-  const result = await parse(url)
+  const result = await read(url)
   expect(result).toBeInstanceOf(Object)
   expect(result.entries.length).toEqual(2)
   state.atomFeed = result
@@ -68,7 +83,7 @@ entryAttrs.forEach((k) => {
   })
 })
 
-test('test parse from good rss source', async () => {
+test('test read from good rss source', async () => {
   const url = 'https://news.google.com/rss'
   const xml = readFileSync('test-data/rss.xml', 'utf8')
   const { baseUrl, path } = parseUrl(url)
@@ -76,7 +91,7 @@ test('test parse from good rss source', async () => {
   nock(baseUrl).get(path).reply(200, xml, {
     'Content-Type': 'application/xml'
   })
-  const result = await parse(url)
+  const result = await read(url)
   expect(result).toBeInstanceOf(Object)
   expect(result.entries.length).toEqual(2)
   state.rssFeed = result
@@ -94,7 +109,7 @@ entryAttrs.forEach((k) => {
   })
 })
 
-test('test parse from a more complicate atom source', async () => {
+test('test read from a more complicate atom source', async () => {
   const url = 'https://headline.com/atom'
   const xml = readFileSync('test-data/another-atom.xml', 'utf8')
   const { baseUrl, path } = parseUrl(url)
@@ -102,7 +117,7 @@ test('test parse from a more complicate atom source', async () => {
   nock(baseUrl).get(path).reply(200, xml, {
     'Content-Type': 'application/xml'
   })
-  const result = await parse(url)
+  const result = await read(url)
   expect(result).toBeInstanceOf(Object)
   feedAttrs.forEach((k) => {
     expect(hasProperty(result, k)).toBe(true)

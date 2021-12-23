@@ -15,7 +15,12 @@ const {
   isAtom
 } = require('./utils/validator')
 
-const parse = async (url) => {
+const {
+  getRequestOptions,
+  setRequestOptions
+} = require('./config')
+
+const read = async (url) => {
   const xmldata = await getXML(url)
   if (!xmldata) {
     throw new Error(`Could not fetch XML content from "${url}"`)
@@ -30,5 +35,7 @@ const parse = async (url) => {
 }
 
 module.exports = {
-  parse
+  read,
+  getRequestOptions,
+  setRequestOptions
 }

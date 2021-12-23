@@ -1,6 +1,6 @@
 # feed-reader
 
-Parse RSS/ATOM data from given feed url.
+Load and parse RSS/ATOM data from given feed url.
 
 [![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
 ![CI test](https://github.com/ndaidong/feed-reader/workflows/ci-test/badge.svg)
@@ -19,12 +19,12 @@ Then
 
 ```js
 const {
-  parse
+  read
 } = require('feed-reader')
 
 const url = 'https://news.google.com/rss'
 
-parse(url).then((feed) => {
+read(url).then((feed) => {
   console.log(feed)
 }).catch((err) => {
   console.log(err)
@@ -33,23 +33,24 @@ parse(url).then((feed) => {
 
 ## APIs
 
-This lib provides only method `parse()`.
+- [.read(String url)](#readstring-url)
+- [Configuration methods](#configuration-methods)
 
-#### parse(String url)
+#### read(String url)
 
-Return: a Promise
+Load and extract feed data from given RSS/ATOM source. Return a Promise object.
 
-Here is how we can use `feed-reader`:
+Example:
 
 ```js
 import {
-  parse
+  read
 } from 'feed-reader'
 
 const getFeedData = async (url) => {
   try {
     console.log(`Get feed data from ${url}`)
-    const data = await parse(url)
+    const data = await read(url)
     console.log(data)
     return data
   } catch (err) {
@@ -61,7 +62,7 @@ getFeedData('https://news.google.com/rss')
 getFeedData('https://news.google.com/atom')
 ```
 
-Example feed data:
+Feed data object retuned by `read()` method should look like below:
 
 ```json
 {
@@ -70,18 +71,41 @@ Example feed data:
   "description": "Google News",
   "generator": "NFE/5.0",
   "language": "",
-  "published": "Tue, Nov 23, 2021  05:58:17 PM",
+  "published": "2021-12-23T15:01:12.000Z",
   "entries": [
     {
       "title": "Lone suspect in Waukesha parade crash to appear in court today, as Wisconsin reels from tragedy that left 5 dead and dozens more injured - CNN",
       "link": "https://news.google.com/__i/rss/rd/articles/CBMiTmh0dHBzOi8vd3d3LmNubi5jb20vMjAyMS8xMS8yMy91cy93YXVrZXNoYS1jYXItcGFyYWRlLWNyb3dkLXR1ZXNkYXkvaW5kZXguaHRtbNIBUmh0dHBzOi8vYW1wLmNubi5jb20vY25uLzIwMjEvMTEvMjMvdXMvd2F1a2VzaGEtY2FyLXBhcmFkZS1jcm93ZC10dWVzZGF5L2luZGV4Lmh0bWw?oc=5",
       "description": "Lone suspect in Waukesha parade crash to appear in court today, as Wisconsin reels from tragedy that left 5 dead and dozens more injured &nbsp;&nbsp; CNN Waukesha Christmas parade attack: 5 dead, 48 injured, Darrell Brooks named as...",
-      "published": "Tue, Nov 23, 2021  05:34:00 PM"
+      "published": "2021-12-21T22:30:00.000Z"
     },
     // ...
   ]
 }
 ```
+
+#### Configuration methods
+
+In addition, this lib provides some methods to customize default settings. Don't touch them unless you have reason to do that.
+
+- getRequestOptions()
+- setRequestOptions(Object requestOptions)
+
+#### Object `requestOptions`:
+
+```js
+{
+  headers: {
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0',
+    accept: 'text/html; charset=utf-8'
+  },
+  responseType: 'text',
+  responseEncoding: 'utf8',
+  timeout: 6e4,
+  maxRedirects: 3
+}
+```
+Read [axios' request config](https://axios-http.com/docs/req_config) for more info.
 
 
 ## Test
@@ -92,12 +116,13 @@ git clone https://github.com/ndaidong/feed-reader.git
 cd feed-reader
 npm install
 
-# evaluation
+# quick evaluation
 npm run eval https://news.google.com/rss
 npm test
 ```
 
 
-# License
-
+## License
 The MIT License (MIT)
+
+---

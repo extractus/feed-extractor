@@ -8,15 +8,21 @@ const {
   isObject,
   hasProperty,
   stripTags,
-  truncate,
-  toDateString
+  truncate
 } = require('bellajs')
 
 const purifyUrl = require('./purifyUrl')
 
+const toISODateString = (dstr) => {
+  try {
+    return (new Date(dstr)).toISOString()
+  } catch (err) {
+    return ''
+  }
+}
+
 const toDate = (val) => {
-  const td = val ? new Date(val) : false
-  return td ? toDateString(td) : ''
+  return val ? toISODateString(val) : ''
 }
 
 const toText = (val) => {
