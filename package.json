@@ -1,7 +1,7 @@
 {
-  "version": "3.1.0",
+  "version": "4.0.0",
   "name": "feed-reader",
-  "description": "Parse ATOM/RSS data from given feed url",
+  "description": "Load and parse ATOM/RSS data from given feed url",
   "homepage": "https://www.npmjs.com/package/feed-reader",
   "repository": {
     "type": "git",
@@ -17,18 +17,18 @@
     "lint": "standard .",
     "pretest": "npm run lint",
     "test": "jest --verbose --coverage=true --unhandled-rejections=strict --detectOpenHandles",
-    "eval": "DEBUG=*:* node run",
+    "eval": "DEBUG=*:* node eval",
     "reset": "node reset"
   },
   "dependencies": {
-    "bellajs": "^9.3.0",
-    "debug": "^4.3.2",
-    "fast-xml-parser": "^4.0.0-beta.2",
-    "got": "^11.8.3",
+    "axios": "^0.24.0",
+    "bellajs": "^10.0.2",
+    "debug": "^4.3.3",
+    "fast-xml-parser": "^4.0.0-beta.8",
     "html-entities": "^2.3.2"
   },
   "devDependencies": {
-    "jest": "^27.3.1",
+    "jest": "^27.4.5",
     "nock": "^13.2.1"
   },
   "keywords": [

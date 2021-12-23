@@ -1,43 +1,27 @@
 // utils -> retrieve
 
-const got = require('got')
+const axios = require('axios')
 
-const {
-  error,
-  info
-} = require('./logger')
+const logger = require('./logger')
 
-const { name, version } = require('../../package.json')
-
-const fetchOptions = {
-  headers: {
-    'user-agent': `${name}/${version}`
-  },
-  timeout: 30 * 1e3,
-  redirect: 'follow'
-}
+const { getRequestOptions } = require('../config')
 
 module.exports = async (url) => {
   try {
-    info(`Start loading feed content from "${url}"`)
-    const res = await got(url, fetchOptions)
+    const res = await axios.get(url, getRequestOptions())
+
     const contentType = res.headers['content-type'] || ''
     if (!contentType || !contentType.includes('xml')) {
-      error(`Got invalid content-type (${contentType}) from "${url}"`)
+      logger.error(`Got invalid content-type (${contentType}) from "${url}"`)
       return null
     }
-
-    info(`Loaded remote feed content from "${url}"`)
-    const xml = res.body
-
     const result = {
       url,
-      xml
+      xml: res.data
     }
-
     return result
   } catch (err) {
-    error(err)
+    logger.error(err.message || err)
+    return null
   }
-  return null
 }
