@@ -8,19 +8,18 @@ Load and parse RSS/ATOM data from given feed url.
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ndaidong_feed-reader&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ndaidong_feed-reader)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+## Demo
+
+- [Give it a try!](https://demos.pwshub.com/feed-reader)
+- [Example FaaS](https://extractor.pwshub.com/feed/parse?url=https://news.google.com/rss&apikey=demo-orePhhidnWKWPvF8EYKap7z55cN)
 
 ### Usage
 
-```bash
-npm install feed-reader
-```
-
-Then
-
 ```js
-const {
-  read
-} = require('feed-reader')
+import { read } from 'feed-reader'
+
+// with CommonJS environments
+// const { read } = require('feed-reader/dist/cjs/feed-reader.js')
 
 const url = 'https://news.google.com/rss'
 
@@ -30,6 +29,13 @@ read(url).then((feed) => {
   console.log(err)
 })
 ```
+
+##### Note:
+
+> Since Node.js v14, ECMAScript modules [have became the official standard format](https://nodejs.org/docs/latest-v14.x/api/esm.html#esm_modules_ecmascript_modules).
+
+> Just ensure that you are [using module system](https://nodejs.org/api/packages.html#determining-module-system) and enjoy with ES6 import/export syntax.
+
 
 ## APIs
 

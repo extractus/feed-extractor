@@ -1,10 +1,10 @@
 // utils / xml2obj
 
-const { XMLParser } = require('fast-xml-parser')
+import { XMLParser } from 'fast-xml-parser/src/fxp.js'
 
-const { info } = require('./logger')
+import { info } from './logger.js'
 
-const parse = (xml = '') => {
+export default (xml = '') => {
   const options = {
     ignoreAttributes: false
   }
@@ -13,5 +13,3 @@ const parse = (xml = '') => {
   const jsonObj = parser.parse(xml)
   return jsonObj
 }
-
-module.exports = parse

@@ -1,5 +1,5 @@
 {
-  "version": "4.0.1",
+  "version": "5.0.0rc1",
   "name": "feed-reader",
   "description": "Load and parse ATOM/RSS data from given feed url",
   "homepage": "https://www.npmjs.com/package/feed-reader",
@@ -8,15 +8,19 @@
     "url": "git@github.com:ndaidong/feed-reader.git"
   },
   "author": "@ndaidong",
-  "main": "./index.js",
+  "main": "./dist/cjs/feed-reader.js",
+  "module": "./src/main.js",
+  "browser": "./dist/feed-reader.min.js",
+  "type": "module",
   "types": "./index.d.ts",
   "engines": {
-    "node": ">= 10.14.2"
+    "node": ">= 14"
   },
   "scripts": {
-    "lint": "standard .",
+    "lint": "standard ./src",
     "pretest": "npm run lint",
     "test": "jest --verbose --coverage=true --unhandled-rejections=strict --detectOpenHandles",
+    "build": "node build src/main.js",
     "eval": "DEBUG=*:* node eval",
     "reset": "node reset"
   },
@@ -28,8 +32,24 @@
     "html-entities": "^2.3.2"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.16.7",
+    "esbuild": "^0.14.10",
     "jest": "^27.4.5",
     "nock": "^13.2.1"
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "plugins": [
+          "@babel/plugin-transform-modules-commonjs"
+        ]
+      }
+    }
+  },
+  "standard": {
+    "ignore": [
+      "/dist"
+    ]
   },
   "keywords": [
     "extractor",

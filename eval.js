@@ -1,7 +1,9 @@
-const { readFileSync, writeFileSync, existsSync } = require('fs')
+// eval.js
 
-const isValidUrl = require('./src/utils/isValidUrl')
-const { read } = require('./index')
+import { readFileSync, writeFileSync, existsSync } from 'fs'
+
+import isValidUrl from './src/utils/isValidUrl.js'
+import { read } from './src/main.js'
 
 const extractFromUrl = async (url) => {
   try {

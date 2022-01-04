@@ -1,12 +1,12 @@
 // main.test
 /* eslint-env jest */
 
-const { readFileSync } = require('fs')
+import { readFileSync } from 'fs'
 
-const { hasProperty } = require('bellajs')
-const nock = require('nock')
+import { hasProperty } from 'bellajs'
+import nock from 'nock'
 
-const { read } = require('./main')
+import { read } from './main.js'
 
 const feedAttrs = 'title link description generator language published entries'.split(' ')
 const entryAttrs = 'title link description published'.split(' ')
