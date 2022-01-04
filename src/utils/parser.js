@@ -1,17 +1,17 @@
 // utils / parser
 
-const { decode } = require('html-entities')
+import { decode } from 'html-entities'
 
-const {
+import {
   isString,
   isArray,
   isObject,
   hasProperty,
   stripTags,
   truncate
-} = require('bellajs')
+} from 'bellajs'
 
-const purifyUrl = require('./purifyUrl')
+import purifyUrl from './purifyUrl.js'
 
 const toISODateString = (dstr) => {
   try {
@@ -72,7 +72,7 @@ const nomalizeAtomItem = (entry) => {
   }
 }
 
-const parseRSS = (xmldata) => {
+export const parseRSS = (xmldata) => {
   const { rss = {} } = xmldata
   const { channel = {} } = rss
   const {
@@ -98,7 +98,7 @@ const parseRSS = (xmldata) => {
   }
 }
 
-const parseAtom = (xmldata) => {
+export const parseAtom = (xmldata) => {
   const { feed = {} } = xmldata
   const {
     title = '',
@@ -121,9 +121,4 @@ const parseAtom = (xmldata) => {
     published: toDate(updated),
     entries
   }
-}
-
-module.exports = {
-  parseRSS,
-  parseAtom
 }

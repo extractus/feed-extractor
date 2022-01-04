@@ -3,24 +3,24 @@
  * @ndaidong
  **/
 
-const { info } = require('./utils/logger')
+import { info } from './utils/logger.js'
 
-const getXML = require('./utils/retrieve')
-const xml2obj = require('./utils/xml2obj')
-const { parseRSS, parseAtom } = require('./utils/parser')
+import getXML from './utils/retrieve.js'
+import xml2obj from './utils/xml2obj.js'
+import { parseRSS, parseAtom } from './utils/parser.js'
 
-const {
+import {
   validate,
   isRSS,
   isAtom
-} = require('./utils/validator')
+} from './utils/validator.js'
 
-const {
+export {
   getRequestOptions,
   setRequestOptions
-} = require('./config')
+} from './config.js'
 
-const read = async (url) => {
+export const read = async (url) => {
   const xmldata = await getXML(url)
   if (!xmldata) {
     throw new Error(`Could not fetch XML content from "${url}"`)
@@ -32,10 +32,4 @@ const read = async (url) => {
   info('Parsing XML data...')
   const jsonObj = xml2obj(xml)
   return isRSS(jsonObj) ? parseRSS(jsonObj) : isAtom(jsonObj) ? parseAtom(jsonObj) : null
-}
-
-module.exports = {
-  read,
-  getRequestOptions,
-  setRequestOptions
 }

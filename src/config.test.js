@@ -1,10 +1,10 @@
 // config.test
 /* eslint-env jest */
 
-const {
+import {
   setRequestOptions,
   getRequestOptions
-} = require('./config')
+} from './config.js'
 
 test('Testing setRequestOptions/getRequestOptions methods', () => {
   setRequestOptions({

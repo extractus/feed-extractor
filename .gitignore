@@ -14,5 +14,6 @@ coverage
 yarn.lock
 coverage.lcov
 package-lock.json
+pnpm-lock.yaml
 
 output.json

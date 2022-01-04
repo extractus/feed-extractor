@@ -1,6 +1,6 @@
 // utils -> isValidUrl
 
-module.exports = (url = '') => {
+export default (url = '') => {
   try {
     return new URL(url) !== null
   } catch (err) {

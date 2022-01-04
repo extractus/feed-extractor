@@ -1,11 +1,11 @@
 // validator.test
 /* eslint-env jest */
 
-const { readFileSync } = require('fs')
+import { readFileSync } from 'fs'
 
-const xml2obj = require('./xml2obj')
+import xml2obj from './xml2obj.js'
 
-const { validate, isRSS, isAtom } = require('./validator')
+import { validate, isRSS, isAtom } from './validator.js'
 
 test('test validate(well format xml)', async () => {
   const xmlData = '<xml><atag id="12">value</atag></xml>'
