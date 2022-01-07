@@ -18,7 +18,7 @@ Load and parse RSS/ATOM data from given feed url.
 ```js
 import { read } from 'feed-reader'
 
-// with CommonJS environment
+// with CommonJS environments
 // const { read } = require('feed-reader/dist/cjs/feed-reader.js')
 
 const url = 'https://news.google.com/rss'
@@ -33,6 +33,7 @@ read(url).then((feed) => {
 ##### Note:
 
 > Since Node.js v14, ECMAScript modules [have became the official standard format](https://nodejs.org/docs/latest-v14.x/api/esm.html#esm_modules_ecmascript_modules).
+
 > Just ensure that you are [using module system](https://nodejs.org/api/packages.html#determining-module-system) and enjoy with ES6 import/export syntax.
 
 
