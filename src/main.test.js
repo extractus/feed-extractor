@@ -11,8 +11,6 @@ import { read } from './main.js'
 const feedAttrs = 'title link description generator language published entries'.split(' ')
 const entryAttrs = 'title link description published'.split(' ')
 
-const state = {}
-
 const parseUrl = (url) => {
   const re = new URL(url)
   return {
@@ -57,57 +55,64 @@ test('test read from invalid xml', async () => {
   expect(fn()).rejects.toThrow(Error)
 })
 
-test('test read from good atom source', async () => {
-  const url = 'https://news.google.com/atom'
-  const xml = readFileSync('test-data/atom.xml', 'utf8')
-  const { baseUrl, path } = parseUrl(url)
-  nock(baseUrl).head(path).reply(200)
-  nock(baseUrl).get(path).reply(200, xml, {
-    'Content-Type': 'application/xml'
-  })
-  const result = await read(url)
-  expect(result).toBeInstanceOf(Object)
-  expect(result.entries.length).toEqual(2)
-  state.atomFeed = result
-  state.atomFeedEntry = result.entries[0]
-})
+const runtest = ({ type, url, file, size }) => {
+  describe(`test if ${type} parsing works correctly`, () => {
+    const state = {}
+    test(`test read from good ${type} source`, async () => {
+      const xml = readFileSync(file, 'utf8')
+      const { baseUrl, path } = parseUrl(url)
+      nock(baseUrl).head(path).reply(200)
+      nock(baseUrl).get(path).reply(200, xml, {
+        'Content-Type': 'application/xml'
+      })
+      const result = await read(url)
+      expect(result).toBeInstanceOf(Object)
+      expect(result.entries.length).toEqual(size)
+      state.data = result
+      state.firstEntry = result.entries[0]
+    })
 
-feedAttrs.forEach((k) => {
-  test(`  test if atom feed has property "${k}"`, () => {
-    expect(hasProperty(state.atomFeed, k)).toBe(true)
+    feedAttrs.forEach((k) => {
+      test(`  test if ${type} feed has property "${k}"`, () => {
+        expect(hasProperty(state.data, k)).toBe(true)
+      })
+    })
+    entryAttrs.forEach((k) => {
+      test(`  test if ${type} feed entry has property "${k}"`, () => {
+        expect(hasProperty(state.firstEntry, k)).toBe(true)
+      })
+    })
   })
-})
-entryAttrs.forEach((k) => {
-  test(`  test if atom feed entry has property "${k}"`, () => {
-    expect(hasProperty(state.atomFeedEntry, k)).toBe(true)
-  })
-})
+}
 
-test('test read from good rss source', async () => {
-  const url = 'https://news.google.com/rss'
-  const xml = readFileSync('test-data/rss.xml', 'utf8')
-  const { baseUrl, path } = parseUrl(url)
-  nock(baseUrl).head(path).reply(200)
-  nock(baseUrl).get(path).reply(200, xml, {
-    'Content-Type': 'application/xml'
-  })
-  const result = await read(url)
-  expect(result).toBeInstanceOf(Object)
-  expect(result.entries.length).toEqual(2)
-  state.rssFeed = result
-  state.rssFeedEntry = result.entries[0]
-})
+const sources = [
+  {
+    type: 'atom',
+    url: 'https://news.google.com/atom',
+    file: 'test-data/atom.xml',
+    size: 2
+  },
+  {
+    type: 'atom',
+    url: 'https://news.google.com/atom-with-single-item',
+    file: 'test-data/atom-with-single-item.xml',
+    size: 1
+  },
+  {
+    type: 'rss',
+    url: 'https://news.google.com/rss',
+    file: 'test-data/rss.xml',
+    size: 2
+  },
+  {
+    type: 'rss',
+    url: 'https://news.google.com/rss-with-single-item',
+    file: 'test-data/rss-with-single-item.xml',
+    size: 1
+  }
+]
 
-feedAttrs.forEach((k) => {
-  test(`  test if rss feed has property "${k}"`, () => {
-    expect(hasProperty(state.rssFeed, k)).toBe(true)
-  })
-})
-entryAttrs.forEach((k) => {
-  test(`  test if rss feed entry has property "${k}"`, () => {
-    expect(hasProperty(state.rssFeedEntry, k)).toBe(true)
-  })
-})
+sources.forEach(runtest)
 
 test('test read from a more complicate atom source', async () => {
   const url = 'https://headline.com/atom'

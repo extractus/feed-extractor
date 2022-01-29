@@ -85,7 +85,7 @@ export const parseRSS = (xmldata) => {
     item = []
   } = channel
 
-  const entries = isArray(item) ? item.map(nomalizeRssItem) : [nomalizeAtomItem(item)]
+  const entries = isArray(item) ? item.map(nomalizeRssItem) : [nomalizeRssItem(item)]
 
   return {
     title,
