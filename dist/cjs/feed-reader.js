@@ -1,4 +1,4 @@
-// feed-reader@5.0.0rc1, by @ndaidong - built with esbuild at 2022-01-04T03:35:30.889Z - published under MIT license
+// feed-reader@5.0.0rc3, by @ndaidong - built with esbuild at 2022-01-29T03:22:04.964Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -178,12 +178,12 @@ var require_common = __commonJS({
           if (!debug2.enabled) {
             return;
           }
-          const self2 = debug2;
+          const self = debug2;
           const curr = Number(new Date());
           const ms = curr - (prevTime || curr);
-          self2.diff = ms;
-          self2.prev = prevTime;
-          self2.curr = curr;
+          self.diff = ms;
+          self.prev = prevTime;
+          self.curr = curr;
           prevTime = curr;
           args[0] = createDebug.coerce(args[0]);
           if (typeof args[0] !== "string") {
@@ -198,15 +198,15 @@ var require_common = __commonJS({
             const formatter = createDebug.formatters[format];
             if (typeof formatter === "function") {
               const val = args[index];
-              match = formatter.call(self2, val);
+              match = formatter.call(self, val);
               args.splice(index, 1);
               index--;
             }
             return match;
           });
-          createDebug.formatArgs.call(self2, args);
-          const logFn = self2.log || createDebug.log;
-          logFn.apply(self2, args);
+          createDebug.formatArgs.call(self, args);
+          const logFn = self.log || createDebug.log;
+          logFn.apply(self, args);
         }
         debug2.namespace = namespace;
         debug2.useColors = createDebug.useColors();
@@ -789,14 +789,14 @@ var require_utils = __commonJS({
     "use strict";
     var bind = require_bind();
     var toString = Object.prototype.toString;
-    function isArray2(val) {
+    function isArray3(val) {
       return toString.call(val) === "[object Array]";
     }
-    function isUndefined(val) {
+    function isUndefined2(val) {
       return typeof val === "undefined";
     }
     function isBuffer(val) {
-      return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor) && typeof val.constructor.isBuffer === "function" && val.constructor.isBuffer(val);
+      return val !== null && !isUndefined2(val) && val.constructor !== null && !isUndefined2(val.constructor) && typeof val.constructor.isBuffer === "function" && val.constructor.isBuffer(val);
     }
     function isArrayBuffer(val) {
       return toString.call(val) === "[object ArrayBuffer]";
@@ -813,13 +813,13 @@ var require_utils = __commonJS({
       }
       return result;
     }
-    function isString2(val) {
+    function isString3(val) {
       return typeof val === "string";
     }
-    function isNumber(val) {
+    function isNumber2(val) {
       return typeof val === "number";
     }
-    function isObject2(val) {
+    function isObject3(val) {
       return val !== null && typeof val === "object";
     }
     function isPlainObject(val) {
@@ -829,7 +829,7 @@ var require_utils = __commonJS({
       var prototype = Object.getPrototypeOf(val);
       return prototype === null || prototype === Object.prototype;
     }
-    function isDate(val) {
+    function isDate2(val) {
       return toString.call(val) === "[object Date]";
     }
     function isFile(val) {
@@ -838,11 +838,11 @@ var require_utils = __commonJS({
     function isBlob(val) {
       return toString.call(val) === "[object Blob]";
     }
-    function isFunction(val) {
+    function isFunction2(val) {
       return toString.call(val) === "[object Function]";
     }
     function isStream(val) {
-      return isObject2(val) && isFunction(val.pipe);
+      return isObject3(val) && isFunction2(val.pipe);
     }
     function isURLSearchParams(val) {
       return typeof URLSearchParams !== "undefined" && val instanceof URLSearchParams;
@@ -863,7 +863,7 @@ var require_utils = __commonJS({
       if (typeof obj !== "object") {
         obj = [obj];
       }
-      if (isArray2(obj)) {
+      if (isArray3(obj)) {
         for (var i = 0, l = obj.length; i < l; i++) {
           fn.call(null, obj[i], i, obj);
         }
@@ -882,7 +882,7 @@ var require_utils = __commonJS({
           result[key] = merge(result[key], val);
         } else if (isPlainObject(val)) {
           result[key] = merge({}, val);
-        } else if (isArray2(val)) {
+        } else if (isArray3(val)) {
           result[key] = val.slice();
         } else {
           result[key] = val;
@@ -910,20 +910,20 @@ var require_utils = __commonJS({
       return content;
     }
     module2.exports = {
-      isArray: isArray2,
+      isArray: isArray3,
       isArrayBuffer,
       isBuffer,
       isFormData,
       isArrayBufferView,
-      isString: isString2,
-      isNumber,
-      isObject: isObject2,
+      isString: isString3,
+      isNumber: isNumber2,
+      isObject: isObject3,
       isPlainObject,
-      isUndefined,
-      isDate,
+      isUndefined: isUndefined2,
+      isDate: isDate2,
       isFile,
       isBlob,
-      isFunction,
+      isFunction: isFunction2,
       isStream,
       isURLSearchParams,
       isStandardBrowserEnv,
@@ -1484,9 +1484,9 @@ var require_follow_redirects = __commonJS({
       if (responseCallback) {
         this.on("response", responseCallback);
       }
-      var self2 = this;
+      var self = this;
       this._onNativeResponse = function(response) {
-        self2._processResponse(response);
+        self._processResponse(response);
       };
       this._performRequest();
     }
@@ -1533,10 +1533,10 @@ var require_follow_redirects = __commonJS({
         this._ended = this._ending = true;
         this._currentRequest.end(null, null, callback);
       } else {
-        var self2 = this;
+        var self = this;
         var currentRequest = this._currentRequest;
         this.write(data, encoding, function() {
-          self2._ended = true;
+          self._ended = true;
           currentRequest.end(null, null, callback);
         });
         this._ending = true;
@@ -1551,35 +1551,35 @@ var require_follow_redirects = __commonJS({
       this._currentRequest.removeHeader(name2);
     };
     RedirectableRequest.prototype.setTimeout = function(msecs, callback) {
-      var self2 = this;
+      var self = this;
       function destroyOnTimeout(socket) {
         socket.setTimeout(msecs);
         socket.removeListener("timeout", socket.destroy);
         socket.addListener("timeout", socket.destroy);
       }
       function startTimer(socket) {
-        if (self2._timeout) {
-          clearTimeout(self2._timeout);
+        if (self._timeout) {
+          clearTimeout(self._timeout);
         }
-        self2._timeout = setTimeout(function() {
-          self2.emit("timeout");
+        self._timeout = setTimeout(function() {
+          self.emit("timeout");
           clearTimer();
         }, msecs);
         destroyOnTimeout(socket);
       }
       function clearTimer() {
-        if (self2._timeout) {
-          clearTimeout(self2._timeout);
-          self2._timeout = null;
+        if (self._timeout) {
+          clearTimeout(self._timeout);
+          self._timeout = null;
         }
-        self2.removeListener("abort", clearTimer);
-        self2.removeListener("error", clearTimer);
-        self2.removeListener("response", clearTimer);
+        self.removeListener("abort", clearTimer);
+        self.removeListener("error", clearTimer);
+        self.removeListener("response", clearTimer);
         if (callback) {
-          self2.removeListener("timeout", callback);
+          self.removeListener("timeout", callback);
         }
-        if (!self2.socket) {
-          self2._currentRequest.removeListener("socket", startTimer);
+        if (!self.socket) {
+          self._currentRequest.removeListener("socket", startTimer);
         }
       }
       if (callback) {
@@ -1652,18 +1652,18 @@ var require_follow_redirects = __commonJS({
       }
       if (this._isRedirect) {
         var i = 0;
-        var self2 = this;
+        var self = this;
         var buffers = this._requestBodyBuffers;
         (function writeNext(error2) {
-          if (request === self2._currentRequest) {
+          if (request === self._currentRequest) {
             if (error2) {
-              self2.emit("error", error2);
+              self.emit("error", error2);
             } else if (i < buffers.length) {
               var buffer = buffers[i++];
               if (!request.finished) {
                 request.write(buffer.data, buffer.encoding, writeNext);
               }
-            } else if (self2._ended) {
+            } else if (self._ended) {
               request.end();
             }
           }
@@ -2692,698 +2692,230 @@ var require_axios2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/bellajs@10.0.2/node_modules/bellajs/dist/bella.js
+// node_modules/.pnpm/bellajs@11.0.0-rc3/node_modules/bellajs/dist/cjs/bella.js
 var require_bella = __commonJS({
-  "node_modules/.pnpm/bellajs@10.0.2/node_modules/bellajs/dist/bella.js"(exports, module2) {
-    (function(global, factory) {
-      typeof exports === "object" && typeof module2 !== "undefined" ? factory(exports) : typeof define === "function" && define.amd ? define(["exports"], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, factory(global.bella = {}));
-    })(exports, function(exports2) {
-      const ob2Str = (val) => {
-        return {}.toString.call(val);
-      };
-      const isInteger = (val) => {
-        return Number.isInteger(val);
-      };
-      const isArray2 = (val) => {
-        return Array.isArray(val);
-      };
-      const isString2 = (val) => {
-        return String(val) === val;
-      };
-      const isNumber = (val) => {
-        return Number(val) === val;
-      };
-      const isBoolean = (val) => {
-        return Boolean(val) === val;
-      };
-      const isNull = (val) => {
-        return ob2Str(val) === "[object Null]";
-      };
-      const isUndefined = (val) => {
-        return ob2Str(val) === "[object Undefined]";
-      };
-      const isNil = (val) => {
-        return isUndefined(val) || isNull(val);
-      };
-      const isFunction = (val) => {
-        return ob2Str(val) === "[object Function]";
-      };
-      const isObject2 = (val) => {
-        return ob2Str(val) === "[object Object]" && !isArray2(val);
-      };
-      const isDate = (val) => {
-        return val instanceof Date && !isNaN(val.valueOf());
-      };
-      const isElement = (v) => {
-        return ob2Str(v).match(/^\[object HTML\w*Element]$/) !== null;
-      };
-      const isLetter = (val) => {
-        const re = /^[a-z]+$/i;
-        return isString2(val) && re.test(val);
-      };
-      const isEmail = (val) => {
-        const re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-        return isString2(val) && re.test(val);
-      };
-      const isEmpty = (val) => {
-        return !val || isNil(val) || isString2(val) && val === "" || isArray2(val) && val.length === 0 || isObject2(val) && Object.keys(val).length === 0;
-      };
-      const hasProperty3 = (ob, k) => {
-        if (!ob || !k) {
+  "node_modules/.pnpm/bellajs@11.0.0-rc3/node_modules/bellajs/dist/cjs/bella.js"(exports, module2) {
+    var S = Object.defineProperty;
+    var U = Object.getOwnPropertyDescriptor;
+    var q = Object.getOwnPropertyNames;
+    var F = Object.prototype.hasOwnProperty;
+    var R = (t) => S(t, "__esModule", { value: true });
+    var z = (t, e) => {
+      for (var r in e)
+        S(t, r, { get: e[r], enumerable: true });
+    };
+    var B = (t, e, r, n) => {
+      if (e && typeof e == "object" || typeof e == "function")
+        for (let o of q(e))
+          !F.call(t, o) && (r || o !== "default") && S(t, o, { get: () => e[o], enumerable: !(n = U(e, o)) || n.enumerable });
+      return t;
+    };
+    var H = ((t) => (e, r) => t && t.get(e) || (r = B(R({}), e, 1), t && t.set(e, r), r))(typeof WeakMap != "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
+    var gt = {};
+    z(gt, { clone: () => M, compose: () => it, copies: () => I, curry: () => ct, equals: () => A, escapeHTML: () => Z, formatDateString: () => ot, formatTimeAgo: () => st, genid: () => et, hasProperty: () => a, isArray: () => u, isBoolean: () => V, isDate: () => h, isElement: () => G, isEmail: () => Y, isEmpty: () => d, isFunction: () => X, isInteger: () => $, isLetter: () => W, isNil: () => _, isNull: () => E, isNumber: () => y, isObject: () => l, isString: () => p, isUndefined: () => N, maybe: () => b, pick: () => at, pipe: () => ut, randint: () => O, replaceAll: () => w, shuffle: () => P, slugify: () => rt, sort: () => L, sortBy: () => ft, stripAccent: () => D, stripTags: () => Q, truncate: () => K, ucfirst: () => T, ucwords: () => tt, unescapeHTML: () => v, unique: () => lt });
+    var m = (t) => ({}).toString.call(t);
+    var $ = (t) => Number.isInteger(t);
+    var u = (t) => Array.isArray(t);
+    var p = (t) => String(t) === t;
+    var y = (t) => Number(t) === t;
+    var V = (t) => Boolean(t) === t;
+    var E = (t) => m(t) === "[object Null]";
+    var N = (t) => m(t) === "[object Undefined]";
+    var _ = (t) => N(t) || E(t);
+    var X = (t) => m(t) === "[object Function]";
+    var l = (t) => m(t) === "[object Object]" && !u(t);
+    var h = (t) => t instanceof Date && !isNaN(t.valueOf());
+    var G = (t) => m(t).match(/^\[object HTML\w*Element]$/) !== null;
+    var W = (t) => {
+      let e = /^[a-z]+$/i;
+      return p(t) && e.test(t);
+    };
+    var Y = (t) => {
+      let e = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+      return p(t) && e.test(t);
+    };
+    var d = (t) => !t || _(t) || p(t) && t === "" || u(t) && t.length === 0 || l(t) && Object.keys(t).length === 0;
+    var a = (t, e) => !t || !e ? false : Object.prototype.hasOwnProperty.call(t, e);
+    var A = (t, e) => {
+      if (d(t) && d(e))
+        return true;
+      if (h(t) && h(e))
+        return t.getTime() === e.getTime();
+      if (u(t) && u(e)) {
+        if (t.length !== e.length)
           return false;
-        }
-        return Object.prototype.hasOwnProperty.call(ob, k);
-      };
-      const equals = (a, b) => {
-        if (isEmpty(a) && isEmpty(b)) {
-          return true;
-        }
-        if (isDate(a) && isDate(b)) {
-          return a.getTime() === b.getTime();
-        }
-        if (isArray2(a) && isArray2(b)) {
-          if (a.length !== b.length) {
-            return false;
-          }
-          let re = true;
-          for (let i = 0; i < a.length; i++) {
-            if (!equals(a[i], b[i])) {
-              re = false;
-              break;
-            }
-          }
-          return re;
-        }
-        if (isObject2(a) && isObject2(b)) {
-          if (Object.keys(a).length !== Object.keys(b).length) {
-            return false;
-          }
-          let re = true;
-          for (const k in a) {
-            if (!hasProperty3(b, k) || !equals(a[k], b[k])) {
-              re = false;
-              break;
-            }
-          }
-          return re;
-        }
-        return a === b;
-      };
-      const MAX_NUMBER = Number.MAX_SAFE_INTEGER;
-      const randint = (min, max) => {
-        if (!min || min < 0) {
-          min = 0;
-        }
-        if (!max) {
-          max = MAX_NUMBER;
-        }
-        if (min === max) {
-          return max;
-        }
-        if (min > max) {
-          min = Math.min(min, max);
-          max = Math.max(min, max);
-        }
-        const offset = min;
-        const range = max - min + 1;
-        return Math.floor(Math.random() * range) + offset;
-      };
-      const toString = (input) => {
-        const s = isNumber(input) ? String(input) : input;
-        if (!isString2(s)) {
-          throw new Error("InvalidInput: String required.");
-        }
-        return s;
-      };
-      const truncate2 = (s, l) => {
-        const o = toString(s);
-        const t = l || 140;
-        if (o.length <= t) {
-          return o;
-        }
-        let x = o.substring(0, t);
-        const a = x.split(" ");
-        const b = a.length;
-        let r = "";
-        if (b > 1) {
-          a.pop();
-          r += a.join(" ");
-          if (r.length < o.length) {
-            r += "...";
-          }
-        } else {
-          x = x.substring(0, t - 3);
-          r = x + "...";
-        }
-        return r;
-      };
-      const stripTags2 = (s) => {
-        return toString(s).replace(/<.*?>/gi, " ").replace(/\s\s+/g, " ").trim();
-      };
-      const escapeHTML = (s) => {
-        const x = toString(s);
-        return x.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-      };
-      const unescapeHTML = (s) => {
-        const x = toString(s);
-        return x.replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
-      };
-      const ucfirst = (s) => {
-        const x = toString(s).toLowerCase();
-        return x.length > 1 ? x.charAt(0).toUpperCase() + x.slice(1) : x.toUpperCase();
-      };
-      const ucwords = (s) => {
-        return toString(s).split(" ").map((w) => {
-          return ucfirst(w);
-        }).join(" ");
-      };
-      const replaceAll = (s, a, b) => {
-        let x = toString(s);
-        if (isNumber(a)) {
-          a = String(a);
-        }
-        if (isNumber(b)) {
-          b = String(b);
-        }
-        if (isString2(a) && isString2(b)) {
-          const aa = x.split(a);
-          x = aa.join(b);
-        } else if (isArray2(a) && isString2(b)) {
-          a.forEach((v) => {
-            x = replaceAll(x, v, b);
-          });
-        } else if (isArray2(a) && isArray2(b) && a.length === b.length) {
-          const k = a.length;
-          if (k > 0) {
-            for (let i = 0; i < k; i++) {
-              const aaa = a[i];
-              const bb = b[i];
-              x = replaceAll(x, aaa, bb);
-            }
-          }
-        }
-        return x;
-      };
-      const stripAccent = (s) => {
-        let x = toString(s);
-        const map = {
-          a: "á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ|ä",
-          A: "Á|À|Ả|Ã|Ạ|Ă|Ắ|Ặ|Ằ|Ẳ|Ẵ|Â|Ấ|Ầ|Ẩ|Ẫ|Ậ|Ä",
-          c: "ç",
-          C: "Ç",
-          d: "đ",
-          D: "Đ",
-          e: "é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ|ë",
-          E: "É|È|Ẻ|Ẽ|Ẹ|Ê|Ế|Ề|Ể|Ễ|Ệ|Ë",
-          i: "í|ì|ỉ|ĩ|ị|ï|î",
-          I: "Í|Ì|Ỉ|Ĩ|Ị|Ï|Î",
-          o: "ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ|ö",
-          O: "Ó|Ò|Ỏ|Õ|Ọ|Ô|Ố|Ồ|Ổ|Ô|Ộ|Ơ|Ớ|Ờ|Ở|Ỡ|Ợ|Ö",
-          u: "ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự|û",
-          U: "Ú|Ù|Ủ|Ũ|Ụ|Ư|Ứ|Ừ|Ử|Ữ|Ự|Û",
-          y: "ý|ỳ|ỷ|ỹ|ỵ",
-          Y: "Ý|Ỳ|Ỷ|Ỹ|Ỵ"
-        };
-        const updateS = (ai, key) => {
-          x = replaceAll(x, ai, key);
-        };
-        for (const key in map) {
-          if (hasProperty3(map, key)) {
-            const a = map[key].split("|");
-            a.forEach((item) => {
-              return updateS(item, key);
-            });
-          }
-        }
-        return x;
-      };
-      const genid = (leng, prefix = "") => {
-        const lc = "abcdefghijklmnopqrstuvwxyz";
-        const uc = lc.toUpperCase();
-        const nb = "0123456789";
-        const cand = [
-          lc,
-          uc,
-          nb
-        ].join("").split("").sort(() => {
-          return Math.random() > 0.5;
-        }).join("");
-        const t = cand.length;
-        const ln = Math.max(leng || 32, prefix.length);
-        let s = prefix;
-        while (s.length < ln) {
-          const k = randint(0, t);
-          s += cand.charAt(k) || "";
-        }
-        return s;
-      };
-      const slugify = (s, delimiter = "-") => {
-        return stripAccent(s).trim().toLowerCase().replace(/\W+/g, " ").replace(/\s+/g, " ").replace(/\s/g, delimiter);
-      };
-      const PATTERN = "D, M d, Y  h:i:s A";
-      const WEEKDAYS = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-      ];
-      const MONTHS = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ];
-      const now = () => {
-        return new Date();
-      };
-      const time = () => {
-        return Date.now();
-      };
-      const tzone = now().getTimezoneOffset();
-      const tz = (() => {
-        const z = Math.abs(tzone / 60);
-        const sign = tzone < 0 ? "+" : "-";
-        return ["GMT", sign, String(z).padStart(4, "0")].join("");
-      })();
-      const _num = (n) => {
-        return String(n < 10 ? "0" + n : n);
-      };
-      const _ord = (day) => {
-        let s = day + " ";
-        const x = s.charAt(s.length - 2);
-        if (x === "1") {
-          s = "st";
-        } else if (x === "2") {
-          s = "nd";
-        } else if (x === "3") {
-          s = "rd";
-        } else {
-          s = "th";
-        }
-        return s;
-      };
-      const toDateString = (input, output = PATTERN) => {
-        const d = isDate(input) ? input : new Date(input);
-        if (!isDate(d)) {
-          throw new Error("InvalidInput: Number or Date required.");
-        }
-        const vchar = /\.*\\?([a-z])/gi;
-        const meridiem = output.includes("a") || output.includes("A");
-        const wn = WEEKDAYS;
-        const mn = MONTHS;
-        const f = {
-          Y() {
-            return d.getFullYear();
-          },
-          y() {
-            return (f.Y() + "").slice(-2);
-          },
-          F() {
-            return mn[f.n() - 1];
-          },
-          M() {
-            return (f.F() + "").slice(0, 3);
-          },
-          m() {
-            return _num(f.n());
-          },
-          n() {
-            return d.getMonth() + 1;
-          },
-          S() {
-            return _ord(f.j());
-          },
-          j() {
-            return d.getDate();
-          },
-          d() {
-            return _num(f.j());
-          },
-          t() {
-            return new Date(f.Y(), f.n(), 0).getDate();
-          },
-          w() {
-            return d.getDay();
-          },
-          l() {
-            return wn[f.w()];
-          },
-          D() {
-            return (f.l() + "").slice(0, 3);
-          },
-          G() {
-            return d.getHours();
-          },
-          g() {
-            return f.G() % 12 || 12;
-          },
-          h() {
-            return _num(meridiem ? f.g() : f.G());
-          },
-          i() {
-            return _num(d.getMinutes());
-          },
-          s() {
-            return _num(d.getSeconds());
-          },
-          a() {
-            return f.G() > 11 ? "pm" : "am";
-          },
-          A() {
-            return f.a().toUpperCase();
-          },
-          O() {
-            return tz;
-          }
-        };
-        const _term = (t, s) => {
-          return f[t] ? f[t]() : s;
-        };
-        return output.replace(vchar, _term);
-      };
-      const toRelativeTime = (input = time()) => {
-        const d = isDate(input) ? input : new Date(input);
-        if (!isDate(d)) {
-          throw new Error("InvalidInput: Number or Date required.");
-        }
-        let delta = now() - d;
-        let nowThreshold = parseInt(d, 10);
-        if (isNaN(nowThreshold)) {
-          nowThreshold = 0;
-        }
-        if (delta <= nowThreshold) {
-          return "Just now";
-        }
-        let units = null;
-        const conversions = {
-          millisecond: 1,
-          second: 1e3,
-          minute: 60,
-          hour: 60,
-          day: 24,
-          month: 30,
-          year: 12
-        };
-        for (const key in conversions) {
-          if (delta < conversions[key]) {
+        let r = true;
+        for (let n = 0; n < t.length; n++)
+          if (!A(t[n], e[n])) {
+            r = false;
             break;
-          } else {
-            units = key;
-            delta /= conversions[key];
           }
-        }
-        delta = Math.floor(delta);
-        if (delta !== 1) {
-          units += "s";
-        }
-        return [delta, units].join(" ") + " ago";
-      };
-      const toUTCDateString = (input = time()) => {
-        const d = isDate(input) ? input : new Date(input);
-        if (!isDate(d)) {
-          throw new Error("InvalidInput: Number or Date required.");
-        }
-        const dMinutes = d.getMinutes();
-        const dClone = new Date(d);
-        dClone.setMinutes(dMinutes + tzone);
-        return `${toDateString(dClone, "D, j M Y h:i:s")} GMT+0000`;
-      };
-      const toLocalDateString = (input = time()) => {
-        const d = isDate(input) ? input : new Date(input);
-        if (!isDate(d)) {
-          throw new Error("InvalidInput: Number or Date required.");
-        }
-        return toDateString(d, "D, j M Y h:i:s O");
-      };
-      let md5 = (str) => {
-        var k = [], y = 0;
-        for (; y < 64; ) {
-          k[y] = 0 | Math.abs(Math.sin(++y)) * 4294967296;
-        }
-        var b, c, d, j, x = [], str2 = decodeURIComponent(encodeURI(str)), a = str2.length, h = [b = 1732584193, c = -271733879, ~b, ~c], i = 0;
-        for (; i <= a; )
-          x[i >> 2] |= (str2.charCodeAt(i) || 128) << 8 * (i++ % 4);
-        x[str = (a + 8 >> 6) * 16 + 14] = a * 8;
-        i = 0;
-        for (; i < str; i += 16) {
-          a = h;
-          j = 0;
-          for (; j < 64; ) {
-            a = [
-              d = a[3],
-              (b = a[1] | 0) + ((d = a[0] + [
-                b & (c = a[2]) | ~b & d,
-                d & b | ~d & c,
-                b ^ c ^ d,
-                c ^ (b | ~d)
-              ][a = j >> 4] + (k[j] + (x[[
-                j,
-                5 * j + 1,
-                3 * j + 5,
-                7 * j
-              ][a] % 16 + i] | 0))) << (a = [
-                7,
-                12,
-                17,
-                22,
-                5,
-                9,
-                14,
-                20,
-                4,
-                11,
-                16,
-                23,
-                6,
-                10,
-                15,
-                21
-              ][4 * a + j++ % 4]) | d >>> 32 - a),
-              b,
-              c
-            ];
+        return r;
+      }
+      if (l(t) && l(e)) {
+        if (Object.keys(t).length !== Object.keys(e).length)
+          return false;
+        let r = true;
+        for (let n in t)
+          if (!a(e, n) || !A(t[n], e[n])) {
+            r = false;
+            break;
           }
-          for (j = 4; j; )
-            h[--j] = h[j] + a[j];
-        }
-        str = "";
-        for (; j < 32; )
-          str += (h[j >> 3] >> (1 ^ j++ & 7) * 4 & 15).toString(16);
-        return str;
-      };
-      const curry = (fn) => {
-        const totalArguments = fn.length;
-        const next = (argumentLength, rest) => {
-          if (argumentLength > 0) {
-            return (...args) => {
-              return next(argumentLength - args.length, [...rest, ...args]);
-            };
-          }
-          return fn(...rest);
-        };
-        return next(totalArguments, []);
-      };
-      const compose = (...fns) => {
-        return fns.reduce((f, g) => (x) => f(g(x)));
-      };
-      const pipe = (...fns) => {
-        return fns.reduce((f, g) => (x) => g(f(x)));
-      };
-      const defineProp = (ob, key, val, config = {}) => {
-        const {
-          writable = false,
-          configurable = false,
-          enumerable = false
-        } = config;
-        Object.defineProperty(ob, key, {
-          value: val,
-          writable,
-          configurable,
-          enumerable
+        return r;
+      }
+      return t === e;
+    };
+    var J = Number.MAX_SAFE_INTEGER;
+    var O = (t, e) => {
+      if ((!t || t < 0) && (t = 0), e || (e = J), t === e)
+        return e;
+      t > e && (t = Math.min(t, e), e = Math.max(t, e));
+      let r = t, n = e - t + 1;
+      return Math.floor(Math.random() * n) + r;
+    };
+    var g = (t) => {
+      let e = y(t) ? String(t) : t;
+      if (!p(e))
+        throw new Error("InvalidInput: String required.");
+      return e;
+    };
+    var K = (t, e) => {
+      let r = g(t), n = e || 140;
+      if (r.length <= n)
+        return r;
+      let o = r.substring(0, n), s = o.split(" "), i = s.length, c = "";
+      return i > 1 ? (s.pop(), c += s.join(" "), c.length < r.length && (c += "...")) : (o = o.substring(0, n - 3), c = o + "..."), c;
+    };
+    var Q = (t) => g(t).replace(/<.*?>/gi, " ").replace(/\s\s+/g, " ").trim();
+    var Z = (t) => g(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    var v = (t) => g(t).replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+    var T = (t) => {
+      let e = g(t).toLowerCase();
+      return e.length > 1 ? e.charAt(0).toUpperCase() + e.slice(1) : e.toUpperCase();
+    };
+    var tt = (t) => g(t).split(" ").map((e) => T(e)).join(" ");
+    var w = (t, e, r) => {
+      let n = g(t);
+      if (y(e) && (e = String(e)), y(r) && (r = String(r)), p(e) && p(r))
+        n = n.split(e).join(r);
+      else if (u(e) && p(r))
+        e.forEach((o) => {
+          n = w(n, o, r);
         });
-      };
-      const maybe = (val) => {
-        const __val = val;
-        const isNil2 = () => {
-          return __val === null || __val === void 0;
-        };
-        const value = () => {
-          return __val;
-        };
-        const getElse = (fn) => {
-          return maybe(__val || fn());
-        };
-        const filter = (fn) => {
-          return maybe(fn(__val) === true ? __val : null);
-        };
-        const map = (fn) => {
-          return maybe(isNil2() ? null : fn(__val));
-        };
-        const output = /* @__PURE__ */ Object.create({});
-        defineProp(output, "__value__", __val, { enumerable: true });
-        defineProp(output, "__type__", "Maybe", { enumerable: true });
-        defineProp(output, "isNil", isNil2);
-        defineProp(output, "value", value);
-        defineProp(output, "map", map);
-        defineProp(output, "if", filter);
-        defineProp(output, "else", getElse);
-        return output;
-      };
-      const clone2 = (val, history = null) => {
-        const stack = history || /* @__PURE__ */ new Set();
-        if (stack.has(val)) {
-          return val;
-        }
-        stack.add(val);
-        if (isDate(val)) {
-          return new Date(val.valueOf());
-        }
-        const copyObject = (o) => {
-          const oo = /* @__PURE__ */ Object.create({});
-          for (const k in o) {
-            if (hasProperty3(o, k)) {
-              oo[k] = clone2(o[k], stack);
-            }
+      else if (u(e) && u(r) && e.length === r.length) {
+        let o = e.length;
+        if (o > 0)
+          for (let s = 0; s < o; s++) {
+            let i = e[s], c = r[s];
+            n = w(n, i, c);
           }
-          return oo;
-        };
-        const copyArray = (a) => {
-          return [...a].map((e) => {
-            if (isArray2(e)) {
-              return copyArray(e);
-            } else if (isObject2(e)) {
-              return copyObject(e);
-            }
-            return clone2(e, stack);
-          });
-        };
-        if (isArray2(val)) {
-          return copyArray(val);
+      }
+      return n;
+    };
+    var D = (t) => {
+      let e = g(t), r = { a: "á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ|ä", A: "Á|À|Ả|Ã|Ạ|Ă|Ắ|Ặ|Ằ|Ẳ|Ẵ|Â|Ấ|Ầ|Ẩ|Ẫ|Ậ|Ä", c: "ç", C: "Ç", d: "đ", D: "Đ", e: "é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ|ë", E: "É|È|Ẻ|Ẽ|Ẹ|Ê|Ế|Ề|Ể|Ễ|Ệ|Ë", i: "í|ì|ỉ|ĩ|ị|ï|î", I: "Í|Ì|Ỉ|Ĩ|Ị|Ï|Î", o: "ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ|ö", O: "Ó|Ò|Ỏ|Õ|Ọ|Ô|Ố|Ồ|Ổ|Ô|Ộ|Ơ|Ớ|Ờ|Ở|Ỡ|Ợ|Ö", u: "ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự|û", U: "Ú|Ù|Ủ|Ũ|Ụ|Ư|Ứ|Ừ|Ử|Ữ|Ự|Û", y: "ý|ỳ|ỷ|ỹ|ỵ", Y: "Ý|Ỳ|Ỷ|Ỹ|Ỵ" }, n = (o, s) => {
+        e = w(e, o, s);
+      };
+      for (let o in r)
+        a(r, o) && r[o].split("|").forEach((i) => n(i, o));
+      return e;
+    };
+    var et = (t, e = "") => {
+      let r = "abcdefghijklmnopqrstuvwxyz", n = r.toUpperCase(), s = [r, n, "0123456789"].join("").split("").sort(() => Math.random() > 0.5).join(""), i = s.length, c = Math.max(t || 32, e.length), f = e;
+      for (; f.length < c; ) {
+        let C = O(0, i);
+        f += s.charAt(C) || "";
+      }
+      return f;
+    };
+    var rt = (t, e = "-") => D(t).trim().toLowerCase().replace(/\W+/g, " ").replace(/\s+/g, " ").replace(/\s/g, e);
+    var k = { dateStyle: "medium", timeStyle: "long" };
+    var j = { second: 1e3, minute: 60, hour: 60, day: 24, week: 7, month: 4, year: 12 };
+    var nt = (t) => {
+      try {
+        return new Intl.Locale(t).language !== "";
+      } catch {
+        return false;
+      }
+    };
+    var ot = (...t) => {
+      let e = t[0], r = nt(t[1]) ? t[1] : "en", n = t.length >= 3 ? t[2] : t.length === 1 ? k : l(t[1]) ? t[1] : k;
+      return new Intl.DateTimeFormat(r, n).format(new Date(e));
+    };
+    var st = (t, e = "en", r = "just now") => {
+      let n = new Date(t), o = Date.now() - n;
+      if (o <= j.second)
+        return r;
+      let s = "second";
+      for (let c in j) {
+        if (o < j[c])
+          break;
+        s = c, o /= j[c];
+      }
+      return o = Math.floor(o), new Intl.RelativeTimeFormat(e).format(-o, s);
+    };
+    var ct = (t) => {
+      let e = t.length, r = (n, o) => n > 0 ? (...s) => r(n - s.length, [...o, ...s]) : t(...o);
+      return r(e, []);
+    };
+    var it = (...t) => t.reduce((e, r) => (n) => e(r(n)));
+    var ut = (...t) => t.reduce((e, r) => (n) => r(e(n)));
+    var x = (t, e, r, n = {}) => {
+      let { writable: o = false, configurable: s = false, enumerable: i = false } = n;
+      Object.defineProperty(t, e, { value: r, writable: o, configurable: s, enumerable: i });
+    };
+    var b = (t) => {
+      let e = t, r = () => e == null, n = () => e, o = (f) => b(e || f()), s = (f) => b(f(e) === true ? e : null), i = (f) => b(r() ? null : f(e)), c = /* @__PURE__ */ Object.create({});
+      return x(c, "__value__", e, { enumerable: true }), x(c, "__type__", "Maybe", { enumerable: true }), x(c, "isNil", r), x(c, "value", n), x(c, "map", i), x(c, "if", s), x(c, "else", o), c;
+    };
+    var M = (t, e = null) => {
+      let r = e || /* @__PURE__ */ new Set();
+      if (r.has(t))
+        return t;
+      if (r.add(t), h(t))
+        return new Date(t.valueOf());
+      let n = (s) => {
+        let i = /* @__PURE__ */ Object.create({});
+        for (let c in s)
+          a(s, c) && (i[c] = M(s[c], r));
+        return i;
+      }, o = (s) => [...s].map((i) => u(i) ? o(i) : l(i) ? n(i) : M(i, r));
+      return u(t) ? o(t) : l(t) ? n(t) : t;
+    };
+    var I = (t, e, r = false, n = []) => {
+      for (let o in t)
+        if (!(n.length > 0 && n.includes(o)) && (!r || r && a(e, o))) {
+          let s = t[o], i = e[o];
+          l(i) && l(s) || u(i) && u(s) ? e[o] = I(s, e[o], r, n) : e[o] = M(s);
         }
-        if (isObject2(val)) {
-          return copyObject(val);
-        }
-        return val;
-      };
-      const copies2 = (source, dest, matched = false, excepts = []) => {
-        for (const k in source) {
-          if (excepts.length > 0 && excepts.includes(k)) {
-            continue;
-          }
-          if (!matched || matched && hasProperty3(dest, k)) {
-            const oa = source[k];
-            const ob = dest[k];
-            if (isObject2(ob) && isObject2(oa) || isArray2(ob) && isArray2(oa)) {
-              dest[k] = copies2(oa, dest[k], matched, excepts);
-            } else {
-              dest[k] = clone2(oa);
-            }
-          }
-        }
-        return dest;
-      };
-      const unique = (arr = []) => {
-        return [...new Set(arr)];
-      };
-      const fnSort = (a, b) => {
-        return a > b ? 1 : a < b ? -1 : 0;
-      };
-      const sort = (arr = [], sorting = null) => {
-        const tmp = [...arr];
-        const fn = sorting || fnSort;
-        tmp.sort(fn);
-        return tmp;
-      };
-      const sortBy = (arr = [], order = 1, key = "") => {
-        if (!isString2(key) || !hasProperty3(arr[0], key)) {
-          return arr;
-        }
-        return sort(arr, (m, n) => {
-          return m[key] > n[key] ? order : m[key] < n[key] ? -1 * order : 0;
-        });
-      };
-      const shuffle = (arr = []) => {
-        const input = [...arr];
-        const output = [];
-        let inputLen = input.length;
-        while (inputLen > 0) {
-          const index = Math.floor(Math.random() * inputLen);
-          output.push(input.splice(index, 1)[0]);
-          inputLen--;
-        }
-        return output;
-      };
-      const pick = (arr = [], count = 1) => {
-        const a = shuffle(arr);
-        const mc = Math.max(1, count);
-        const c = Math.min(mc, a.length - 1);
-        return a.splice(0, c);
-      };
-      exports2.clone = clone2;
-      exports2.compose = compose;
-      exports2.copies = copies2;
-      exports2.curry = curry;
-      exports2.equals = equals;
-      exports2.escapeHTML = escapeHTML;
-      exports2.genid = genid;
-      exports2.hasProperty = hasProperty3;
-      exports2.isArray = isArray2;
-      exports2.isBoolean = isBoolean;
-      exports2.isDate = isDate;
-      exports2.isElement = isElement;
-      exports2.isEmail = isEmail;
-      exports2.isEmpty = isEmpty;
-      exports2.isFunction = isFunction;
-      exports2.isInteger = isInteger;
-      exports2.isLetter = isLetter;
-      exports2.isNil = isNil;
-      exports2.isNull = isNull;
-      exports2.isNumber = isNumber;
-      exports2.isObject = isObject2;
-      exports2.isString = isString2;
-      exports2.isUndefined = isUndefined;
-      exports2.maybe = maybe;
-      exports2.md5 = md5;
-      exports2.now = now;
-      exports2.pick = pick;
-      exports2.pipe = pipe;
-      exports2.randint = randint;
-      exports2.replaceAll = replaceAll;
-      exports2.shuffle = shuffle;
-      exports2.slugify = slugify;
-      exports2.sort = sort;
-      exports2.sortBy = sortBy;
-      exports2.stripAccent = stripAccent;
-      exports2.stripTags = stripTags2;
-      exports2.time = time;
-      exports2.toDateString = toDateString;
-      exports2.toLocalDateString = toLocalDateString;
-      exports2.toRelativeTime = toRelativeTime;
-      exports2.toUTCDateString = toUTCDateString;
-      exports2.truncate = truncate2;
-      exports2.ucfirst = ucfirst;
-      exports2.ucwords = ucwords;
-      exports2.unescapeHTML = unescapeHTML;
-      exports2.unique = unique;
-      Object.defineProperty(exports2, "__esModule", { value: true });
-    });
+      return e;
+    };
+    var lt = (t = []) => [...new Set(t)];
+    var pt = (t, e) => t > e ? 1 : t < e ? -1 : 0;
+    var L = (t = [], e = null) => {
+      let r = [...t], n = e || pt;
+      return r.sort(n), r;
+    };
+    var ft = (t = [], e = 1, r = "") => !p(r) || !a(t[0], r) ? t : L(t, (n, o) => n[r] > o[r] ? e : n[r] < o[r] ? -1 * e : 0);
+    var P = (t = []) => {
+      let e = [...t], r = [], n = e.length;
+      for (; n > 0; ) {
+        let o = Math.floor(Math.random() * n);
+        r.push(e.splice(o, 1)[0]), n--;
+      }
+      return r;
+    };
+    var at = (t = [], e = 1) => {
+      let r = P(t), n = Math.max(1, e), o = Math.min(n, r.length - 1);
+      return r.splice(0, o);
+    };
+    module2.exports = H(gt);
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/util.js
+// node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/util.js
 var require_util = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/util.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/util.js"(exports) {
     "use strict";
     var nameStartChar = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
     var nameChar = nameStartChar + "\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040";
@@ -3440,9 +2972,9 @@ var require_util = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/validator.js
+// node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/validator.js
 var require_validator2 = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/validator.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/validator.js"(exports) {
     "use strict";
     var util = require_util();
     var defaultOptions = {
@@ -3746,9 +3278,9 @@ var require_validator2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
+// node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
 var require_OptionsBuilder = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js"(exports) {
     var defaultOptions = {
       preserveOrder: false,
       attributeNamePrefix: "@_",
@@ -3787,9 +3319,9 @@ var require_OptionsBuilder = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
+// node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
 var require_xmlNode = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js"(exports, module2) {
     "use strict";
     var XmlNode = class {
       constructor(tagname) {
@@ -3812,9 +3344,9 @@ var require_xmlNode = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
+// node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
 var require_DocTypeReader = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js"(exports, module2) {
     function readDocType(xmlData, i) {
       const entities = {};
       if (xmlData[i + 3] === "O" && xmlData[i + 4] === "C" && xmlData[i + 5] === "T" && xmlData[i + 6] === "Y" && xmlData[i + 7] === "P" && xmlData[i + 8] === "E") {
@@ -3975,9 +3507,9 @@ var require_strnum = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
+// node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
 var require_OrderedObjParser = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js"(exports, module2) {
     "use strict";
     var util = require_util();
     var xmlNode = require_xmlNode();
@@ -4382,9 +3914,9 @@ var require_OrderedObjParser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/node2json.js
+// node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/node2json.js
 var require_node2json = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/node2json.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/node2json.js"(exports) {
     "use strict";
     function prettify(node, options) {
       return compress(node, options);
@@ -4473,9 +4005,9 @@ var require_node2json = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
+// node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
 var require_XMLParser = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js"(exports, module2) {
     var { buildOptions } = require_OptionsBuilder();
     var OrderedObjParser = require_OrderedObjParser();
     var { prettify } = require_node2json();
@@ -4522,10 +4054,10 @@ var require_XMLParser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js
+// node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js
 var require_orderedJs2Xml = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js"(exports, module2) {
-    var { EOL } = require("os");
+  "node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js"(exports, module2) {
+    var EOL = "\n";
     function toXml(jArray, options) {
       return arrToStr(jArray, options, "", 0);
     }
@@ -4620,9 +4152,9 @@ var require_orderedJs2Xml = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
+// node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
 var require_json2xml = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js"(exports, module2) {
     "use strict";
     var buildFromOrderedJs = require_orderedJs2Xml();
     var defaultOptions = {
@@ -4809,9 +4341,9 @@ var require_json2xml = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/fxp.js
+// node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/fxp.js
 var require_fxp = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.0-beta.8/node_modules/fast-xml-parser/src/fxp.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.0/node_modules/fast-xml-parser/src/fxp.js"(exports, module2) {
     "use strict";
     var validator = require_validator2();
     var XMLParser2 = require_XMLParser();
@@ -5239,7 +4771,7 @@ var parseRSS = (xmldata) => {
     lastBuildDate = "",
     item = []
   } = channel;
-  const entries = item.map(nomalizeRssItem);
+  const entries = (0, import_bellajs2.isArray)(item) ? item.map(nomalizeRssItem) : [nomalizeRssItem(item)];
   return {
     title,
     link: purifyUrl_default(link),
