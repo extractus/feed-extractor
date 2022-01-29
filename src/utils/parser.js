@@ -32,8 +32,9 @@ const toText = (val) => {
 
 const toDesc = (val) => {
   const txt = toText(val)
-  const stripped = stripTags(txt)
-  return truncate(stripped, 240)
+  // const stripped = stripTags(txt)
+  // return truncate(stripped, 240)
+  return txt;
 }
 
 const toLink = (val) => {
@@ -67,7 +68,8 @@ const nomalizeAtomItem = (entry) => {
   return {
     title: toText(entry.title),
     link: purifyUrl(toLink(entry.link)),
-    description: toDesc(entry.summary || entry.description || entry.content),
+    description: toDesc(entry?.["media:group"]?.["media:description"] || entry.summary || entry.description || entry.content),
+    thumbnail: entry?.["media:group"]?.["media:thumbnail"]?.["@_url"],
     published: toDate(toText(entry.updated || entry.published))
   }
 }
