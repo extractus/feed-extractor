@@ -1,12 +1,10 @@
 // utils -> retrieve
 
-import axios from 'axios'
-
 import logger from './logger.js'
 
 import { getRequestOptions } from '../config.js'
 
-export default async (url, requestFn = (url, getRequestOptions) => axios.get(url, getRequestOptions())) => {
+export default async (url, requestFn) => {
   try {
     const res = await requestFn(url, getRequestOptions);
 
