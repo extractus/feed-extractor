@@ -1,4 +1,4 @@
-// feed-reader@5.0.0, by @ndaidong - built with esbuild at 2022-04-13T08:46:40.853Z - published under MIT license
+// feed-reader@5.0.0, by @ndaidong - built with esbuild at 2022-04-13T08:50:51.124Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4704,9 +4704,9 @@ var setRequestOptions = (opts) => {
 };
 
 // src/utils/retrieve.js
-var retrieve_default = async (url, requestFn = (getRequestOptions2) => import_axios.default.get(url, getRequestOptions2())) => {
+var retrieve_default = async (url, requestFn = (url2, getRequestOptions2) => import_axios.default.get(url2, getRequestOptions2())) => {
   try {
-    const res = await requestFn(getRequestOptions);
+    const res = await requestFn(url, getRequestOptions);
     const contentType = res.headers["content-type"] || "";
     if (!contentType || !contentType.includes("xml")) {
       logger_default.error(`Got invalid content-type (${contentType}) from "${url}"`);
