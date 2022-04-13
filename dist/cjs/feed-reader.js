@@ -1,4 +1,4 @@
-// feed-reader@5.0.0, by @ndaidong - built with esbuild at 2022-04-13T08:54:52.600Z - published under MIT license
+// feed-reader@5.0.0, by @ndaidong - built with esbuild at 2022-04-13T12:18:09.086Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -2716,7 +2716,8 @@ var logger_default = {
 var import_bellajs = __toESM(require_bella(), 1);
 var requestOptions = {
   headers: {
-    "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0"
+    "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0",
+    "accept": "application/rss+xml, application/atom+xml"
   },
   responseType: "text",
   responseEncoding: "utf8",
