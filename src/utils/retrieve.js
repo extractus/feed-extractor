@@ -3,16 +3,12 @@
 import logger from './logger.js'
 
 import { getRequestOptions } from '../config.js'
+import axios from 'axios';
 
-export default async (url, requestFn) => {
+export default async (url, requestFn = (url, getRequestOptions) => axios.get(url, getRequestOptions())) => {
   try {
     const res = await requestFn(url, getRequestOptions);
 
-    const contentType = res.headers['content-type'] || ''
-    if (!contentType || !contentType.includes('xml')) {
-      logger.error(`Got invalid content-type (${contentType}) from "${url}"`)
-      return null
-    }
     const result = {
       url,
       xml: res.data
