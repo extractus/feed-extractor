@@ -1,6 +1,6 @@
 // Type definitions
 
-export function read(url: string): Promise<FeedData>;
+export function read(url: string, requestFn: (getRequestOptions: () => any) => { data: any, headers: any }): Promise<FeedData>;
 
 
 export interface FeedData {
@@ -9,6 +9,6 @@ export interface FeedData {
     description?: string;
     generator?: string;
     language?: string;
-    published?: date;
-    entries?: array;
+    published?: string;
+    entries?: Array<any>;
 }

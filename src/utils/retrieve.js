@@ -6,9 +6,9 @@ import logger from './logger.js'
 
 import { getRequestOptions } from '../config.js'
 
-export default async (url) => {
+export default async (url, requestFn = (getRequestOptions) => axios.get(url, getRequestOptions())) => {
   try {
-    const res = await axios.get(url, getRequestOptions())
+    const res = await requestFn(getRequestOptions);
 
     const contentType = res.headers['content-type'] || ''
     if (!contentType || !contentType.includes('xml')) {

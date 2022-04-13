@@ -20,8 +20,8 @@ export {
   setRequestOptions
 } from './config.js'
 
-export const read = async (url) => {
-  const xmldata = await getXML(url)
+export const read = async (url, requestFn) => {
+  const xmldata = await getXML(url, requestFn)
   if (!xmldata) {
     throw new Error(`Could not fetch XML content from "${url}"`)
   }

@@ -10,8 +10,8 @@ import { buildSync } from 'esbuild'
 
 const pkg = JSON.parse(readFileSync('./package.json'))
 
-execSync('rm -rf dist')
-execSync('mkdir dist')
+// execSync('rm -rf dist')
+// execSync('mkdir dist')
 
 const buildTime = (new Date()).toISOString()
 const comment = [
