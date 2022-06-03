@@ -5,7 +5,7 @@ Load and parse RSS/ATOM data from given feed url.
 [![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
 ![CI test](https://github.com/ndaidong/feed-reader/workflows/ci-test/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/ndaidong/feed-reader/badge.svg?updated=1)](https://coveralls.io/github/ndaidong/feed-reader)
-![CodeQL](https://github.com/ndaidong/article-parser/workflows/CodeQL/badge.svg)
+![CodeQL](https://github.com/ndaidong/feed-reader/workflows/CodeQL/badge.svg)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Demo
