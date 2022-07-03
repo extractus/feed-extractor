@@ -5,7 +5,7 @@ export function read(
   requestFn: (
     url: string,
     getRequestOptions: () => any
-  ) => { data: any; headers: any }
+  ) => Promise<{ data: any; headers: any }>
 ): Promise<FeedData>;
 
 export interface FeedData {
