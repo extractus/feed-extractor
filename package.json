@@ -1,5 +1,5 @@
 {
-  "version": "5.0.1",
+  "version": "5.0.2",
   "name": "feed-reader",
   "description": "Load and parse ATOM/RSS data from given feed url",
   "homepage": "https://www.npmjs.com/package/feed-reader",
@@ -32,9 +32,9 @@
     "html-entities": "^2.3.3"
   },
   "devDependencies": {
-    "esbuild": "^0.14.42",
-    "jest": "^28.1.0",
-    "nock": "^13.2.4"
+    "esbuild": "^0.14.48",
+    "jest": "^28.1.2",
+    "nock": "^13.2.8"
   },
   "standard": {
     "ignore": [

@@ -11,7 +11,7 @@ Load and parse RSS/ATOM data from given feed url.
 ## Demo
 
 - [Give it a try!](https://demos.pwshub.com/feed-reader)
-- [Example FaaS](https://extractor.pwshub.com/feed/parse?url=https://news.google.com/rss&apikey=demo-orePhhidnWKWPvF8EYKap7z55cN)
+- [Example FaaS](https://extractor.pwshub.com/feed/parse?url=https://news.google.com/rss&apikey=demo-TEyRycuuMCiGBiBocbLGSpagfj7gOF8AMyAWfEgP)
 
 ### Usage
 
@@ -101,7 +101,7 @@ In addition, this lib provides some methods to customize default settings. Don't
 ```js
 {
   headers: {
-    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:95.0) Gecko/20100101 Firefox/95.0'
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0'
   },
   responseType: 'text',
   responseEncoding: 'utf8',
@@ -111,9 +111,7 @@ In addition, this lib provides some methods to customize default settings. Don't
 ```
 Read [axios' request config](https://axios-http.com/docs/req_config) for more info.
 
-
 ## Test
-
 
 ```bash
 git clone https://github.com/ndaidong/feed-reader.git
@@ -124,7 +122,6 @@ npm install
 npm run eval https://news.google.com/rss
 npm test
 ```
-
 
 ## License
 The MIT License (MIT)
