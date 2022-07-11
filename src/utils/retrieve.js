@@ -23,9 +23,14 @@ export default async (url) => {
       return {error}
     }
 
+    if (res.data === undefined) {
+      const error = new Error(`something wrong append with axios`)
+      return {error}
+    }
+
     const result = {
       url,
-      xml: res.data,
+      xml: res.data.trim(),
     }
     return result
   } catch (error) {
