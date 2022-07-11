@@ -32,7 +32,9 @@ test('test retrieve with invalid content type', async () => {
     'Content-Type': 'something/strange'
   })
   const result = await retrieve(url)
-  expect(result).toBe(null)
+  expect(typeof result ).toBe('object')
+  expect(typeof result.error ).toBe('object');
+  expect(typeof result.error.message).toBe('string');
 })
 
 test('test retrieve with invalid status', async () => {
@@ -43,5 +45,7 @@ test('test retrieve with invalid status', async () => {
     'Content-Type': 'application/xml'
   })
   const result = await retrieve(url)
-  expect(result).toBe(null)
+  expect(typeof result ).toBe('object')
+  expect(typeof result.error ).toBe('object', result.error);
+  expect(typeof result.error.message).toBe('string');
 })
