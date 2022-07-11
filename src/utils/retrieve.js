@@ -9,19 +9,21 @@ import { getRequestOptions } from '../config.js'
 export default async (url) => {
   try {
     const res = await axios.get(url, getRequestOptions())
-
+    
     const contentType = res.headers['content-type'] || ''
     if (!contentType || !contentType.includes('xml')) {
       logger.error(`Got invalid content-type (${contentType}) from "${url}"`)
-      return null
+      const error = new Error(`invalid content-type (${contentType}) from "${url}"`)
+      return {error}
     }
+
     const result = {
       url,
-      xml: res.data
+      xml: res.data,
     }
     return result
-  } catch (err) {
-    logger.error(err.message || err)
-    return null
+  } catch (error) {
+    logger.error(error.message || error)
+    return {error}
   }
 }
