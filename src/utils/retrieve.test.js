@@ -24,7 +24,20 @@ test('test retrieve from good source', async () => {
   expect(result.xml).toBe('<div>this is content</div>')
 })
 
-test('test retrieve with invalid content type', async () => {
+
+test('test retrieve from good source, but having \\r\\n before/after root xml', async () => {
+  const url = 'https://some.where/good/page'
+  const { baseUrl, path } = parseUrl(url)
+  nock(baseUrl).head(path).reply(200)
+  nock(baseUrl).get(path).reply(200, '\n\r\r\n\n<div>this is content</div>\n\r\r\n\n', {
+    'Content-Type': 'application/xml'
+  })
+  const result = await retrieve(url)
+  expect(result.xml).toBe('<div>this is content</div>')
+})
+
+
+test('test retrieve with invalid response content type', async () => {
   const url = 'https://some.where/bad/page'
   const { baseUrl, path } = parseUrl(url)
   nock(baseUrl).head(path).reply(200)
@@ -37,7 +50,7 @@ test('test retrieve with invalid content type', async () => {
   expect(typeof result.error.message).toBe('string');
 })
 
-test('test retrieve with invalid status', async () => {
+test('test retrieve with invalid response status code', async () => {
   const url = 'https://some.where/bad/page'
   const { baseUrl, path } = parseUrl(url)
   nock(baseUrl).head(path).reply(500)
@@ -49,3 +62,4 @@ test('test retrieve with invalid status', async () => {
   expect(typeof result.error ).toBe('object', result.error);
   expect(typeof result.error.message).toBe('string');
 })
+
