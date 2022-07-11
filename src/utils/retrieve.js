@@ -7,6 +7,12 @@ import logger from './logger.js'
 import { getRequestOptions } from '../config.js'
 
 export default async (url) => {
+
+  if (typeof url != 'string') {
+      const error = new Error(`url should be a string`)
+      return {error}
+  }
+
   try {
     const res = await axios.get(url, getRequestOptions())
     
