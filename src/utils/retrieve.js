@@ -6,6 +6,14 @@ import logger from './logger.js'
 
 import { getRequestOptions } from '../config.js'
 
+const defaultAcceptedContentTypes = [
+  'text/xml',
+  'application/xml',
+  'application/atom+xml',
+  'application/rss+xml',
+  'application/x-rss+xml'
+];
+
 export default async (url) => {
 
   if (typeof url != 'string') {
@@ -13,11 +21,16 @@ export default async (url) => {
       return {error}
   }
 
+  const acceptedContentTypes = getRequestOptions().acceptedContentTypes || defaultAcceptedContentTypes;
+
   try {
     const res = await axios.get(url, getRequestOptions())
     
-    const contentType = res.headers['content-type'] || ''
-    if (!contentType || !contentType.includes('xml')) {
+    let contentType = res.headers['content-type'] || ''
+    // text/xml;charset= ..
+    contentType = contentType.split(';')[0];
+
+    if (!contentType || acceptedContentTypes.indexOf(contentType) === -1) {
       logger.error(`Got invalid content-type (${contentType}) from "${url}"`)
       const error = new Error(`invalid content-type (${contentType}) from "${url}"`)
       return {error}

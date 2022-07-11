@@ -9,7 +9,14 @@ const requestOptions = {
   responseType: 'text',
   responseEncoding: 'utf8',
   timeout: 6e4, // 1 minute
-  maxRedirects: 3
+  maxRedirects: 3,
+  acceptedContentTypes:[
+    'text/xml',
+    'application/xml',
+    'application/atom+xml',
+    'application/rss+xml',
+    'application/x-rss+xml',
+  ]
 }
 
 export const getRequestOptions = () => {
