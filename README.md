@@ -34,7 +34,7 @@ read(url).then((feed) => {
 
 - [.read(String url)](#readstring-url)
 - [The events](#the-events)
-  - [.resetEvents()](#)
+  - [.resetEvents()](#reset-event-listeners)
 - [Configuration methods](#configuration-methods)
 
 ### read(String url)
