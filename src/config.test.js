@@ -1,6 +1,8 @@
 // config.test
 /* eslint-env jest */
 
+import { hasProperty } from 'bellajs'
+
 import {
   setRequestOptions,
   getRequestOptions
@@ -15,12 +17,11 @@ test('Testing setRequestOptions/getRequestOptions methods', () => {
     somethingElse: 1000
   })
 
-  const actual = getRequestOptions()
-  const expectedHeader = {
-    authorization: 'bearer <token>',
-    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0'
-  }
+  const { headers, timeout, somethingElse } = getRequestOptions()
 
-  expect(actual.headers).toEqual(expectedHeader)
-  expect(actual.timeout).toEqual(20)
+  expect(hasProperty(headers, 'authorization')).toBeTruthy()
+  expect(hasProperty(headers, 'user-agent')).toBeTruthy()
+  expect(hasProperty(headers, 'accept-encoding')).toBeTruthy()
+  expect(timeout).toEqual(20)
+  expect(somethingElse).toEqual(1000)
 })
