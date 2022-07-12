@@ -1,4 +1,4 @@
-// feed-reader@5.0.2, by @ndaidong - built with esbuild at 2022-07-04T04:57:26.841Z - published under MIT license
+// feed-reader@6.0.0rc1, by @ndaidong - built with esbuild at 2022-07-12T07:22:18.125Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -12351,45 +12351,45 @@ var require_axios2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/bellajs@11.0.2/node_modules/bellajs/dist/cjs/bella.js
+// node_modules/.pnpm/bellajs@11.0.3/node_modules/bellajs/dist/cjs/bella.js
 var require_bella = __commonJS({
-  "node_modules/.pnpm/bellajs@11.0.2/node_modules/bellajs/dist/cjs/bella.js"(exports, module2) {
+  "node_modules/.pnpm/bellajs@11.0.3/node_modules/bellajs/dist/cjs/bella.js"(exports, module2) {
     var S = Object.defineProperty;
     var U = Object.getOwnPropertyDescriptor;
     var q = Object.getOwnPropertyNames;
     var F = Object.prototype.hasOwnProperty;
-    var R = (t) => S(t, "__esModule", { value: true });
-    var z = (t, e) => {
+    var R = (t, e) => {
       for (var r in e)
         S(t, r, { get: e[r], enumerable: true });
     };
-    var B = (t, e, r, n) => {
+    var z = (t, e, r, n) => {
       if (e && typeof e == "object" || typeof e == "function")
         for (let o of q(e))
-          !F.call(t, o) && (r || o !== "default") && S(t, o, { get: () => e[o], enumerable: !(n = U(e, o)) || n.enumerable });
+          !F.call(t, o) && o !== r && S(t, o, { get: () => e[o], enumerable: !(n = U(e, o)) || n.enumerable });
       return t;
     };
-    var H = ((t) => (e, r) => t && t.get(e) || (r = B(R({}), e, 1), t && t.set(e, r), r))(typeof WeakMap != "undefined" ? /* @__PURE__ */ new WeakMap() : 0);
-    var gt = {};
-    z(gt, { clone: () => M, compose: () => it, copies: () => I, curry: () => ct, equals: () => A, escapeHTML: () => Z, formatDateString: () => ot, formatTimeAgo: () => st, genid: () => et, hasProperty: () => a, isArray: () => u, isBoolean: () => V, isDate: () => h, isElement: () => G, isEmail: () => Y, isEmpty: () => d, isFunction: () => X, isInteger: () => $, isLetter: () => W, isNil: () => _, isNull: () => E, isNumber: () => y, isObject: () => l, isString: () => p, isUndefined: () => N, maybe: () => b, pick: () => at, pipe: () => ut, randint: () => O, replaceAll: () => w, shuffle: () => P, slugify: () => rt, sort: () => L, sortBy: () => ft, stripAccent: () => D, stripTags: () => Q, truncate: () => K, ucfirst: () => T, ucwords: () => tt, unescapeHTML: () => v, unique: () => lt });
+    var B = (t) => z(S({}, "__esModule", { value: true }), t);
+    var at = {};
+    R(at, { clone: () => M, compose: () => ct, copies: () => I, curry: () => st, equals: () => A, escapeHTML: () => Q, formatDateString: () => nt, formatTimeAgo: () => ot, genid: () => tt, hasProperty: () => a, isArray: () => u, isBoolean: () => $, isDate: () => h, isElement: () => X, isEmail: () => W, isEmpty: () => d, isFunction: () => V, isInteger: () => H, isLetter: () => G, isNil: () => _, isNull: () => E, isNumber: () => y, isObject: () => l, isString: () => p, isUndefined: () => N, maybe: () => b, pick: () => ft, pipe: () => it, randint: () => O, replaceAll: () => w, shuffle: () => P, slugify: () => et, sort: () => L, sortBy: () => pt, stripAccent: () => D, stripTags: () => K, truncate: () => J, ucfirst: () => T, ucwords: () => v, unescapeHTML: () => Z, unique: () => ut });
+    module2.exports = B(at);
     var m = (t) => ({}).toString.call(t);
-    var $ = (t) => Number.isInteger(t);
+    var H = (t) => Number.isInteger(t);
     var u = (t) => Array.isArray(t);
     var p = (t) => String(t) === t;
     var y = (t) => Number(t) === t;
-    var V = (t) => Boolean(t) === t;
+    var $ = (t) => Boolean(t) === t;
     var E = (t) => m(t) === "[object Null]";
     var N = (t) => m(t) === "[object Undefined]";
     var _ = (t) => N(t) || E(t);
-    var X = (t) => m(t) === "[object Function]";
+    var V = (t) => m(t) === "[object Function]";
     var l = (t) => m(t) === "[object Object]" && !u(t);
     var h = (t) => t instanceof Date && !isNaN(t.valueOf());
-    var G = (t) => m(t).match(/^\[object HTML\w*Element]$/) !== null;
-    var W = (t) => {
+    var X = (t) => m(t).match(/^\[object HTML\w*Element]$/) !== null;
+    var G = (t) => {
       let e = /^[a-z]+$/i;
       return p(t) && e.test(t);
     };
-    var Y = (t) => {
+    var W = (t) => {
       let e = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
       return p(t) && e.test(t);
     };
@@ -12424,9 +12424,9 @@ var require_bella = __commonJS({
       }
       return t === e;
     };
-    var J = Number.MAX_SAFE_INTEGER;
+    var Y = Number.MAX_SAFE_INTEGER;
     var O = (t, e) => {
-      if ((!t || t < 0) && (t = 0), e || (e = J), t === e)
+      if ((!t || t < 0) && (t = 0), e || (e = Y), t === e)
         return e;
       t > e && (t = Math.min(t, e), e = Math.max(t, e));
       let r = t, n = e - t + 1;
@@ -12438,21 +12438,21 @@ var require_bella = __commonJS({
         throw new Error("InvalidInput: String required.");
       return e;
     };
-    var K = (t, e) => {
+    var J = (t, e) => {
       let r = g(t), n = e || 140;
       if (r.length <= n)
         return r;
       let o = r.substring(0, n), s = o.split(" "), i = s.length, c = "";
       return i > 1 ? (s.pop(), c += s.join(" "), c.length < r.length && (c += "...")) : (o = o.substring(0, n - 3), c = o + "..."), c;
     };
-    var Q = (t) => g(t).replace(/<.*?>/gi, " ").replace(/\s\s+/g, " ").trim();
-    var Z = (t) => g(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-    var v = (t) => g(t).replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+    var K = (t) => g(t).replace(/<.*?>/gi, " ").replace(/\s\s+/g, " ").trim();
+    var Q = (t) => g(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    var Z = (t) => g(t).replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
     var T = (t) => {
       let e = g(t).toLowerCase();
       return e.length > 1 ? e.charAt(0).toUpperCase() + e.slice(1) : e.toUpperCase();
     };
-    var tt = (t) => g(t).split(" ").map((e) => T(e)).join(" ");
+    var v = (t) => g(t).split(" ").map((e) => T(e)).join(" ");
     var w = (t, e, r) => {
       let n = g(t);
       if (y(e) && (e = String(e)), y(r) && (r = String(r)), p(e) && p(r))
@@ -12479,7 +12479,7 @@ var require_bella = __commonJS({
         a(r, o) && r[o].split("|").forEach((i) => n(i, o));
       return e;
     };
-    var et = (t, e = "") => {
+    var tt = (t, e = "") => {
       let r = "abcdefghijklmnopqrstuvwxyz", n = r.toUpperCase(), s = [r, n, "0123456789"].join("").split("").sort(() => Math.random() > 0.5).join(""), i = s.length, c = Math.max(t || 32, e.length), f = e;
       for (; f.length < c; ) {
         let C = O(0, i);
@@ -12487,21 +12487,21 @@ var require_bella = __commonJS({
       }
       return f;
     };
-    var rt = (t, e = "-") => D(t).trim().toLowerCase().replace(/\W+/g, " ").replace(/\s+/g, " ").replace(/\s/g, e);
+    var et = (t, e = "-") => D(t).trim().toLowerCase().replace(/\W+/g, " ").replace(/\s+/g, " ").replace(/\s/g, e);
     var k = { dateStyle: "medium", timeStyle: "long" };
     var j = { second: 1e3, minute: 60, hour: 60, day: 24, week: 7, month: 4, year: 12 };
-    var nt = (t) => {
+    var rt = (t) => {
       try {
         return new Intl.Locale(t).language !== "";
       } catch {
         return false;
       }
     };
-    var ot = (...t) => {
-      let e = t[0], r = nt(t[1]) ? t[1] : "en", n = t.length >= 3 ? t[2] : t.length === 1 ? k : l(t[1]) ? t[1] : k;
+    var nt = (...t) => {
+      let e = t[0], r = rt(t[1]) ? t[1] : "en", n = t.length >= 3 ? t[2] : t.length === 1 ? k : l(t[1]) ? t[1] : k;
       return new Intl.DateTimeFormat(r, n).format(new Date(e));
     };
-    var st = (t, e = "en", r = "just now") => {
+    var ot = (t, e = "en", r = "just now") => {
       let n = new Date(t), o = Date.now() - n;
       if (o <= j.second)
         return r;
@@ -12513,12 +12513,12 @@ var require_bella = __commonJS({
       }
       return o = Math.floor(o), new Intl.RelativeTimeFormat(e).format(-o, s);
     };
-    var ct = (t) => {
+    var st = (t) => {
       let e = t.length, r = (n, o) => n > 0 ? (...s) => r(n - s.length, [...o, ...s]) : t(...o);
       return r(e, []);
     };
-    var it = (...t) => t.reduce((e, r) => (n) => e(r(n)));
-    var ut = (...t) => t.reduce((e, r) => (n) => r(e(n)));
+    var ct = (...t) => t.reduce((e, r) => (n) => e(r(n)));
+    var it = (...t) => t.reduce((e, r) => (n) => r(e(n)));
     var x = (t, e, r, n = {}) => {
       let { writable: o = false, configurable: s = false, enumerable: i = false } = n;
       Object.defineProperty(t, e, { value: r, writable: o, configurable: s, enumerable: i });
@@ -12549,13 +12549,13 @@ var require_bella = __commonJS({
         }
       return e;
     };
-    var lt = (t = []) => [...new Set(t)];
-    var pt = (t, e) => t > e ? 1 : t < e ? -1 : 0;
+    var ut = (t = []) => [...new Set(t)];
+    var lt = (t, e) => t > e ? 1 : t < e ? -1 : 0;
     var L = (t = [], e = null) => {
-      let r = [...t], n = e || pt;
+      let r = [...t], n = e || lt;
       return r.sort(n), r;
     };
-    var ft = (t = [], e = 1, r = "") => !p(r) || !a(t[0], r) ? t : L(t, (n, o) => n[r] > o[r] ? e : n[r] < o[r] ? -1 * e : 0);
+    var pt = (t = [], e = 1, r = "") => !p(r) || !a(t[0], r) ? t : L(t, (n, o) => n[r] > o[r] ? e : n[r] < o[r] ? -1 * e : 0);
     var P = (t = []) => {
       let e = [...t], r = [], n = e.length;
       for (; n > 0; ) {
@@ -12564,17 +12564,16 @@ var require_bella = __commonJS({
       }
       return r;
     };
-    var at = (t = [], e = 1) => {
+    var ft = (t = [], e = 1) => {
       let r = P(t), n = Math.max(1, e), o = Math.min(n, r.length - 1);
       return r.splice(0, o);
     };
-    module2.exports = H(gt);
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/util.js
+// node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/util.js
 var require_util = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/util.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/util.js"(exports) {
     "use strict";
     var nameStartChar = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
     var nameChar = nameStartChar + "\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040";
@@ -12631,9 +12630,9 @@ var require_util = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/validator.js
+// node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/validator.js
 var require_validator2 = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/validator.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/validator.js"(exports) {
     "use strict";
     var util = require_util();
     var defaultOptions = {
@@ -12937,9 +12936,9 @@ var require_validator2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
+// node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
 var require_OptionsBuilder = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js"(exports) {
     var defaultOptions = {
       preserveOrder: false,
       attributeNamePrefix: "@_",
@@ -12970,7 +12969,8 @@ var require_OptionsBuilder = __commonJS({
       processEntities: true,
       htmlEntities: false,
       ignoreDeclaration: false,
-      ignorePiTags: false
+      ignorePiTags: false,
+      transformTagName: false
     };
     var buildOptions = function(options) {
       return Object.assign({}, defaultOptions, options);
@@ -12980,9 +12980,9 @@ var require_OptionsBuilder = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
+// node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
 var require_xmlNode = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js"(exports, module2) {
     "use strict";
     var XmlNode = class {
       constructor(tagname) {
@@ -13005,9 +13005,9 @@ var require_xmlNode = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
+// node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
 var require_DocTypeReader = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js"(exports, module2) {
     function readDocType(xmlData, i) {
       const entities = {};
       if (xmlData[i + 3] === "O" && xmlData[i + 4] === "C" && xmlData[i + 5] === "T" && xmlData[i + 6] === "Y" && xmlData[i + 7] === "P" && xmlData[i + 8] === "E") {
@@ -13022,6 +13022,10 @@ var require_DocTypeReader = __commonJS({
               entity = true;
             } else if (hasBody && xmlData[i + 1] === "!" && xmlData[i + 2] === "E" && xmlData[i + 3] === "L" && xmlData[i + 4] === "E" && xmlData[i + 5] === "M" && xmlData[i + 6] === "E" && xmlData[i + 7] === "N" && xmlData[i + 8] === "T") {
               i += 8;
+            } else if (hasBody && xmlData[i + 1] === "!" && xmlData[i + 2] === "A" && xmlData[i + 3] === "T" && xmlData[i + 4] === "T" && xmlData[i + 5] === "L" && xmlData[i + 6] === "I" && xmlData[i + 7] === "S" && xmlData[i + 8] === "T") {
+              i += 8;
+            } else if (hasBody && xmlData[i + 1] === "!" && xmlData[i + 2] === "N" && xmlData[i + 3] === "O" && xmlData[i + 4] === "T" && xmlData[i + 5] === "A" && xmlData[i + 6] === "T" && xmlData[i + 7] === "I" && xmlData[i + 8] === "O" && xmlData[i + 9] === "N") {
+              i += 9;
             } else if (xmlData[i + 1] === "!" && xmlData[i + 2] === "-" && xmlData[i + 3] === "-") {
               comment = true;
             } else {
@@ -13168,9 +13172,9 @@ var require_strnum = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
+// node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
 var require_OrderedObjParser = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js"(exports, module2) {
     "use strict";
     var util = require_util();
     var xmlNode = require_xmlNode();
@@ -13318,6 +13322,9 @@ var require_OrderedObjParser = __commonJS({
                 tagName = tagName.substr(colonIndex + 1);
               }
             }
+            if (this.options.transformTagName) {
+              tagName = this.options.transformTagName(tagName);
+            }
             if (currentNode) {
               textData = this.saveTextToParentTag(textData, currentNode, jPath);
             }
@@ -13371,6 +13378,9 @@ var require_OrderedObjParser = __commonJS({
             let tagExp = result.tagExp;
             let attrExpPresent = result.attrExpPresent;
             let closeIndex = result.closeIndex;
+            if (this.options.transformTagName) {
+              tagName = this.options.transformTagName(tagName);
+            }
             if (currentNode && textData) {
               if (currentNode.tagname !== "!xml") {
                 textData = this.saveTextToParentTag(textData, currentNode, jPath, false);
@@ -13413,6 +13423,9 @@ var require_OrderedObjParser = __commonJS({
                   tagExp = tagName;
                 } else {
                   tagExp = tagExp.substr(0, tagExp.length - 1);
+                }
+                if (this.options.transformTagName) {
+                  tagName = this.options.transformTagName(tagName);
                 }
                 const childNode = new xmlNode(tagName);
                 if (tagName !== tagExp && attrExpPresent) {
@@ -13561,11 +13574,20 @@ var require_OrderedObjParser = __commonJS({
               }
             }
             i = closeIndex;
+          } else if (xmlData[i + 1] === "?") {
+            const closeIndex = findClosingIndex(xmlData, "?>", i + 1, "StopNode is not closed.");
+            i = closeIndex;
+          } else if (xmlData.substr(i + 1, 3) === "!--") {
+            const closeIndex = findClosingIndex(xmlData, "-->", i + 3, "StopNode is not closed.");
+            i = closeIndex;
+          } else if (xmlData.substr(i + 1, 2) === "![") {
+            const closeIndex = findClosingIndex(xmlData, "]]>", i, "StopNode is not closed.") - 2;
+            i = closeIndex;
           } else {
             const tagData = readTagExp(xmlData, i, ">");
             if (tagData) {
               const openTagName = tagData && tagData.tagName;
-              if (openTagName === tagName) {
+              if (openTagName === tagName && tagData.tagExp[tagData.tagExp.length - 1] !== "/") {
                 openTagCount++;
               }
               i = tagData.closeIndex;
@@ -13595,9 +13617,9 @@ var require_OrderedObjParser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/node2json.js
+// node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/node2json.js
 var require_node2json = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/node2json.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/node2json.js"(exports) {
     "use strict";
     function prettify(node, options) {
       return compress(node, options);
@@ -13686,9 +13708,9 @@ var require_node2json = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
+// node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
 var require_XMLParser = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js"(exports, module2) {
     var { buildOptions } = require_OptionsBuilder();
     var OrderedObjParser = require_OrderedObjParser();
     var { prettify } = require_node2json();
@@ -13735,9 +13757,9 @@ var require_XMLParser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js
+// node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js
 var require_orderedJs2Xml = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js"(exports, module2) {
     var EOL = "\n";
     function toXml(jArray, options) {
       return arrToStr(jArray, options, "", 0);
@@ -13839,9 +13861,9 @@ var require_orderedJs2Xml = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
+// node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
 var require_json2xml = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js"(exports, module2) {
     "use strict";
     var buildFromOrderedJs = require_orderedJs2Xml();
     var defaultOptions = {
@@ -13872,7 +13894,8 @@ var require_json2xml = __commonJS({
         { regex: new RegExp('"', "g"), val: "&quot;" }
       ],
       processEntities: true,
-      stopNodes: []
+      stopNodes: [],
+      transformTagName: false
     };
     function Builder(options) {
       this.options = Object.assign({}, defaultOptions, options);
@@ -14073,9 +14096,9 @@ var require_json2xml = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/fxp.js
+// node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/fxp.js
 var require_fxp = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.8/node_modules/fast-xml-parser/src/fxp.js"(exports, module2) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/fxp.js"(exports, module2) {
     "use strict";
     var validator = require_validator2();
     var XMLParser2 = require_XMLParser();
@@ -14330,7 +14353,8 @@ var requestOptions = {
   responseType: "text",
   responseEncoding: "utf8",
   timeout: 6e4,
-  maxRedirects: 3
+  maxRedirects: 3,
+  skipContentTypeCheck: false
 };
 var getRequestOptions = () => {
   return (0, import_bellajs.clone)(requestOptions);
@@ -14340,22 +14364,42 @@ var setRequestOptions = (opts) => {
 };
 
 // src/utils/retrieve.js
+var acceptedContentTypes = [
+  "text/xml",
+  "application/xml",
+  "application/atom+xml",
+  "application/rss+xml",
+  "application/x-rss+xml"
+];
 var retrieve_default = async (url) => {
+  if (typeof url !== "string") {
+    const error2 = new Error("url should be a string");
+    return { error: error2 };
+  }
+  const skipContentTypeCheck = getRequestOptions().skipContentTypeCheck || false;
   try {
     const res = await import_axios.default.get(url, getRequestOptions());
-    const contentType = res.headers["content-type"] || "";
-    if (!contentType || !contentType.includes("xml")) {
-      logger_default.error(`Got invalid content-type (${contentType}) from "${url}"`);
-      return null;
+    let contentType = res.headers["content-type"] || "";
+    contentType = contentType.split(";")[0];
+    if (!skipContentTypeCheck) {
+      if (!contentType || acceptedContentTypes.indexOf(contentType) === -1) {
+        logger_default.error(`Got invalid content-type (${contentType}) from "${url}"`);
+        const error2 = new Error(`invalid content-type (${contentType}) from "${url}"`);
+        return { error: error2 };
+      }
+    }
+    if (res.data === void 0) {
+      const error2 = new Error("something wrong append with axios");
+      return { error: error2 };
     }
     const result = {
       url,
-      xml: res.data
+      xml: res.data.trim()
     };
     return result;
-  } catch (err) {
-    logger_default.error(err.message || err);
-    return null;
+  } catch (error2) {
+    logger_default.error(error2.message || error2);
+    return { error: error2 };
   }
 };
 
@@ -14555,10 +14599,10 @@ var validate = (xml = "") => {
 // src/main.js
 var read = async (url) => {
   const xmldata = await retrieve_default(url);
-  if (!xmldata) {
-    throw new Error(`Could not fetch XML content from "${url}"`);
+  const { xml, error: error2 } = xmldata;
+  if (error2) {
+    throw error2;
   }
-  const { xml } = xmldata;
   if (!validate(xml)) {
     throw new Error(`Failed while validating XML format from "${url}"`);
   }
