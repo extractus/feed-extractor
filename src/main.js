@@ -25,7 +25,7 @@ export const read = async (url) => {
 
   const { xml, error } = xmldata
   if (error) {
-    throw error;
+    throw error
   }
 
   if (!validate(xml)) {
