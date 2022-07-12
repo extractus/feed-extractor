@@ -9,7 +9,8 @@ const requestOptions = {
   responseType: 'text',
   responseEncoding: 'utf8',
   timeout: 6e4, // 1 minute
-  maxRedirects: 3
+  maxRedirects: 3,
+  skipContentTypeCheck: false
 }
 
 export const getRequestOptions = () => {

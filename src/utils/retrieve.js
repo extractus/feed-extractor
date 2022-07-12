@@ -6,22 +6,49 @@ import logger from './logger.js'
 
 import { getRequestOptions } from '../config.js'
 
+const acceptedContentTypes = [
+  'text/xml',
+  'application/xml',
+  'application/atom+xml',
+  'application/rss+xml',
+  'application/x-rss+xml'
+]
+
 export default async (url) => {
+  if (typeof url !== 'string') {
+    const error = new Error('url should be a string')
+    return { error }
+  }
+
+  const skipContentTypeCheck = getRequestOptions().skipContentTypeCheck || false
+
   try {
     const res = await axios.get(url, getRequestOptions())
 
-    const contentType = res.headers['content-type'] || ''
-    if (!contentType || !contentType.includes('xml')) {
-      logger.error(`Got invalid content-type (${contentType}) from "${url}"`)
-      return null
+    let contentType = res.headers['content-type'] || ''
+    // text/xml;charset= ..
+    contentType = contentType.split(';')[0]
+
+    if (!skipContentTypeCheck) {
+      if (!contentType || acceptedContentTypes.indexOf(contentType) === -1) {
+        logger.error(`Got invalid content-type (${contentType}) from "${url}"`)
+        const error = new Error(`invalid content-type (${contentType}) from "${url}"`)
+        return { error }
+      }
     }
+
+    if (res.data === undefined) {
+      const error = new Error('something wrong append with axios')
+      return { error }
+    }
+
     const result = {
       url,
-      xml: res.data
+      xml: res.data.trim()
     }
     return result
-  } catch (err) {
-    logger.error(err.message || err)
-    return null
+  } catch (error) {
+    logger.error(error.message || error)
+    return { error }
   }
 }
