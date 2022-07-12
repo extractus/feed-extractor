@@ -30,18 +30,14 @@ read(url).then((feed) => {
 })
 ```
 
-##### Note:
-
-> Since Node.js v14, ECMAScript modules [have became the official standard format](https://nodejs.org/docs/latest-v14.x/api/esm.html#esm_modules_ecmascript_modules).
-> Just ensure that you are [using module system](https://nodejs.org/api/packages.html#determining-module-system) and enjoy with ES6 import/export syntax.
-
-
 ## APIs
 
 - [.read(String url)](#readstring-url)
+- [The events](#the-events)
+  - [.resetEvents()](#)
 - [Configuration methods](#configuration-methods)
 
-#### read(String url)
+### read(String url)
 
 Load and extract feed data from given RSS/ATOM source. Return a Promise object.
 
@@ -55,9 +51,10 @@ import {
 const getFeedData = async (url) => {
   try {
     console.log(`Get feed data from ${url}`)
-    const data = await read(url)
-    console.log(data)
-    return data
+    const result = await read(url)
+    // result may be feed data or null
+    console.log(result)
+    return result
   } catch (err) {
     console.trace(err)
   }
@@ -89,27 +86,84 @@ Feed data object retuned by `read()` method should look like below:
 }
 ```
 
-#### Configuration methods
+### The events
 
-In addition, this lib provides some methods to customize default settings. Don't touch them unless you have reason to do that.
+Since v6.0.0, `feed-reader` supports event-driven pattern for easier writing code with more control.
 
-- getRequestOptions()
-- setRequestOptions(Object requestOptions)
+- `onSuccess(Function callback)`
+- `onError(Function callback)`
+- `onComplete(Function callback)`
 
-#### Object `requestOptions`:
+The following example will explain better than any word:
 
 ```js
-{
-  headers: {
-    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0'
-  },
-  responseType: 'text',
-  responseEncoding: 'utf8',
-  timeout: 6e4, // 1 minute
-  maxRedirects: 3
-}
+import { read, onSuccess, onError, onComplete } from 'feed-reader'
+
+onSuccess((feed, url) => {
+  console.log(`Feed data from ${url} has been parsed successfully`)
+  console.log('`feed` is always an object that contains feed data')
+  console.log(feed)
+})
+
+onError((err, url) => {
+  console.log(`Error occurred while processing ${url}`)
+  console.log('There is a message and reason:')
+  console.log(err)
+})
+
+onComplete((result, url) => {
+  console.log(`Finish processing ${url}`)
+  console.log('There may or may not be an error')
+  console.log('`result` may be feed data or null')
+  console.log(result)
+})
+
+read('https://news.google.com/rss')
+read('https://google.com')
 ```
-Read [axios' request config](https://axios-http.com/docs/req_config) for more info.
+
+We can mix both style together, for example to handle the error:
+
+```js
+import { read, onError } from 'feed-reader'
+
+onError((err, url) => {
+  console.log(`Error occurred while processing ${url}`)
+  console.log('There is a message and reason:')
+  console.log(err)
+})
+
+const getFeedData = async (url) => {
+  const result = await read(url)
+  // `result` may be feed data or null
+  return result
+}
+
+getFeedData('https://news.google.com/rss')
+````
+
+#### Reset event listeners
+
+Use method `resetEvents()` when you want to clear registered listeners from all events.
+
+```js
+import { resetEvents } from 'feed-reader'
+
+resetEvents()
+````
+
+### Configuration methods
+
+#### `setRequestOptions(Object requestOptions)`
+
+Affect to the way how `axios` works. Please refer [axios' request config](https://axios-http.com/docs/req_config) for more info.
+
+#### `getRequestOptions()`
+
+Return current request options.
+
+Default values can be found [here](https://github.com/ndaidong/feed-reader/blob/main/src/config.js#L5).
+
 
 ## Test
 

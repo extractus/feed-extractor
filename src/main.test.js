@@ -6,7 +6,7 @@ import { readFileSync } from 'fs'
 import { hasProperty } from 'bellajs'
 import nock from 'nock'
 
-import { read } from './main.js'
+import { read, onSuccess, onError, onComplete, resetEvents } from './main.js'
 
 const feedAttrs = 'title link description generator language published entries'.split(' ')
 const entryAttrs = 'title link description published'.split(' ')
@@ -21,11 +21,18 @@ const parseUrl = (url) => {
 
 test('test read a non-string link', async () => {
   const url = []
-  const fn = async () => {
-    const re = await read(url)
-    return re
-  }
-  expect(fn()).rejects.toThrow(Error)
+  onError((err, rss) => {
+    expect(rss).toEqual(url)
+    expect(err.error).toEqual('Error occurred while verifying feed URL')
+    expect(err.reason).toEqual('Invalid URL')
+  })
+  onComplete((feed, rss) => {
+    expect(rss).toEqual(url)
+    expect(feed).toEqual(null)
+  })
+  const re = await read(url)
+  expect(re).toEqual(null)
+  resetEvents()
 })
 
 test('test read a fake link', async () => {
@@ -33,11 +40,19 @@ test('test read a fake link', async () => {
   const { baseUrl, path } = parseUrl(url)
   nock(baseUrl).head(path).reply(404)
   nock(baseUrl).get(path).reply(404)
-  const fn = async () => {
-    const re = await read(url)
-    return re
-  }
-  expect(fn()).rejects.toThrow(Error)
+
+  onError((err, rss) => {
+    expect(rss).toEqual(url)
+    expect(err.error).toEqual('Error occurred while retrieving remote XML data')
+    expect(err.reason).toEqual('Request failed with status code 404')
+  })
+  onComplete((feed, rss) => {
+    expect(rss).toEqual(url)
+    expect(feed).toEqual(null)
+  })
+  const re = await read(url)
+  expect(re).toEqual(null)
+  resetEvents()
 })
 
 test('test read from invalid xml', async () => {
@@ -48,11 +63,18 @@ test('test read from invalid xml', async () => {
   nock(baseUrl).get(path).reply(200, xml, {
     'Content-Type': 'application/xml'
   })
-  const fn = async () => {
-    const re = await read(url)
-    return re
-  }
-  expect(fn()).rejects.toThrow(Error)
+  onError((err, rss) => {
+    expect(rss).toEqual(url)
+    expect(err.error).toEqual('Error occurred while validating XML format')
+    expect(err.reason).toEqual('The XML document is not well-formed')
+  })
+  onComplete((feed, rss) => {
+    expect(rss).toEqual(url)
+    expect(feed).toEqual(null)
+  })
+  const re = await read(url)
+  expect(re).toEqual(null)
+  resetEvents()
 })
 
 const runtest = ({ type, url, file, size }) => {
@@ -122,6 +144,15 @@ test('test read from a more complicate atom source', async () => {
   nock(baseUrl).get(path).reply(200, xml, {
     'Content-Type': 'application/xml'
   })
+
+  onSuccess((feed, rss) => {
+    expect(rss).toEqual(url)
+    expect(feed).toBeInstanceOf(Object)
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(feed, k)).toBe(true)
+    })
+  })
+
   const result = await read(url)
   expect(result).toBeInstanceOf(Object)
   feedAttrs.forEach((k) => {
@@ -130,4 +161,6 @@ test('test read from a more complicate atom source', async () => {
   entryAttrs.forEach((k) => {
     expect(hasProperty(result.entries[0], k)).toBe(true)
   })
+
+  resetEvents()
 })

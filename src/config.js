@@ -9,7 +9,7 @@ const requestOptions = {
   },
   responseType: 'text',
   responseEncoding: 'utf8',
-  timeout: 6e4, // 1 minute
+  timeout: 3e4, // 30 seconds
   maxRedirects: 5
 }
 
