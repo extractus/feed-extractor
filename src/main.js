@@ -3,36 +3,84 @@
  * @ndaidong
  **/
 
-import { info } from './utils/logger.js'
+import EventEmitter from 'events'
 
 import getXML from './utils/retrieve.js'
-import xml2obj from './utils/xml2obj.js'
-import { parseRSS, parseAtom } from './utils/parser.js'
+import { parse } from './utils/parser.js'
 
-import {
-  validate,
-  isRSS,
-  isAtom
-} from './utils/validator.js'
+import isValidUrl from './utils/isValidUrl.js'
+import { validate } from './utils/validator.js'
 
 export {
   getRequestOptions,
   setRequestOptions
 } from './config.js'
 
+const eventEmitter = new EventEmitter()
+
+const runWhenComplete = (result, url) => {
+  eventEmitter.emit('complete', result, url)
+  return result
+}
+
 export const read = async (url) => {
-  const xmldata = await getXML(url)
+  try {
+    if (!isValidUrl(url)) {
+      eventEmitter.emit('error', {
+        error: 'Error occurred while verifying feed URL',
+        reason: 'Invalid URL'
+      }, url)
 
-  const { xml, error } = xmldata
-  if (error) {
-    throw error
+      return runWhenComplete(null, url)
+    }
+    const xml = await getXML(url)
+
+    if (!validate(xml)) {
+      eventEmitter.emit('error', {
+        error: 'Error occurred while validating XML format',
+        reason: 'The XML document is not well-formed'
+      }, url)
+
+      return runWhenComplete(null, url)
+    }
+
+    try {
+      const feed = parse(xml)
+      if (feed) {
+        eventEmitter.emit('success', feed, url)
+      }
+
+      return runWhenComplete(feed, url)
+    } catch (er) {
+      eventEmitter.emit('error', {
+        error: 'Error occurred while parsing XML structure',
+        reason: er.message
+      }, url)
+
+      return runWhenComplete(null, url)
+    }
+  } catch (err) {
+    eventEmitter.emit('error', {
+      error: 'Error occurred while retrieving remote XML data',
+      reason: err.message
+    }, url)
+
+    return runWhenComplete(null, url)
   }
+}
 
-  if (!validate(xml)) {
-    throw new Error(`Failed while validating XML format from "${url}"`)
-  }
+export const onComplete = (fn) => {
+  eventEmitter.on('complete', fn)
+}
 
-  info('Parsing XML data...')
-  const jsonObj = xml2obj(xml)
-  return isRSS(jsonObj) ? parseRSS(jsonObj) : isAtom(jsonObj) ? parseAtom(jsonObj) : null
+export const onSuccess = (fn) => {
+  eventEmitter.on('success', fn)
+}
+
+export const onError = (fn) => {
+  eventEmitter.on('error', fn)
+}
+
+export const resetEvents = () => {
+  eventEmitter.removeAllListeners()
 }

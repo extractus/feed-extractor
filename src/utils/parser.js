@@ -11,6 +11,8 @@ import {
   truncate
 } from 'bellajs'
 
+import { isRSS, isAtom } from './validator.js'
+import xml2obj from './xml2obj.js'
 import purifyUrl from './purifyUrl.js'
 
 const toISODateString = (dstr) => {
@@ -121,4 +123,9 @@ export const parseAtom = (xmldata) => {
     published: toDate(updated),
     entries
   }
+}
+
+export const parse = (xml) => {
+  const jsonObj = xml2obj(xml)
+  return isRSS(jsonObj) ? parseRSS(jsonObj) : isAtom(jsonObj) ? parseAtom(jsonObj) : null
 }

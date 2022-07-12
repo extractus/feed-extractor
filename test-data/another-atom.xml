@@ -12,6 +12,9 @@
   <entry>
     <title>Red wool sweater</title>
     <link href="http://www.example.com/item1-info-page.html" />
+    <link rel="alternate" type="text/html" href="http://example.org/2005/04/02/atom"/>
+    <link rel="enclosure" type="audio/mpeg" length="1337"
+            href="http://example.org/audio/ph34r_my_podcast.mp3"/>
     <summary>Comfortable and soft, this sweater will keep you warm on those cold winter nights.</summary>
     <id>tag:google.com,2005-10-15:/support/products</id>
     <issued>2005-10-13T18:30:02Z</issued>

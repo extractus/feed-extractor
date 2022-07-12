@@ -1,36 +1,29 @@
 // eval.js
 
-import { readFileSync, writeFileSync, existsSync } from 'fs'
+import { writeFileSync } from 'fs'
 
-import isValidUrl from './src/utils/isValidUrl.js'
-import { read } from './src/main.js'
+import { read, onComplete, onSuccess, onError } from './src/main.js'
 
 const extractFromUrl = async (url) => {
-  try {
-    const art = await read(url)
-    console.log(art)
-    writeFileSync('./output.json', JSON.stringify(art), 'utf8')
-  } catch (err) {
-    console.trace(err)
-  }
-}
-
-const extractFromFile = async (fpath) => {
-  try {
-    const xml = readFileSync(fpath, 'utf8')
-    const art = await read(xml)
-    console.log(art)
-    writeFileSync('./output.json', JSON.stringify(art), 'utf8')
-  } catch (err) {
-    console.trace(err)
-  }
+  onComplete((result, url) => {
+    console.log('onComplete', url)
+  })
+  onSuccess((feed, url) => {
+    console.log('onSuccess', url)
+    writeFileSync('./output.json', JSON.stringify(feed, undefined, 2), 'utf8')
+  })
+  onError((e, url) => {
+    console.log('onError', url)
+    console.log(e)
+  })
+  const feed = await read(url)
+  console.log(feed)
 }
 
 const init = (argv) => {
   if (argv.length === 3) {
-    const input = argv[2]
-    const isUrl = isValidUrl(input)
-    return isUrl ? extractFromUrl(input) : existsSync(input) ? extractFromFile(input) : false
+    const isUrl = argv[2]
+    return isUrl ? extractFromUrl(isUrl) : false
   }
   return 'Nothing to do!'
 }

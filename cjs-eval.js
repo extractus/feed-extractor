@@ -2,21 +2,28 @@
 
 const { writeFileSync } = require('fs')
 
-const { read } = require('./dist/cjs/feed-reader.js')
+const { read, onSuccess, onError, onComplete } = require('./dist/cjs/feed-reader.js')
 
 const extractFromUrl = async (url) => {
-  try {
-    const art = await read(url)
-    console.log(art)
-    writeFileSync('./output.json', JSON.stringify(art), 'utf8')
-  } catch (err) {
-    console.trace(err)
-  }
+  onComplete((result, url) => {
+    console.log('onComplete', url)
+  })
+  onSuccess((feed, url) => {
+    console.log('onSuccess', url)
+    writeFileSync('./output.json', JSON.stringify(feed, undefined, 2), 'utf8')
+  })
+  onError((e, url) => {
+    console.log('onError', url)
+    console.log(e)
+  })
+  const feed = await read(url)
+  console.log(feed)
 }
 
 const init = (argv) => {
   if (argv.length === 3) {
-    return extractFromUrl(argv[2])
+    const isUrl = argv[2]
+    return isUrl ? extractFromUrl(isUrl) : false
   }
   return 'Nothing to do!'
 }
