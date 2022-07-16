@@ -1,5 +1,5 @@
 {
-  "version": "6.0.0rc1",
+  "version": "6.0.0rc2",
   "name": "feed-reader",
   "description": "Load and parse ATOM/RSS data from given feed url",
   "homepage": "https://www.npmjs.com/package/feed-reader",

@@ -1,4 +1,4 @@
-// feed-reader@6.0.0rc1, by @ndaidong - built with esbuild at 2022-07-12T14:34:09.025Z - published under MIT license
+// feed-reader@6.0.0rc2, by @ndaidong - built with esbuild at 2022-07-16T03:09:04.163Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -14585,46 +14585,50 @@ var isValidUrl_default = (url = "") => {
 
 // src/main.js
 var eventEmitter = new import_events.default();
-var runWhenComplete = (result, url) => {
-  eventEmitter.emit("complete", result, url);
+var runWhenComplete = (url, result = null, error2 = null) => {
+  eventEmitter.emit("complete", url, result, error2);
   return result;
 };
 var read = async (url) => {
   try {
     if (!isValidUrl_default(url)) {
-      eventEmitter.emit("error", {
+      const erdata = {
         error: "Error occurred while verifying feed URL",
         reason: "Invalid URL"
-      }, url);
-      return runWhenComplete(null, url);
+      };
+      eventEmitter.emit("error", url, erdata);
+      return runWhenComplete(url, null, erdata);
     }
     const xml = await retrieve_default(url);
     if (!validate(xml)) {
-      eventEmitter.emit("error", {
+      const erdata = {
         error: "Error occurred while validating XML format",
         reason: "The XML document is not well-formed"
-      }, url);
-      return runWhenComplete(null, url);
+      };
+      eventEmitter.emit("error", url, erdata);
+      return runWhenComplete(url, null, erdata);
     }
     try {
       const feed = parse(xml);
       if (feed) {
-        eventEmitter.emit("success", feed, url);
+        eventEmitter.emit("success", url, feed);
       }
-      return runWhenComplete(feed, url);
+      return runWhenComplete(url, feed);
     } catch (er) {
-      eventEmitter.emit("error", {
+      const erdata = {
         error: "Error occurred while parsing XML structure",
         reason: er.message
-      }, url);
-      return runWhenComplete(null, url);
+      };
+      eventEmitter.emit("error", url, erdata);
+      return runWhenComplete(url, null, erdata);
     }
   } catch (err) {
-    eventEmitter.emit("error", {
+    const erdata = {
       error: "Error occurred while retrieving remote XML data",
       reason: err.message
-    }, url);
-    return runWhenComplete(null, url);
+    };
+    eventEmitter.emit("error", url, erdata);
+    return runWhenComplete(url, null, erdata);
   }
 };
 var onComplete = (fn) => {
