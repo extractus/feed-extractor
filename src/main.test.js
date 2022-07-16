@@ -21,14 +21,16 @@ const parseUrl = (url) => {
 
 test('test read a non-string link', async () => {
   const url = []
-  onError((err, rss) => {
+  onError((rss, err) => {
     expect(rss).toEqual(url)
     expect(err.error).toEqual('Error occurred while verifying feed URL')
     expect(err.reason).toEqual('Invalid URL')
   })
-  onComplete((feed, rss) => {
+  onComplete((rss, feed, err) => {
     expect(rss).toEqual(url)
     expect(feed).toEqual(null)
+    expect(err.error).toEqual('Error occurred while verifying feed URL')
+    expect(err.reason).toEqual('Invalid URL')
   })
   const re = await read(url)
   expect(re).toEqual(null)
@@ -41,14 +43,16 @@ test('test read a fake link', async () => {
   nock(baseUrl).head(path).reply(404)
   nock(baseUrl).get(path).reply(404)
 
-  onError((err, rss) => {
+  onError((rss, err) => {
     expect(rss).toEqual(url)
     expect(err.error).toEqual('Error occurred while retrieving remote XML data')
     expect(err.reason).toEqual('Request failed with status code 404')
   })
-  onComplete((feed, rss) => {
+  onComplete((rss, feed, err) => {
     expect(rss).toEqual(url)
     expect(feed).toEqual(null)
+    expect(err.error).toEqual('Error occurred while retrieving remote XML data')
+    expect(err.reason).toEqual('Request failed with status code 404')
   })
   const re = await read(url)
   expect(re).toEqual(null)
@@ -63,14 +67,16 @@ test('test read from invalid xml', async () => {
   nock(baseUrl).get(path).reply(200, xml, {
     'Content-Type': 'application/xml'
   })
-  onError((err, rss) => {
+  onError((rss, err) => {
     expect(rss).toEqual(url)
     expect(err.error).toEqual('Error occurred while validating XML format')
     expect(err.reason).toEqual('The XML document is not well-formed')
   })
-  onComplete((feed, rss) => {
+  onComplete((rss, feed, err) => {
     expect(rss).toEqual(url)
     expect(feed).toEqual(null)
+    expect(err.error).toEqual('Error occurred while validating XML format')
+    expect(err.reason).toEqual('The XML document is not well-formed')
   })
   const re = await read(url)
   expect(re).toEqual(null)
@@ -145,7 +151,7 @@ test('test read from a more complicate atom source', async () => {
     'Content-Type': 'application/xml'
   })
 
-  onSuccess((feed, rss) => {
+  onSuccess((rss, feed) => {
     expect(rss).toEqual(url)
     expect(feed).toBeInstanceOf(Object)
     feedAttrs.forEach((k) => {

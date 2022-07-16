@@ -99,23 +99,27 @@ The following example will explain better than any word:
 ```js
 import { read, onSuccess, onError, onComplete } from 'feed-reader'
 
-onSuccess((feed, url) => {
+onSuccess((url, feed) => {
   console.log(`Feed data from ${url} has been parsed successfully`)
   console.log('`feed` is always an object that contains feed data')
   console.log(feed)
 })
 
-onError((err, url) => {
+onError((url, err) => {
   console.log(`Error occurred while processing ${url}`)
   console.log('There is a message and reason:')
   console.log(err)
 })
 
-onComplete((result, url) => {
+onComplete((url, result, error) => {
   console.log(`Finish processing ${url}`)
-  console.log('There may or may not be an error')
   console.log('`result` may be feed data or null')
   console.log(result)
+  console.log('`error` may be an error object or null')
+  if (error) {
+    console.log(error.message)
+    console.log(error.reason)
+  }
 })
 
 read('https://news.google.com/rss')
@@ -127,7 +131,7 @@ We can mix both style together, for example to handle the error:
 ```js
 import { read, onError } from 'feed-reader'
 
-onError((err, url) => {
+onError((url, err) => {
   console.log(`Error occurred while processing ${url}`)
   console.log('There is a message and reason:')
   console.log(err)
@@ -140,6 +144,26 @@ const getFeedData = async (url) => {
 }
 
 getFeedData('https://news.google.com/rss')
+````
+
+In almost cases, using just `onComplete` is enough:
+
+```js
+import { read, onComplete } from 'feed-reader'
+
+onComplete((url, result, error) => {
+  console.log(`Finish processing ${url}`)
+  if (result) {
+    // save feed data
+    console.log(result)
+  }
+  if (error) {
+    // handle error info
+    console.log(error)
+  }
+})
+
+read('https://news.google.com/rss')
 ````
 
 #### Reset event listeners
