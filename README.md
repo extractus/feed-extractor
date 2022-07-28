@@ -4,7 +4,7 @@ To read & normalize RSS/ATOM/JSON feed data.
 
 [![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
 ![CI test](https://github.com/ndaidong/feed-reader/workflows/ci-test/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/ndaidong/feed-reader/badge.svg?updated=1)](https://coveralls.io/github/ndaidong/feed-reader)
+[![Coverage Status](https://img.shields.io/coveralls/github/ndaidong/feed-reader)](https://coveralls.io/github/ndaidong/feed-reader?branch=main)
 ![CodeQL](https://github.com/ndaidong/feed-reader/workflows/CodeQL/badge.svg)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
