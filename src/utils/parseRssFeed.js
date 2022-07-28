@@ -13,20 +13,16 @@ import { purify as purifyUrl } from './linker.js'
 
 import { getReaderOptions } from '../config.js'
 
-const transform = (item) => {
+const transform = (item, includeFullContent, convertPubDateToISO) => {
   const {
-    includeFullContent,
-    convertPubDateToISO
-  } = getReaderOptions()
-
-  const {
-    title,
-    link,
-    pubDate,
-    description
+    title = '',
+    link = '',
+    pubDate = '',
+    description = ''
   } = item
 
   const published = convertPubDateToISO ? toISODateString(pubDate) : pubDate
+
   const entry = {
     title,
     link: purifyUrl(link),
@@ -52,6 +48,11 @@ const parseRss = (data) => {
 
   const items = isArray(item) ? item : [item]
 
+  const {
+    includeFullContent,
+    convertPubDateToISO
+  } = getReaderOptions()
+
   return {
     title,
     link,
@@ -59,7 +60,9 @@ const parseRss = (data) => {
     language,
     generator,
     published: toISODateString(lastBuildDate),
-    entries: items.map(transform)
+    entries: items.map((item) => {
+      return transform(item, includeFullContent, convertPubDateToISO)
+    })
   }
 }
 

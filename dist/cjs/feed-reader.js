@@ -1,4 +1,4 @@
-// feed-reader@6.0.0rc3, by @ndaidong - built with esbuild at 2022-07-28T09:42:29.894Z - published under MIT license
+// feed-reader@6.0.0rc4, by @ndaidong - built with esbuild at 2022-07-28T10:42:35.368Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -14602,23 +14602,19 @@ var toISODateString = (dstr) => {
 };
 var buildDescription = (val) => {
   const { descriptionMaxLen } = getReaderOptions();
-  const stripped = (0, import_bellajs4.stripTags)(val);
+  const stripped = (0, import_bellajs4.stripTags)(String(val));
   return (0, import_bellajs4.truncate)(stripped, descriptionMaxLen).replace(/\n+/g, " ");
 };
 
 // src/utils/parseJsonFeed.js
-var transform = (item) => {
+var transform = (item, includeFullContent, convertPubDateToISO) => {
   const {
-    includeFullContent,
-    convertPubDateToISO
-  } = getReaderOptions();
-  const {
-    title,
-    url: link,
-    date_published: pubDate,
-    summary,
-    content_html: htmlContent,
-    content_text: textContent
+    title = "",
+    url: link = "",
+    date_published: pubDate = "",
+    summary = "",
+    content_html: htmlContent = "",
+    content_text: textContent = ""
   } = item;
   const published = convertPubDateToISO ? toISODateString(pubDate) : pubDate;
   const entry = {
@@ -14641,6 +14637,10 @@ var parseJson = (data) => {
     items: item = []
   } = data;
   const items = (0, import_bellajs5.isArray)(item) ? item : [item];
+  const {
+    includeFullContent,
+    convertPubDateToISO
+  } = getReaderOptions();
   return {
     title,
     link: homepageUrl,
@@ -14648,7 +14648,9 @@ var parseJson = (data) => {
     language,
     published: "",
     generator: "",
-    entries: items.map(transform)
+    entries: items.map((item2) => {
+      return transform(item2, includeFullContent, convertPubDateToISO);
+    })
   };
 };
 var parseJsonFeed_default = (data) => {
@@ -14657,16 +14659,12 @@ var parseJsonFeed_default = (data) => {
 
 // src/utils/parseRssFeed.js
 var import_bellajs6 = __toESM(require_bella(), 1);
-var transform2 = (item) => {
+var transform2 = (item, includeFullContent, convertPubDateToISO) => {
   const {
-    includeFullContent,
-    convertPubDateToISO
-  } = getReaderOptions();
-  const {
-    title,
-    link,
-    pubDate,
-    description
+    title = "",
+    link = "",
+    pubDate = "",
+    description = ""
   } = item;
   const published = convertPubDateToISO ? toISODateString(pubDate) : pubDate;
   const entry = {
@@ -14691,6 +14689,10 @@ var parseRss = (data) => {
     item = []
   } = data.rss.channel;
   const items = (0, import_bellajs6.isArray)(item) ? item : [item];
+  const {
+    includeFullContent,
+    convertPubDateToISO
+  } = getReaderOptions();
   return {
     title,
     link,
@@ -14698,7 +14700,9 @@ var parseRss = (data) => {
     language,
     generator,
     published: toISODateString(lastBuildDate),
-    entries: items.map(transform2)
+    entries: items.map((item2) => {
+      return transform2(item2, includeFullContent, convertPubDateToISO);
+    })
   };
 };
 var parseRssFeed_default = (data) => {
@@ -14724,19 +14728,15 @@ var getLink = (val = [], id = "") => {
   };
   return (0, import_bellajs7.isString)(val) ? getText(val) : (0, import_bellajs7.isObject)(val) && (0, import_bellajs7.hasProperty)(val, "href") ? getText(val.href) : (0, import_bellajs7.isObject)(val) && (0, import_bellajs7.hasProperty)(val, "@_href") ? getText(val["@_href"]) : (0, import_bellajs7.isObject)(val) && (0, import_bellajs7.hasProperty)(val, "_attributes") ? getText(val._attributes.href) : (0, import_bellajs7.isArray)(val) ? getEntryLink(val) : null;
 };
-var transform3 = (item) => {
+var transform3 = (item, includeFullContent, convertPubDateToISO) => {
   const {
-    includeFullContent,
-    convertPubDateToISO
-  } = getReaderOptions();
-  const {
-    id,
-    title,
-    updated,
-    published,
-    link,
-    summary,
-    content
+    id = "",
+    title = "",
+    updated = "",
+    published = "",
+    link = "",
+    summary = "",
+    content = ""
   } = item;
   const pubDate = updated || published;
   const htmlContent = getText(content);
@@ -14753,7 +14753,7 @@ var transform3 = (item) => {
 };
 var parseAtom = (data) => {
   const {
-    id,
+    id = "",
     title = "",
     link = "",
     subtitle = "",
@@ -14763,6 +14763,10 @@ var parseAtom = (data) => {
     entry: item = []
   } = data.feed;
   const items = (0, import_bellajs7.isArray)(item) ? item : [item];
+  const {
+    includeFullContent,
+    convertPubDateToISO
+  } = getReaderOptions();
   return {
     title: getText(title),
     link: getLink(link, id),
@@ -14770,7 +14774,9 @@ var parseAtom = (data) => {
     language,
     generator,
     published: toISODateString(updated),
-    entries: items.map(transform3)
+    entries: items.map((item2) => {
+      return transform3(item2, includeFullContent, convertPubDateToISO);
+    })
   };
 };
 var parseAtomFeed_default = (data) => {
