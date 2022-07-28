@@ -1,6 +1,6 @@
 # feed-reader
 
-Load and parse RSS/ATOM data from given feed url.
+Load and parse ATOM/RSS/JSON data from given feed url.
 
 [![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
 ![CI test](https://github.com/ndaidong/feed-reader/workflows/ci-test/badge.svg)
@@ -33,13 +33,11 @@ read(url).then((feed) => {
 ## APIs
 
 - [.read(String url)](#readstring-url)
-- [The events](#the-events)
-  - [.resetEvents()](#reset-event-listeners)
 - [Configuration methods](#configuration-methods)
 
 ### read(String url)
 
-Load and extract feed data from given RSS/ATOM source. Return a Promise object.
+Load and extract feed data from given RSS/ATOM/JSON source. Return a Promise object.
 
 Example:
 
@@ -62,6 +60,7 @@ const getFeedData = async (url) => {
 
 getFeedData('https://news.google.com/rss')
 getFeedData('https://news.google.com/atom')
+getFeedData('https://adactio.com/journal/feed.json')
 ```
 
 Feed data object retuned by `read()` method should look like below:
@@ -86,96 +85,6 @@ Feed data object retuned by `read()` method should look like below:
 }
 ```
 
-### The events
-
-Since v6.0.0, `feed-reader` supports event-driven pattern for easier writing code with more control.
-
-- `onSuccess(Function callback)`
-- `onError(Function callback)`
-- `onComplete(Function callback)`
-
-The following example will explain better than any word:
-
-```js
-import { read, onSuccess, onError, onComplete } from 'feed-reader'
-
-onSuccess((url, feed) => {
-  console.log(`Feed data from ${url} has been parsed successfully`)
-  console.log('`feed` is always an object that contains feed data')
-  console.log(feed)
-})
-
-onError((url, err) => {
-  console.log(`Error occurred while processing ${url}`)
-  console.log('There is a message and reason:')
-  console.log(err)
-})
-
-onComplete((url, result, error) => {
-  console.log(`Finish processing ${url}`)
-  console.log('`result` may be feed data or null')
-  console.log(result)
-  console.log('`error` may be an error object or null')
-  if (error) {
-    console.log(error.message)
-    console.log(error.reason)
-  }
-})
-
-read('https://news.google.com/rss')
-read('https://google.com')
-```
-
-We can mix both style together, for example to handle the error:
-
-```js
-import { read, onError } from 'feed-reader'
-
-onError((url, err) => {
-  console.log(`Error occurred while processing ${url}`)
-  console.log('There is a message and reason:')
-  console.log(err)
-})
-
-const getFeedData = async (url) => {
-  const result = await read(url)
-  // `result` may be feed data or null
-  return result
-}
-
-getFeedData('https://news.google.com/rss')
-````
-
-In almost cases, using just `onComplete` is enough:
-
-```js
-import { read, onComplete } from 'feed-reader'
-
-onComplete((url, result, error) => {
-  console.log(`Finish processing ${url}`)
-  if (result) {
-    // save feed data
-    console.log(result)
-  }
-  if (error) {
-    // handle error info
-    console.log(error)
-  }
-})
-
-read('https://news.google.com/rss')
-````
-
-#### Reset event listeners
-
-Use method `resetEvents()` when you want to clear registered listeners from all events.
-
-```js
-import { resetEvents } from 'feed-reader'
-
-resetEvents()
-````
-
 ### Configuration methods
 
 #### `setRequestOptions(Object requestOptions)`
@@ -187,6 +96,18 @@ Affect to the way how `axios` works. Please refer [axios' request config](https:
 Return current request options.
 
 Default values can be found [here](https://github.com/ndaidong/feed-reader/blob/main/src/config.js#L5).
+
+#### `setReaderOptions(Object readerOptions)`
+
+To change default reader options.
+
+- `descriptionMaxLen`: Number, max num of chars for description (default: `210`)
+- `includeFullContent`: Boolean, add `content` to entry if available (default: `false`)
+- `convertPubDateToISO`: Boolean, reformat published date to [ISO standard](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) (default: `true`)
+
+#### `getReaderOptions()`
+
+Return current reader options.
 
 
 ## Test

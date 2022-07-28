@@ -3,85 +3,44 @@
  * @ndaidong
  **/
 
-import EventEmitter from 'events'
+import { isValid as isValidUrl } from './utils/linker.js'
 
-import getXML from './utils/retrieve.js'
-import { parse } from './utils/parser.js'
-
-import isValidUrl from './utils/isValidUrl.js'
-import { validate } from './utils/validator.js'
+import retrieve from './utils/retrieve.js'
+import { validate, xml2obj, isRSS, isAtom } from './utils/xmlparser.js'
+import parseJsonFeed from './utils/parseJsonFeed.js'
+import parseRssFeed from './utils/parseRssFeed.js'
+import parseAtomFeed from './utils/parseAtomFeed.js'
 
 export {
   getRequestOptions,
-  setRequestOptions
+  setRequestOptions,
+  getReaderOptions,
+  setReaderOptions
 } from './config.js'
 
-const eventEmitter = new EventEmitter()
-
-const runWhenComplete = (url, result = null, error = null) => {
-  eventEmitter.emit('complete', url, result, error)
-  return result
-}
-
 export const read = async (url) => {
-  try {
-    if (!isValidUrl(url)) {
-      const erdata = {
-        error: 'Error occurred while verifying feed URL',
-        reason: 'Invalid URL'
-      }
-      eventEmitter.emit('error', url, erdata)
-      return runWhenComplete(url, null, erdata)
-    }
-    const xml = await getXML(url)
-
-    if (!validate(xml)) {
-      const erdata = {
-        error: 'Error occurred while validating XML format',
-        reason: 'The XML document is not well-formed'
-      }
-      eventEmitter.emit('error', url, erdata)
-      return runWhenComplete(url, null, erdata)
-    }
-
-    try {
-      const feed = parse(xml)
-      if (feed) {
-        eventEmitter.emit('success', url, feed)
-      }
-
-      return runWhenComplete(url, feed)
-    } catch (er) {
-      const erdata = {
-        error: 'Error occurred while parsing XML structure',
-        reason: er.message
-      }
-      eventEmitter.emit('error', url, erdata)
-
-      return runWhenComplete(url, null, erdata)
-    }
-  } catch (err) {
-    const erdata = {
-      error: 'Error occurred while retrieving remote XML data',
-      reason: err.message
-    }
-    eventEmitter.emit('error', url, erdata)
-    return runWhenComplete(url, null, erdata)
+  if (!isValidUrl(url)) {
+    throw new Error('Input param must be a valid URL')
   }
-}
+  const data = await retrieve(url)
+  if (!data.text && !data.json) {
+    throw new Error(`Failed to load content from "${url}"`)
+  }
 
-export const onComplete = (fn) => {
-  eventEmitter.on('complete', fn)
-}
+  const { type, json, text } = data
 
-export const onSuccess = (fn) => {
-  eventEmitter.on('success', fn)
-}
+  if (type === 'json') {
+    return parseJsonFeed(json)
+  }
 
-export const onError = (fn) => {
-  eventEmitter.on('error', fn)
-}
+  if (!validate(text)) {
+    throw new Error('The XML document is not well-formed')
+  }
 
-export const resetEvents = () => {
-  eventEmitter.removeAllListeners()
+  const xml = xml2obj(text)
+  return isRSS(xml)
+    ? parseRssFeed(xml)
+    : isAtom(xml)
+      ? parseAtomFeed(xml)
+      : null
 }
