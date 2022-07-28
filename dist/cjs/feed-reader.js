@@ -1,4 +1,4 @@
-// feed-reader@6.0.0rc3, by @ndaidong - built with esbuild at 2022-07-28T09:33:03.350Z - published under MIT license
+// feed-reader@6.0.0rc3, by @ndaidong - built with esbuild at 2022-07-28T09:42:29.894Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -20,7 +20,10 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // node_modules/.pnpm/axios@0.27.2/node_modules/axios/lib/helpers/bind.js
@@ -494,7 +497,13 @@ var require_settle = __commonJS({
       if (!response.status || !validateStatus || validateStatus(response.status)) {
         resolve(response);
       } else {
-        reject(new AxiosError("Request failed with status code " + response.status, [AxiosError.ERR_BAD_REQUEST, AxiosError.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4], response.config, response.request, response));
+        reject(new AxiosError(
+          "Request failed with status code " + response.status,
+          [AxiosError.ERR_BAD_REQUEST, AxiosError.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4],
+          response.config,
+          response.request,
+          response
+        ));
       }
     };
   }
@@ -795,7 +804,12 @@ var require_xhr = __commonJS({
           if (config.timeoutErrorMessage) {
             timeoutErrorMessage = config.timeoutErrorMessage;
           }
-          reject(new AxiosError(timeoutErrorMessage, transitional.clarifyTimeoutError ? AxiosError.ETIMEDOUT : AxiosError.ECONNABORTED, config, request));
+          reject(new AxiosError(
+            timeoutErrorMessage,
+            transitional.clarifyTimeoutError ? AxiosError.ETIMEDOUT : AxiosError.ECONNABORTED,
+            config,
+            request
+          ));
           request = null;
         };
         if (utils.isStandardBrowserEnv()) {
@@ -870,14 +884,18 @@ var require_ms = __commonJS({
       } else if (type === "number" && isFinite(val)) {
         return options.long ? fmtLong(val) : fmtShort(val);
       }
-      throw new Error("val is not a non-empty string or a valid number. val=" + JSON.stringify(val));
+      throw new Error(
+        "val is not a non-empty string or a valid number. val=" + JSON.stringify(val)
+      );
     };
     function parse(str) {
       str = String(str);
       if (str.length > 100) {
         return;
       }
-      var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str);
+      var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
+        str
+      );
       if (!match) {
         return;
       }
@@ -1419,8 +1437,11 @@ var require_node = __commonJS({
     exports.save = save;
     exports.load = load;
     exports.useColors = useColors;
-    exports.destroy = util.deprecate(() => {
-    }, "Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.");
+    exports.destroy = util.deprecate(
+      () => {
+      },
+      "Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`."
+    );
     exports.colors = [6, 2, 3, 4, 5, 1];
     try {
       const supportsColor = require_supports_color();
@@ -1627,10 +1648,22 @@ var require_follow_redirects = __commonJS({
         this._redirectable.emit(event, arg1, arg2, arg3);
       };
     });
-    var RedirectionError = createErrorType("ERR_FR_REDIRECTION_FAILURE", "Redirected request failed");
-    var TooManyRedirectsError = createErrorType("ERR_FR_TOO_MANY_REDIRECTS", "Maximum number of redirects exceeded");
-    var MaxBodyLengthExceededError = createErrorType("ERR_FR_MAX_BODY_LENGTH_EXCEEDED", "Request body larger than maxBodyLength limit");
-    var WriteAfterEndError = createErrorType("ERR_STREAM_WRITE_AFTER_END", "write after end");
+    var RedirectionError = createErrorType(
+      "ERR_FR_REDIRECTION_FAILURE",
+      "Redirected request failed"
+    );
+    var TooManyRedirectsError = createErrorType(
+      "ERR_FR_TOO_MANY_REDIRECTS",
+      "Maximum number of redirects exceeded"
+    );
+    var MaxBodyLengthExceededError = createErrorType(
+      "ERR_FR_MAX_BODY_LENGTH_EXCEEDED",
+      "Request body larger than maxBodyLength limit"
+    );
+    var WriteAfterEndError = createErrorType(
+      "ERR_STREAM_WRITE_AFTER_END",
+      "write after end"
+    );
     function RedirectableRequest(options, responseCallback) {
       Writable.call(this);
       this._sanitizeOptions(options);
@@ -2103,10 +2136,18 @@ var require_http = __commonJS({
           } else if (utils.isString(data)) {
             data = Buffer.from(data, "utf-8");
           } else {
-            return reject(new AxiosError("Data after transformation must be a string, an ArrayBuffer, a Buffer, or a Stream", AxiosError.ERR_BAD_REQUEST, config));
+            return reject(new AxiosError(
+              "Data after transformation must be a string, an ArrayBuffer, a Buffer, or a Stream",
+              AxiosError.ERR_BAD_REQUEST,
+              config
+            ));
           }
           if (config.maxBodyLength > -1 && data.length > config.maxBodyLength) {
-            return reject(new AxiosError("Request body larger than maxBodyLength limit", AxiosError.ERR_BAD_REQUEST, config));
+            return reject(new AxiosError(
+              "Request body larger than maxBodyLength limit",
+              AxiosError.ERR_BAD_REQUEST,
+              config
+            ));
           }
           if (!headerNames["content-length"]) {
             headers["Content-Length"] = data.length;
@@ -2122,7 +2163,11 @@ var require_http = __commonJS({
         var parsed = url.parse(fullPath);
         var protocol = parsed.protocol || supportedProtocols[0];
         if (supportedProtocols.indexOf(protocol) === -1) {
-          return reject(new AxiosError("Unsupported protocol " + protocol, AxiosError.ERR_BAD_REQUEST, config));
+          return reject(new AxiosError(
+            "Unsupported protocol " + protocol,
+            AxiosError.ERR_BAD_REQUEST,
+            config
+          ));
         }
         if (!auth && parsed.auth) {
           var urlAuth = parsed.auth.split(":");
@@ -2258,7 +2303,12 @@ var require_http = __commonJS({
               if (config.maxContentLength > -1 && totalResponseBytes > config.maxContentLength) {
                 rejected = true;
                 stream.destroy();
-                reject(new AxiosError("maxContentLength size of " + config.maxContentLength + " exceeded", AxiosError.ERR_BAD_RESPONSE, config, lastRequest));
+                reject(new AxiosError(
+                  "maxContentLength size of " + config.maxContentLength + " exceeded",
+                  AxiosError.ERR_BAD_RESPONSE,
+                  config,
+                  lastRequest
+                ));
               }
             });
             stream.on("aborted", function handlerStreamAborted() {
@@ -2266,7 +2316,12 @@ var require_http = __commonJS({
                 return;
               }
               stream.destroy();
-              reject(new AxiosError("maxContentLength size of " + config.maxContentLength + " exceeded", AxiosError.ERR_BAD_RESPONSE, config, lastRequest));
+              reject(new AxiosError(
+                "maxContentLength size of " + config.maxContentLength + " exceeded",
+                AxiosError.ERR_BAD_RESPONSE,
+                config,
+                lastRequest
+              ));
             });
             stream.on("error", function handleStreamError(err) {
               if (req.aborted)
@@ -2299,13 +2354,23 @@ var require_http = __commonJS({
         if (config.timeout) {
           var timeout = parseInt(config.timeout, 10);
           if (isNaN(timeout)) {
-            reject(new AxiosError("error trying to parse `config.timeout` to int", AxiosError.ERR_BAD_OPTION_VALUE, config, req));
+            reject(new AxiosError(
+              "error trying to parse `config.timeout` to int",
+              AxiosError.ERR_BAD_OPTION_VALUE,
+              config,
+              req
+            ));
             return;
           }
           req.setTimeout(timeout, function handleRequestTimeout() {
             req.abort();
             var transitional = config.transitional || transitionalDefaults;
-            reject(new AxiosError("timeout of " + timeout + "ms exceeded", transitional.clarifyTimeoutError ? AxiosError.ETIMEDOUT : AxiosError.ECONNABORTED, config, req));
+            reject(new AxiosError(
+              "timeout of " + timeout + "ms exceeded",
+              transitional.clarifyTimeoutError ? AxiosError.ETIMEDOUT : AxiosError.ECONNABORTED,
+              config,
+              req
+            ));
           });
         }
         if (config.cancelToken || config.signal) {
@@ -11917,21 +11982,43 @@ var require_dispatchRequest = __commonJS({
     module2.exports = function dispatchRequest(config) {
       throwIfCancellationRequested(config);
       config.headers = config.headers || {};
-      config.data = transformData.call(config, config.data, config.headers, config.transformRequest);
-      config.headers = utils.merge(config.headers.common || {}, config.headers[config.method] || {}, config.headers);
-      utils.forEach(["delete", "get", "head", "post", "put", "patch", "common"], function cleanHeaderConfig(method) {
-        delete config.headers[method];
-      });
+      config.data = transformData.call(
+        config,
+        config.data,
+        config.headers,
+        config.transformRequest
+      );
+      config.headers = utils.merge(
+        config.headers.common || {},
+        config.headers[config.method] || {},
+        config.headers
+      );
+      utils.forEach(
+        ["delete", "get", "head", "post", "put", "patch", "common"],
+        function cleanHeaderConfig(method) {
+          delete config.headers[method];
+        }
+      );
       var adapter = config.adapter || defaults.adapter;
       return adapter(config).then(function onAdapterResolution(response) {
         throwIfCancellationRequested(config);
-        response.data = transformData.call(config, response.data, response.headers, config.transformResponse);
+        response.data = transformData.call(
+          config,
+          response.data,
+          response.headers,
+          config.transformResponse
+        );
         return response;
       }, function onAdapterRejection(reason) {
         if (!isCancel(reason)) {
           throwIfCancellationRequested(config);
           if (reason && reason.response) {
-            reason.response.data = transformData.call(config, reason.response.data, reason.response.headers, config.transformResponse);
+            reason.response.data = transformData.call(
+              config,
+              reason.response.data,
+              reason.response.headers,
+              config.transformResponse
+            );
           }
         }
         return Promise.reject(reason);
@@ -12042,11 +12129,19 @@ var require_validator = __commonJS({
       }
       return function(value, opt, opts) {
         if (validator === false) {
-          throw new AxiosError(formatMessage(opt, " has been removed" + (version ? " in " + version : "")), AxiosError.ERR_DEPRECATED);
+          throw new AxiosError(
+            formatMessage(opt, " has been removed" + (version ? " in " + version : "")),
+            AxiosError.ERR_DEPRECATED
+          );
         }
         if (version && !deprecatedWarnings[opt]) {
           deprecatedWarnings[opt] = true;
-          console.warn(formatMessage(opt, " has been deprecated since v" + version + " and will be removed in the near future"));
+          console.warn(
+            formatMessage(
+              opt,
+              " has been deprecated since v" + version + " and will be removed in the near future"
+            )
+          );
         }
         return validator ? validator(value, opt, opts) : true;
       };
@@ -12707,7 +12802,11 @@ var require_validator2 = __commonJS({
                 const otg = tags.pop();
                 if (tagName !== otg.tagName) {
                   let openPos = getLineNumberForPosition(xmlData, otg.tagStartPos);
-                  return getErrorObject("InvalidTag", "Expected closing tag '" + otg.tagName + "' (opened in line " + openPos.line + ", col " + openPos.col + ") instead of closing tag '" + tagName + "'.", getLineNumberForPosition(xmlData, tagStartPos));
+                  return getErrorObject(
+                    "InvalidTag",
+                    "Expected closing tag '" + otg.tagName + "' (opened in line " + openPos.line + ", col " + openPos.col + ") instead of closing tag '" + tagName + "'.",
+                    getLineNumberForPosition(xmlData, tagStartPos)
+                  );
                 }
                 if (tags.length == 0) {
                   reachedRoot = true;
@@ -13286,7 +13385,11 @@ var require_OrderedObjParser = __commonJS({
               } else if (typeof newVal !== typeof oldVal || newVal !== oldVal) {
                 attrs[aName] = newVal;
               } else {
-                attrs[aName] = parseValue(oldVal, this.options.parseAttributeValue, this.options.numberParseOptions);
+                attrs[aName] = parseValue(
+                  oldVal,
+                  this.options.parseAttributeValue,
+                  this.options.numberParseOptions
+                );
               }
             } else if (this.options.allowBooleanAttributes) {
               attrs[aName] = true;
@@ -13475,7 +13578,14 @@ var require_OrderedObjParser = __commonJS({
       if (textData) {
         if (isLeafNode === void 0)
           isLeafNode = Object.keys(currentNode.child).length === 0;
-        textData = this.parseTextData(textData, currentNode.tagname, jPath, false, currentNode[":@"] ? Object.keys(currentNode[":@"]).length !== 0 : false, isLeafNode);
+        textData = this.parseTextData(
+          textData,
+          currentNode.tagname,
+          jPath,
+          false,
+          currentNode[":@"] ? Object.keys(currentNode[":@"]).length !== 0 : false,
+          isLeafNode
+        );
         if (textData !== void 0 && textData !== "")
           currentNode.add(this.options.textNodeName, textData);
         textData = "";
@@ -14525,7 +14635,7 @@ var transform = (item) => {
 var parseJson = (data) => {
   const {
     title = "",
-    home_page_url = "",
+    home_page_url: homepageUrl = "",
     description = "",
     language = "",
     items: item = []
@@ -14533,7 +14643,7 @@ var parseJson = (data) => {
   const items = (0, import_bellajs5.isArray)(item) ? item : [item];
   return {
     title,
-    link: home_page_url,
+    link: homepageUrl,
     description,
     language,
     published: "",

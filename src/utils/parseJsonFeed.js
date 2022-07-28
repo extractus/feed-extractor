@@ -42,7 +42,7 @@ const transform = (item) => {
 const parseJson = (data) => {
   const {
     title = '',
-    home_page_url = '',
+    home_page_url: homepageUrl = '',
     description = '',
     language = '',
     items: item = []
@@ -52,7 +52,7 @@ const parseJson = (data) => {
 
   return {
     title,
-    link: home_page_url,
+    link: homepageUrl,
     description,
     language,
     published: '',
