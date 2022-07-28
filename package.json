@@ -16,10 +16,11 @@
   },
   "scripts": {
     "lint": "standard .",
+    "pretest": "npm run lint",
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage=true --unhandled-rejections=strict --detectOpenHandles",
     "build": "node build src/main.js",
-    "eval": "DEBUG=*:* node eval",
-    "eval:cjs": "DEBUG=*:* node cjs-eval",
+    "eval": "node eval",
+    "eval:cjs": "node cjs-eval",
     "reset": "node reset"
   },
   "dependencies": {
