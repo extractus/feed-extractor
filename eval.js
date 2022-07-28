@@ -1,23 +1,17 @@
 // eval.js
 
-import { writeFileSync } from 'fs'
+// import { writeFileSync } from 'fs'
 
-import { read, onComplete, onSuccess, onError } from './src/main.js'
+import { read } from './src/main.js'
 
 const extractFromUrl = async (url) => {
-  onComplete((result, url) => {
-    console.log('onComplete', url)
-  })
-  onSuccess((feed, url) => {
-    console.log('onSuccess', url)
-    writeFileSync('./output.json', JSON.stringify(feed, undefined, 2), 'utf8')
-  })
-  onError((e, url) => {
-    console.log('onError', url)
-    console.log(e)
-  })
-  const feed = await read(url)
-  console.log(feed)
+  try {
+    const feed = await read(url)
+    console.log(feed)
+    // writeFileSync('output.json', JSON.stringify(feed, undefined, 2), 'utf8')
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 const init = (argv) => {

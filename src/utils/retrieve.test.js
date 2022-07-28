@@ -13,37 +13,29 @@ const parseUrl = (url) => {
   }
 }
 
-test('test retrieve from good source', async () => {
-  const url = 'https://some.where/good/page'
-  const { baseUrl, path } = parseUrl(url)
-  nock(baseUrl).head(path).reply(200)
-  nock(baseUrl).get(path).reply(200, '<div>this is content</div>', {
-    'Content-Type': 'application/xml'
+describe('test retrieve() method', () => {
+  test('test retrieve with bad status code', async () => {
+    const url = 'https://some.where/bad/page'
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(500, 'Error 500')
+    expect(retrieve(url)).rejects.toThrow(new Error('AxiosError: Request failed with status code 500'))
   })
-  const result = await retrieve(url)
-  expect(result).toBe('<div>this is content</div>')
-})
 
-test('test retrieve from good source, but having \\r\\n before/after root xml', async () => {
-  const url = 'https://some.where/good/page'
-  const { baseUrl, path } = parseUrl(url)
-  nock(baseUrl).head(path).reply(200)
-  nock(baseUrl).get(path).reply(200, '\n\r\r\n\n<div>this is content</div>\n\r\r\n\n', {
-    'Content-Type': 'application/xml'
+  test('test retrieve from good source', async () => {
+    const url = 'https://some.where/good/page'
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, '<div>this is content</div>')
+    const result = await retrieve(url)
+    expect(result.type).toEqual('xml')
+    expect(result.text).toEqual('<div>this is content</div>')
   })
-  const result = await retrieve(url)
-  expect(result).toBe('<div>this is content</div>')
-})
 
-// test('test retrieve with invalid response status code', async () => {
-//   const url = 'https://some.where/bad/page'
-//   const { baseUrl, path } = parseUrl(url)
-//   nock(baseUrl).head(path).reply(500)
-//   nock(baseUrl).get(path).reply(500, '<xml><message>Error 500</message></xml>', {
-//     'Content-Type': 'application/xml'
-//   })
-//   const result = await retrieve(url)
-//   expect(typeof result).toBe('object')
-//   expect(typeof result.error).toBe('object', result.error)
-//   expect(typeof result.error.message).toBe('string')
-// })
+  test('test retrieve from good source, but having \\r\\n before/after root xml', async () => {
+    const url = 'https://some.where/good/page'
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, '\n\r\r\n\n<div>this is content</div>\n\r\r\n\n')
+    const result = await retrieve(url)
+    expect(result.type).toEqual('xml')
+    expect(result.text).toBe('<div>this is content</div>')
+  })
+})
