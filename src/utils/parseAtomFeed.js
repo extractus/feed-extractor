@@ -41,20 +41,15 @@ const getLink = (val = [], id = '') => {
           : isArray(val) ? getEntryLink(val) : null
 }
 
-const transform = (item) => {
+const transform = (item, includeFullContent, convertPubDateToISO) => {
   const {
-    includeFullContent,
-    convertPubDateToISO
-  } = getReaderOptions()
-
-  const {
-    id,
-    title,
-    updated,
-    published,
-    link,
-    summary,
-    content
+    id = '',
+    title = '',
+    updated = '',
+    published = '',
+    link = '',
+    summary = '',
+    content = ''
   } = item
 
   const pubDate = updated || published
@@ -73,7 +68,7 @@ const transform = (item) => {
 
 const parseAtom = (data) => {
   const {
-    id,
+    id = '',
     title = '',
     link = '',
     subtitle = '',
@@ -85,6 +80,11 @@ const parseAtom = (data) => {
 
   const items = isArray(item) ? item : [item]
 
+  const {
+    includeFullContent,
+    convertPubDateToISO
+  } = getReaderOptions()
+
   return {
     title: getText(title),
     link: getLink(link, id),
@@ -92,7 +92,9 @@ const parseAtom = (data) => {
     language,
     generator,
     published: toISODateString(updated),
-    entries: items.map(transform)
+    entries: items.map((item) => {
+      return transform(item, includeFullContent, convertPubDateToISO)
+    })
   }
 }
 

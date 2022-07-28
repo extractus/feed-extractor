@@ -1,7 +1,7 @@
 {
-  "version": "6.0.0rc3",
+  "version": "6.0.0rc4",
   "name": "feed-reader",
-  "description": "Load and parse ATOM/RSS data from given feed url",
+  "description": "To read and normalize RSS/ATOM/JSON feed data",
   "homepage": "https://www.npmjs.com/package/feed-reader",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
   "scripts": {
     "lint": "standard .",
     "pretest": "npm run lint",
-    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage=true --unhandled-rejections=strict --detectOpenHandles",
+    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage=true",
     "build": "node build src/main.js",
     "eval": "node eval",
     "eval:cjs": "node cjs-eval",

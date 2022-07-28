@@ -17,6 +17,6 @@ export const toISODateString = (dstr) => {
 
 export const buildDescription = (val) => {
   const { descriptionMaxLen } = getReaderOptions()
-  const stripped = stripTags(val)
+  const stripped = stripTags(String(val))
   return truncate(stripped, descriptionMaxLen).replace(/\n+/g, ' ')
 }

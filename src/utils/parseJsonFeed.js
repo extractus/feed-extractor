@@ -11,22 +11,18 @@ import {
 
 import { getReaderOptions } from '../config.js'
 
-const transform = (item) => {
+const transform = (item, includeFullContent, convertPubDateToISO) => {
   const {
-    includeFullContent,
-    convertPubDateToISO
-  } = getReaderOptions()
-
-  const {
-    title,
-    url: link,
-    date_published: pubDate,
-    summary,
-    content_html: htmlContent,
-    content_text: textContent
+    title = '',
+    url: link = '',
+    date_published: pubDate = '',
+    summary = '',
+    content_html: htmlContent = '',
+    content_text: textContent = ''
   } = item
 
   const published = convertPubDateToISO ? toISODateString(pubDate) : pubDate
+
   const entry = {
     title,
     link,
@@ -50,6 +46,11 @@ const parseJson = (data) => {
 
   const items = isArray(item) ? item : [item]
 
+  const {
+    includeFullContent,
+    convertPubDateToISO
+  } = getReaderOptions()
+
   return {
     title,
     link: homepageUrl,
@@ -57,7 +58,9 @@ const parseJson = (data) => {
     language,
     published: '',
     generator: '',
-    entries: items.map(transform)
+    entries: items.map((item) => {
+      return transform(item, includeFullContent, convertPubDateToISO)
+    })
   }
 }
 

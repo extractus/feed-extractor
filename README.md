@@ -1,6 +1,6 @@
 # feed-reader
 
-Load and parse ATOM/RSS/JSON data from given feed url.
+To read & normalize RSS/ATOM/JSON feed data.
 
 [![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
 ![CI test](https://github.com/ndaidong/feed-reader/workflows/ci-test/badge.svg)
