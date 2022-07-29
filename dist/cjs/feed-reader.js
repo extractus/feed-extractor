@@ -1,4 +1,4 @@
-// feed-reader@6.0.0rc4, by @ndaidong - built with esbuild at 2022-07-28T10:42:35.368Z - published under MIT license
+// feed-reader@6.0.0, by @ndaidong - built with esbuild at 2022-07-29T08:22:21.714Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -47,10 +47,10 @@ var require_utils = __commonJS({
   "node_modules/.pnpm/axios@0.27.2/node_modules/axios/lib/utils.js"(exports, module2) {
     "use strict";
     var bind = require_bind();
-    var toString = Object.prototype.toString;
+    var toString2 = Object.prototype.toString;
     var kindOf = function(cache) {
       return function(thing) {
-        var str = toString.call(thing);
+        var str = toString2.call(thing);
         return cache[str] || (cache[str] = str.slice(8, -1).toLowerCase());
       };
     }(/* @__PURE__ */ Object.create(null));
@@ -60,14 +60,14 @@ var require_utils = __commonJS({
         return kindOf(thing) === type;
       };
     }
-    function isArray5(val) {
+    function isArray2(val) {
       return Array.isArray(val);
     }
-    function isUndefined2(val) {
+    function isUndefined(val) {
       return typeof val === "undefined";
     }
     function isBuffer(val) {
-      return val !== null && !isUndefined2(val) && val.constructor !== null && !isUndefined2(val.constructor) && typeof val.constructor.isBuffer === "function" && val.constructor.isBuffer(val);
+      return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor) && typeof val.constructor.isBuffer === "function" && val.constructor.isBuffer(val);
     }
     var isArrayBuffer = kindOfTest("ArrayBuffer");
     function isArrayBufferView(val) {
@@ -79,13 +79,13 @@ var require_utils = __commonJS({
       }
       return result;
     }
-    function isString4(val) {
+    function isString2(val) {
       return typeof val === "string";
     }
     function isNumber2(val) {
       return typeof val === "number";
     }
-    function isObject4(val) {
+    function isObject2(val) {
       return val !== null && typeof val === "object";
     }
     function isPlainObject(val) {
@@ -99,15 +99,15 @@ var require_utils = __commonJS({
     var isFile = kindOfTest("File");
     var isBlob = kindOfTest("Blob");
     var isFileList = kindOfTest("FileList");
-    function isFunction2(val) {
-      return toString.call(val) === "[object Function]";
+    function isFunction(val) {
+      return toString2.call(val) === "[object Function]";
     }
     function isStream(val) {
-      return isObject4(val) && isFunction2(val.pipe);
+      return isObject2(val) && isFunction(val.pipe);
     }
     function isFormData(thing) {
       var pattern = "[object FormData]";
-      return thing && (typeof FormData === "function" && thing instanceof FormData || toString.call(thing) === pattern || isFunction2(thing.toString) && thing.toString() === pattern);
+      return thing && (typeof FormData === "function" && thing instanceof FormData || toString2.call(thing) === pattern || isFunction(thing.toString) && thing.toString() === pattern);
     }
     var isURLSearchParams = kindOfTest("URLSearchParams");
     function trim(str) {
@@ -126,7 +126,7 @@ var require_utils = __commonJS({
       if (typeof obj !== "object") {
         obj = [obj];
       }
-      if (isArray5(obj)) {
+      if (isArray2(obj)) {
         for (var i = 0, l = obj.length; i < l; i++) {
           fn.call(null, obj[i], i, obj);
         }
@@ -145,7 +145,7 @@ var require_utils = __commonJS({
           result[key] = merge(result[key], val);
         } else if (isPlainObject(val)) {
           result[key] = merge({}, val);
-        } else if (isArray5(val)) {
+        } else if (isArray2(val)) {
           result[key] = val.slice();
         } else {
           result[key] = val;
@@ -210,7 +210,7 @@ var require_utils = __commonJS({
       if (!thing)
         return null;
       var i = thing.length;
-      if (isUndefined2(i))
+      if (isUndefined(i))
         return null;
       var arr = new Array(i);
       while (i-- > 0) {
@@ -224,20 +224,20 @@ var require_utils = __commonJS({
       };
     }(typeof Uint8Array !== "undefined" && Object.getPrototypeOf(Uint8Array));
     module2.exports = {
-      isArray: isArray5,
+      isArray: isArray2,
       isArrayBuffer,
       isBuffer,
       isFormData,
       isArrayBufferView,
-      isString: isString4,
+      isString: isString2,
       isNumber: isNumber2,
-      isObject: isObject4,
+      isObject: isObject2,
       isPlainObject,
-      isUndefined: isUndefined2,
+      isUndefined,
       isDate: isDate2,
       isFile,
       isBlob,
-      isFunction: isFunction2,
+      isFunction,
       isStream,
       isURLSearchParams,
       isStandardBrowserEnv,
@@ -12446,226 +12446,6 @@ var require_axios2 = __commonJS({
   }
 });
 
-// node_modules/.pnpm/bellajs@11.0.3/node_modules/bellajs/dist/cjs/bella.js
-var require_bella = __commonJS({
-  "node_modules/.pnpm/bellajs@11.0.3/node_modules/bellajs/dist/cjs/bella.js"(exports, module2) {
-    var S = Object.defineProperty;
-    var U = Object.getOwnPropertyDescriptor;
-    var q = Object.getOwnPropertyNames;
-    var F = Object.prototype.hasOwnProperty;
-    var R = (t, e) => {
-      for (var r in e)
-        S(t, r, { get: e[r], enumerable: true });
-    };
-    var z = (t, e, r, n) => {
-      if (e && typeof e == "object" || typeof e == "function")
-        for (let o of q(e))
-          !F.call(t, o) && o !== r && S(t, o, { get: () => e[o], enumerable: !(n = U(e, o)) || n.enumerable });
-      return t;
-    };
-    var B = (t) => z(S({}, "__esModule", { value: true }), t);
-    var at = {};
-    R(at, { clone: () => M, compose: () => ct, copies: () => I, curry: () => st, equals: () => A, escapeHTML: () => Q, formatDateString: () => nt, formatTimeAgo: () => ot, genid: () => tt, hasProperty: () => a, isArray: () => u, isBoolean: () => $, isDate: () => h, isElement: () => X, isEmail: () => W, isEmpty: () => d, isFunction: () => V, isInteger: () => H, isLetter: () => G, isNil: () => _, isNull: () => E, isNumber: () => y, isObject: () => l, isString: () => p, isUndefined: () => N, maybe: () => b, pick: () => ft, pipe: () => it, randint: () => O, replaceAll: () => w, shuffle: () => P, slugify: () => et, sort: () => L, sortBy: () => pt, stripAccent: () => D, stripTags: () => K, truncate: () => J, ucfirst: () => T, ucwords: () => v, unescapeHTML: () => Z, unique: () => ut });
-    module2.exports = B(at);
-    var m = (t) => ({}).toString.call(t);
-    var H = (t) => Number.isInteger(t);
-    var u = (t) => Array.isArray(t);
-    var p = (t) => String(t) === t;
-    var y = (t) => Number(t) === t;
-    var $ = (t) => Boolean(t) === t;
-    var E = (t) => m(t) === "[object Null]";
-    var N = (t) => m(t) === "[object Undefined]";
-    var _ = (t) => N(t) || E(t);
-    var V = (t) => m(t) === "[object Function]";
-    var l = (t) => m(t) === "[object Object]" && !u(t);
-    var h = (t) => t instanceof Date && !isNaN(t.valueOf());
-    var X = (t) => m(t).match(/^\[object HTML\w*Element]$/) !== null;
-    var G = (t) => {
-      let e = /^[a-z]+$/i;
-      return p(t) && e.test(t);
-    };
-    var W = (t) => {
-      let e = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-      return p(t) && e.test(t);
-    };
-    var d = (t) => !t || _(t) || p(t) && t === "" || u(t) && t.length === 0 || l(t) && Object.keys(t).length === 0;
-    var a = (t, e) => !t || !e ? false : Object.prototype.hasOwnProperty.call(t, e);
-    var A = (t, e) => {
-      if (d(t) && d(e))
-        return true;
-      if (h(t) && h(e))
-        return t.getTime() === e.getTime();
-      if (u(t) && u(e)) {
-        if (t.length !== e.length)
-          return false;
-        let r = true;
-        for (let n = 0; n < t.length; n++)
-          if (!A(t[n], e[n])) {
-            r = false;
-            break;
-          }
-        return r;
-      }
-      if (l(t) && l(e)) {
-        if (Object.keys(t).length !== Object.keys(e).length)
-          return false;
-        let r = true;
-        for (let n in t)
-          if (!a(e, n) || !A(t[n], e[n])) {
-            r = false;
-            break;
-          }
-        return r;
-      }
-      return t === e;
-    };
-    var Y = Number.MAX_SAFE_INTEGER;
-    var O = (t, e) => {
-      if ((!t || t < 0) && (t = 0), e || (e = Y), t === e)
-        return e;
-      t > e && (t = Math.min(t, e), e = Math.max(t, e));
-      let r = t, n = e - t + 1;
-      return Math.floor(Math.random() * n) + r;
-    };
-    var g = (t) => {
-      let e = y(t) ? String(t) : t;
-      if (!p(e))
-        throw new Error("InvalidInput: String required.");
-      return e;
-    };
-    var J = (t, e) => {
-      let r = g(t), n = e || 140;
-      if (r.length <= n)
-        return r;
-      let o = r.substring(0, n), s = o.split(" "), i = s.length, c = "";
-      return i > 1 ? (s.pop(), c += s.join(" "), c.length < r.length && (c += "...")) : (o = o.substring(0, n - 3), c = o + "..."), c;
-    };
-    var K = (t) => g(t).replace(/<.*?>/gi, " ").replace(/\s\s+/g, " ").trim();
-    var Q = (t) => g(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-    var Z = (t) => g(t).replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
-    var T = (t) => {
-      let e = g(t).toLowerCase();
-      return e.length > 1 ? e.charAt(0).toUpperCase() + e.slice(1) : e.toUpperCase();
-    };
-    var v = (t) => g(t).split(" ").map((e) => T(e)).join(" ");
-    var w = (t, e, r) => {
-      let n = g(t);
-      if (y(e) && (e = String(e)), y(r) && (r = String(r)), p(e) && p(r))
-        n = n.split(e).join(r);
-      else if (u(e) && p(r))
-        e.forEach((o) => {
-          n = w(n, o, r);
-        });
-      else if (u(e) && u(r) && e.length === r.length) {
-        let o = e.length;
-        if (o > 0)
-          for (let s = 0; s < o; s++) {
-            let i = e[s], c = r[s];
-            n = w(n, i, c);
-          }
-      }
-      return n;
-    };
-    var D = (t) => {
-      let e = g(t), r = { a: "á|à|ả|ã|ạ|ă|ắ|ặ|ằ|ẳ|ẵ|â|ấ|ầ|ẩ|ẫ|ậ|ä", A: "Á|À|Ả|Ã|Ạ|Ă|Ắ|Ặ|Ằ|Ẳ|Ẵ|Â|Ấ|Ầ|Ẩ|Ẫ|Ậ|Ä", c: "ç", C: "Ç", d: "đ", D: "Đ", e: "é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ|ë", E: "É|È|Ẻ|Ẽ|Ẹ|Ê|Ế|Ề|Ể|Ễ|Ệ|Ë", i: "í|ì|ỉ|ĩ|ị|ï|î", I: "Í|Ì|Ỉ|Ĩ|Ị|Ï|Î", o: "ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ|ö", O: "Ó|Ò|Ỏ|Õ|Ọ|Ô|Ố|Ồ|Ổ|Ô|Ộ|Ơ|Ớ|Ờ|Ở|Ỡ|Ợ|Ö", u: "ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự|û", U: "Ú|Ù|Ủ|Ũ|Ụ|Ư|Ứ|Ừ|Ử|Ữ|Ự|Û", y: "ý|ỳ|ỷ|ỹ|ỵ", Y: "Ý|Ỳ|Ỷ|Ỹ|Ỵ" }, n = (o, s) => {
-        e = w(e, o, s);
-      };
-      for (let o in r)
-        a(r, o) && r[o].split("|").forEach((i) => n(i, o));
-      return e;
-    };
-    var tt = (t, e = "") => {
-      let r = "abcdefghijklmnopqrstuvwxyz", n = r.toUpperCase(), s = [r, n, "0123456789"].join("").split("").sort(() => Math.random() > 0.5).join(""), i = s.length, c = Math.max(t || 32, e.length), f = e;
-      for (; f.length < c; ) {
-        let C = O(0, i);
-        f += s.charAt(C) || "";
-      }
-      return f;
-    };
-    var et = (t, e = "-") => D(t).trim().toLowerCase().replace(/\W+/g, " ").replace(/\s+/g, " ").replace(/\s/g, e);
-    var k = { dateStyle: "medium", timeStyle: "long" };
-    var j = { second: 1e3, minute: 60, hour: 60, day: 24, week: 7, month: 4, year: 12 };
-    var rt = (t) => {
-      try {
-        return new Intl.Locale(t).language !== "";
-      } catch {
-        return false;
-      }
-    };
-    var nt = (...t) => {
-      let e = t[0], r = rt(t[1]) ? t[1] : "en", n = t.length >= 3 ? t[2] : t.length === 1 ? k : l(t[1]) ? t[1] : k;
-      return new Intl.DateTimeFormat(r, n).format(new Date(e));
-    };
-    var ot = (t, e = "en", r = "just now") => {
-      let n = new Date(t), o = Date.now() - n;
-      if (o <= j.second)
-        return r;
-      let s = "second";
-      for (let c in j) {
-        if (o < j[c])
-          break;
-        s = c, o /= j[c];
-      }
-      return o = Math.floor(o), new Intl.RelativeTimeFormat(e).format(-o, s);
-    };
-    var st = (t) => {
-      let e = t.length, r = (n, o) => n > 0 ? (...s) => r(n - s.length, [...o, ...s]) : t(...o);
-      return r(e, []);
-    };
-    var ct = (...t) => t.reduce((e, r) => (n) => e(r(n)));
-    var it = (...t) => t.reduce((e, r) => (n) => r(e(n)));
-    var x = (t, e, r, n = {}) => {
-      let { writable: o = false, configurable: s = false, enumerable: i = false } = n;
-      Object.defineProperty(t, e, { value: r, writable: o, configurable: s, enumerable: i });
-    };
-    var b = (t) => {
-      let e = t, r = () => e == null, n = () => e, o = (f) => b(e || f()), s = (f) => b(f(e) === true ? e : null), i = (f) => b(r() ? null : f(e)), c = /* @__PURE__ */ Object.create({});
-      return x(c, "__value__", e, { enumerable: true }), x(c, "__type__", "Maybe", { enumerable: true }), x(c, "isNil", r), x(c, "value", n), x(c, "map", i), x(c, "if", s), x(c, "else", o), c;
-    };
-    var M = (t, e = null) => {
-      let r = e || /* @__PURE__ */ new Set();
-      if (r.has(t))
-        return t;
-      if (r.add(t), h(t))
-        return new Date(t.valueOf());
-      let n = (s) => {
-        let i = /* @__PURE__ */ Object.create({});
-        for (let c in s)
-          a(s, c) && (i[c] = M(s[c], r));
-        return i;
-      }, o = (s) => [...s].map((i) => u(i) ? o(i) : l(i) ? n(i) : M(i, r));
-      return u(t) ? o(t) : l(t) ? n(t) : t;
-    };
-    var I = (t, e, r = false, n = []) => {
-      for (let o in t)
-        if (!(n.length > 0 && n.includes(o)) && (!r || r && a(e, o))) {
-          let s = t[o], i = e[o];
-          l(i) && l(s) || u(i) && u(s) ? e[o] = I(s, e[o], r, n) : e[o] = M(s);
-        }
-      return e;
-    };
-    var ut = (t = []) => [...new Set(t)];
-    var lt = (t, e) => t > e ? 1 : t < e ? -1 : 0;
-    var L = (t = [], e = null) => {
-      let r = [...t], n = e || lt;
-      return r.sort(n), r;
-    };
-    var pt = (t = [], e = 1, r = "") => !p(r) || !a(t[0], r) ? t : L(t, (n, o) => n[r] > o[r] ? e : n[r] < o[r] ? -1 * e : 0);
-    var P = (t = []) => {
-      let e = [...t], r = [], n = e.length;
-      for (; n > 0; ) {
-        let o = Math.floor(Math.random() * n);
-        r.push(e.splice(o, 1)[0]), n--;
-      }
-      return r;
-    };
-    var ft = (t = [], e = 1) => {
-      let r = P(t), n = Math.max(1, e), o = Math.min(n, r.length - 1);
-      return r.splice(0, o);
-    };
-  }
-});
-
 // node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/util.js
 var require_util = __commonJS({
   "node_modules/.pnpm/fast-xml-parser@4.0.9/node_modules/fast-xml-parser/src/util.js"(exports) {
@@ -14523,10 +14303,134 @@ var purify = (url) => {
 
 // src/utils/retrieve.js
 var import_axios = __toESM(require_axios2(), 1);
-var import_bellajs2 = __toESM(require_bella(), 1);
+
+// node_modules/.pnpm/bellajs@11.0.4/node_modules/bellajs/src/utils/detection.js
+var ob2Str = (val) => {
+  return {}.toString.call(val);
+};
+var isArray = (val) => {
+  return Array.isArray(val);
+};
+var isString = (val) => {
+  return String(val) === val;
+};
+var isNumber = (val) => {
+  return Number(val) === val;
+};
+var isObject = (val) => {
+  return ob2Str(val) === "[object Object]" && !isArray(val);
+};
+var isDate = (val) => {
+  return val instanceof Date && !isNaN(val.valueOf());
+};
+var hasProperty = (ob, k) => {
+  if (!ob || !k) {
+    return false;
+  }
+  return Object.prototype.hasOwnProperty.call(ob, k);
+};
+
+// node_modules/.pnpm/bellajs@11.0.4/node_modules/bellajs/src/utils/random.js
+var MAX_NUMBER = Number.MAX_SAFE_INTEGER;
+
+// node_modules/.pnpm/bellajs@11.0.4/node_modules/bellajs/src/utils/string.js
+var toString = (input) => {
+  const s = isNumber(input) ? String(input) : input;
+  if (!isString(s)) {
+    throw new Error("InvalidInput: String required.");
+  }
+  return s;
+};
+var truncate = (s, l) => {
+  const o = toString(s);
+  const t = l || 140;
+  if (o.length <= t) {
+    return o;
+  }
+  let x = o.substring(0, t);
+  const a = x.split(" ");
+  const b = a.length;
+  let r = "";
+  if (b > 1) {
+    a.pop();
+    r += a.join(" ");
+    if (r.length < o.length) {
+      r += "...";
+    }
+  } else {
+    x = x.substring(0, t - 3);
+    r = x + "...";
+  }
+  return r;
+};
+var stripTags = (s) => {
+  return toString(s).replace(/<.*?>/gi, " ").replace(/\s\s+/g, " ").trim();
+};
+var lowerChars = "abcdefghijklmnopqrstuvwxyz";
+var upperChars = lowerChars.toUpperCase();
+var digits = "0123456789";
+var characters = [
+  lowerChars,
+  upperChars,
+  digits
+].join("").split("");
+
+// node_modules/.pnpm/bellajs@11.0.4/node_modules/bellajs/src/main.js
+var clone = (val, history = null) => {
+  const stack = history || /* @__PURE__ */ new Set();
+  if (stack.has(val)) {
+    return val;
+  }
+  stack.add(val);
+  if (isDate(val)) {
+    return new Date(val.valueOf());
+  }
+  const copyObject = (o) => {
+    const oo = /* @__PURE__ */ Object.create({});
+    for (const k in o) {
+      if (hasProperty(o, k)) {
+        oo[k] = clone(o[k], stack);
+      }
+    }
+    return oo;
+  };
+  const copyArray = (a) => {
+    return [...a].map((e) => {
+      if (isArray(e)) {
+        return copyArray(e);
+      } else if (isObject(e)) {
+        return copyObject(e);
+      }
+      return clone(e, stack);
+    });
+  };
+  if (isArray(val)) {
+    return copyArray(val);
+  }
+  if (isObject(val)) {
+    return copyObject(val);
+  }
+  return val;
+};
+var copies = (source, dest, matched = false, excepts = []) => {
+  for (const k in source) {
+    if (excepts.length > 0 && excepts.includes(k)) {
+      continue;
+    }
+    if (!matched || matched && hasProperty(dest, k)) {
+      const oa = source[k];
+      const ob = dest[k];
+      if (isObject(ob) && isObject(oa) || isArray(ob) && isArray(oa)) {
+        dest[k] = copies(oa, dest[k], matched, excepts);
+      } else {
+        dest[k] = clone(oa);
+      }
+    }
+  }
+  return dest;
+};
 
 // src/config.js
-var import_bellajs = __toESM(require_bella(), 1);
 var requestOptions = {
   headers: {
     "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0",
@@ -14543,16 +14447,16 @@ var readerOptions = {
   convertPubDateToISO: true
 };
 var getRequestOptions = () => {
-  return (0, import_bellajs.clone)(requestOptions);
+  return clone(requestOptions);
 };
 var setRequestOptions = (opts) => {
-  (0, import_bellajs.copies)(opts, requestOptions);
+  copies(opts, requestOptions);
 };
 var getReaderOptions = () => {
-  return (0, import_bellajs.clone)(readerOptions);
+  return clone(readerOptions);
 };
 var setReaderOptions = (opts) => {
-  (0, import_bellajs.copies)(opts, readerOptions);
+  copies(opts, readerOptions);
 };
 
 // src/utils/retrieve.js
@@ -14561,23 +14465,22 @@ var retrieve_default = async (url) => {
     const res = await import_axios.default.get(url, getRequestOptions());
     const contentType = res.headers["content-type"];
     const { data, status } = res;
-    return (0, import_bellajs2.isObject)(data) ? { type: "json", json: data, status, contentType } : { type: "xml", text: data.trim(), status, contentType };
+    return isObject(data) ? { type: "json", json: data, status, contentType } : { type: "xml", text: data.trim(), status, contentType };
   } catch (err) {
     throw new Error(`${err.name}: ${err.message}`);
   }
 };
 
 // src/utils/xmlparser.js
-var import_bellajs3 = __toESM(require_bella(), 1);
 var import_fast_xml_parser = __toESM(require_fxp(), 1);
 var isRSS = (data = {}) => {
-  return (0, import_bellajs3.hasProperty)(data, "rss") && (0, import_bellajs3.hasProperty)(data.rss, "channel");
+  return hasProperty(data, "rss") && hasProperty(data.rss, "channel");
 };
 var isAtom = (data = {}) => {
-  return (0, import_bellajs3.hasProperty)(data, "feed") && (0, import_bellajs3.hasProperty)(data.feed, "entry");
+  return hasProperty(data, "feed") && hasProperty(data.feed, "entry");
 };
 var validate = (xml) => {
-  return !(0, import_bellajs3.isString)(xml) || !xml.length ? false : import_fast_xml_parser.XMLValidator.validate(xml) === true;
+  return !isString(xml) || !xml.length ? false : import_fast_xml_parser.XMLValidator.validate(xml) === true;
 };
 var xml2obj = (xml = "") => {
   const options = {
@@ -14588,11 +14491,8 @@ var xml2obj = (xml = "") => {
   return jsonObj;
 };
 
-// src/utils/parseJsonFeed.js
-var import_bellajs5 = __toESM(require_bella(), 1);
-
 // src/utils/normalizer.js
-var import_bellajs4 = __toESM(require_bella(), 1);
+var import_html_entities = __toESM(require_lib(), 1);
 var toISODateString = (dstr) => {
   try {
     return dstr ? new Date(dstr).toISOString() : "";
@@ -14602,8 +14502,28 @@ var toISODateString = (dstr) => {
 };
 var buildDescription = (val) => {
   const { descriptionMaxLen } = getReaderOptions();
-  const stripped = (0, import_bellajs4.stripTags)(String(val));
-  return (0, import_bellajs4.truncate)(stripped, descriptionMaxLen).replace(/\n+/g, " ");
+  const stripped = stripTags(String(val));
+  return truncate(stripped, descriptionMaxLen).replace(/\n+/g, " ");
+};
+var getText = (val) => {
+  const txt = isObject(val) ? val._text || val["#text"] || val._cdata || val.$t : val;
+  return txt ? (0, import_html_entities.decode)(String(txt).trim()) : "";
+};
+var getLink = (val = [], id = "") => {
+  if (id && isValid(id)) {
+    return id;
+  }
+  const getEntryLink = (links) => {
+    const items = links.map((item) => {
+      return getLink(item);
+    });
+    return items.length > 0 ? items[0] : null;
+  };
+  return isString(val) ? getText(val) : isObject(val) && hasProperty(val, "href") ? getText(val.href) : isObject(val) && hasProperty(val, "@_href") ? getText(val["@_href"]) : isObject(val) && hasProperty(val, "_attributes") ? getText(val._attributes.href) : isArray(val) ? getEntryLink(val) : null;
+};
+var getPureUrl = (url, id = "") => {
+  const link = getLink(url, id);
+  return purify(link);
 };
 
 // src/utils/parseJsonFeed.js
@@ -14619,7 +14539,7 @@ var transform = (item, includeFullContent, convertPubDateToISO) => {
   const published = convertPubDateToISO ? toISODateString(pubDate) : pubDate;
   const entry = {
     title,
-    link,
+    link: purify(link),
     published,
     description: buildDescription(textContent || htmlContent || summary)
   };
@@ -14636,14 +14556,14 @@ var parseJson = (data) => {
     language = "",
     items: item = []
   } = data;
-  const items = (0, import_bellajs5.isArray)(item) ? item : [item];
+  const items = isArray(item) ? item : [item];
   const {
     includeFullContent,
     convertPubDateToISO
   } = getReaderOptions();
   return {
     title,
-    link: homepageUrl,
+    link: purify(homepageUrl),
     description,
     language,
     published: "",
@@ -14658,7 +14578,6 @@ var parseJsonFeed_default = (data) => {
 };
 
 // src/utils/parseRssFeed.js
-var import_bellajs6 = __toESM(require_bella(), 1);
 var transform2 = (item, includeFullContent, convertPubDateToISO) => {
   const {
     title = "",
@@ -14669,7 +14588,7 @@ var transform2 = (item, includeFullContent, convertPubDateToISO) => {
   const published = convertPubDateToISO ? toISODateString(pubDate) : pubDate;
   const entry = {
     title,
-    link: purify(link),
+    link: getPureUrl(link),
     published,
     description: buildDescription(description)
   };
@@ -14688,14 +14607,14 @@ var parseRss = (data) => {
     lastBuildDate = "",
     item = []
   } = data.rss.channel;
-  const items = (0, import_bellajs6.isArray)(item) ? item : [item];
+  const items = isArray(item) ? item : [item];
   const {
     includeFullContent,
     convertPubDateToISO
   } = getReaderOptions();
   return {
-    title,
-    link,
+    title: getText(title),
+    link: getPureUrl(link),
     description,
     language,
     generator,
@@ -14710,24 +14629,6 @@ var parseRssFeed_default = (data) => {
 };
 
 // src/utils/parseAtomFeed.js
-var import_bellajs7 = __toESM(require_bella(), 1);
-var import_html_entities = __toESM(require_lib(), 1);
-var getText = (val) => {
-  const txt = (0, import_bellajs7.isObject)(val) ? val._text || val["#text"] || val._cdata || val.$t : val;
-  return txt ? (0, import_html_entities.decode)(String(txt).trim()) : "";
-};
-var getLink = (val = [], id = "") => {
-  if (isValid(id)) {
-    return purify(id);
-  }
-  const getEntryLink = (links) => {
-    const items = links.map((item) => {
-      return getLink(item);
-    });
-    return items.length > 0 ? items[0] : null;
-  };
-  return (0, import_bellajs7.isString)(val) ? getText(val) : (0, import_bellajs7.isObject)(val) && (0, import_bellajs7.hasProperty)(val, "href") ? getText(val.href) : (0, import_bellajs7.isObject)(val) && (0, import_bellajs7.hasProperty)(val, "@_href") ? getText(val["@_href"]) : (0, import_bellajs7.isObject)(val) && (0, import_bellajs7.hasProperty)(val, "_attributes") ? getText(val._attributes.href) : (0, import_bellajs7.isArray)(val) ? getEntryLink(val) : null;
-};
 var transform3 = (item, includeFullContent, convertPubDateToISO) => {
   const {
     id = "",
@@ -14742,7 +14643,7 @@ var transform3 = (item, includeFullContent, convertPubDateToISO) => {
   const htmlContent = getText(content);
   const entry = {
     title: getText(title),
-    link: getLink(link, id),
+    link: getPureUrl(link, id),
     published: convertPubDateToISO ? toISODateString(pubDate) : pubDate,
     description: buildDescription(htmlContent || summary)
   };
@@ -14762,14 +14663,14 @@ var parseAtom = (data) => {
     updated = "",
     entry: item = []
   } = data.feed;
-  const items = (0, import_bellajs7.isArray)(item) ? item : [item];
+  const items = isArray(item) ? item : [item];
   const {
     includeFullContent,
     convertPubDateToISO
   } = getReaderOptions();
   return {
     title: getText(title),
-    link: getLink(link, id),
+    link: getPureUrl(link, id),
     description: subtitle,
     language,
     generator,

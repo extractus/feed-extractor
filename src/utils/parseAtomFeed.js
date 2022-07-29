@@ -3,43 +3,16 @@
 // specs: https://datatracker.ietf.org/doc/html/rfc5023
 // refer: https://validator.w3.org/feed/docs/atom.html
 
-import { isString, isObject, isArray, hasProperty } from 'bellajs'
-import { decode } from 'html-entities'
+import { isArray } from 'bellajs'
 
 import {
+  getText,
   toISODateString,
-  buildDescription
+  buildDescription,
+  getPureUrl
 } from './normalizer.js'
 
-import { isValid as isValidUrl, purify as purifyUrl } from './linker.js'
-
 import { getReaderOptions } from '../config.js'
-
-const getText = (val) => {
-  const txt = isObject(val) ? (val._text || val['#text'] || val._cdata || val.$t) : val
-  return txt ? decode(String(txt).trim()) : ''
-}
-
-const getLink = (val = [], id = '') => {
-  if (isValidUrl(id)) {
-    return purifyUrl(id)
-  }
-  const getEntryLink = (links) => {
-    const items = links.map((item) => {
-      return getLink(item)
-    })
-    return items.length > 0 ? items[0] : null
-  }
-  return isString(val)
-    ? getText(val)
-    : isObject(val) && hasProperty(val, 'href')
-      ? getText(val.href)
-      : isObject(val) && hasProperty(val, '@_href')
-        ? getText(val['@_href'])
-        : isObject(val) && hasProperty(val, '_attributes')
-          ? getText(val._attributes.href)
-          : isArray(val) ? getEntryLink(val) : null
-}
 
 const transform = (item, includeFullContent, convertPubDateToISO) => {
   const {
@@ -56,7 +29,7 @@ const transform = (item, includeFullContent, convertPubDateToISO) => {
   const htmlContent = getText(content)
   const entry = {
     title: getText(title),
-    link: getLink(link, id),
+    link: getPureUrl(link, id),
     published: convertPubDateToISO ? toISODateString(pubDate) : pubDate,
     description: buildDescription(htmlContent || summary)
   }
@@ -87,7 +60,7 @@ const parseAtom = (data) => {
 
   return {
     title: getText(title),
-    link: getLink(link, id),
+    link: getPureUrl(link, id),
     description: subtitle,
     language,
     generator,
