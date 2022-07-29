@@ -9,6 +9,8 @@ import {
   buildDescription
 } from './normalizer.js'
 
+import { purify as purifyUrl } from './linker.js'
+
 import { getReaderOptions } from '../config.js'
 
 const transform = (item, includeFullContent, convertPubDateToISO) => {
@@ -25,7 +27,7 @@ const transform = (item, includeFullContent, convertPubDateToISO) => {
 
   const entry = {
     title,
-    link,
+    link: purifyUrl(link),
     published,
     description: buildDescription(textContent || htmlContent || summary)
   }
@@ -53,7 +55,7 @@ const parseJson = (data) => {
 
   return {
     title,
-    link: homepageUrl,
+    link: purifyUrl(homepageUrl),
     description,
     language,
     published: '',

@@ -5,11 +5,11 @@
 import { isArray } from 'bellajs'
 
 import {
+  getText,
   toISODateString,
-  buildDescription
+  buildDescription,
+  getPureUrl
 } from './normalizer.js'
-
-import { purify as purifyUrl } from './linker.js'
 
 import { getReaderOptions } from '../config.js'
 
@@ -24,8 +24,8 @@ const transform = (item, includeFullContent, convertPubDateToISO) => {
   const published = convertPubDateToISO ? toISODateString(pubDate) : pubDate
 
   const entry = {
-    title,
-    link: purifyUrl(link),
+    title: getText(title),
+    link: getPureUrl(link),
     published,
     description: buildDescription(description)
   }
@@ -54,8 +54,8 @@ const parseRss = (data) => {
   } = getReaderOptions()
 
   return {
-    title,
-    link,
+    title: getText(title),
+    link: getPureUrl(link),
     description,
     language,
     generator,
