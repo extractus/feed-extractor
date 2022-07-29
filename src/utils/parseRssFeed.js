@@ -24,7 +24,7 @@ const transform = (item, includeFullContent, convertPubDateToISO) => {
   const published = convertPubDateToISO ? toISODateString(pubDate) : pubDate
 
   const entry = {
-    title,
+    title: getText(title),
     link: getPureUrl(link),
     published,
     description: buildDescription(description)
