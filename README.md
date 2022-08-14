@@ -18,6 +18,9 @@ To read & normalize RSS/ATOM/JSON feed data.
 ```js
 import { read } from 'feed-reader'
 
+// with CommonJS environments
+// const { read } = require('./dist/cjs/feed-reader.js')
+
 const url = 'https://news.google.com/rss'
 
 read(url).then((feed) => {

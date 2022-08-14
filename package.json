@@ -17,8 +17,10 @@
   "scripts": {
     "lint": "standard .",
     "pretest": "npm run lint",
-    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage=true",
+    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --coverage=true",
+    "build": "node build",
     "eval": "node eval",
+    "eval:cjs": "node eval.cjs",
     "reset": "node reset"
   },
   "dependencies": {
@@ -28,6 +30,7 @@
     "html-entities": "^2.3.3"
   },
   "devDependencies": {
+    "esbuild": "^0.15.2",
     "jest": "^28.1.3",
     "nock": "^13.2.9"
   },
