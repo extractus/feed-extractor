@@ -26,7 +26,7 @@ const transform = (item, includeFullContent, convertPubDateToISO) => {
   } = item
 
   const pubDate = updated || published
-  const htmlContent = getText(content)
+  const htmlContent = getText(content || summary)
   const entry = {
     title: getText(title),
     link: getPureUrl(link, id),
