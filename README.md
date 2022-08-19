@@ -8,10 +8,12 @@ To read & normalize RSS/ATOM/JSON feed data.
 ![CodeQL](https://github.com/ndaidong/feed-reader/workflows/CodeQL/badge.svg)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+[![Deploy](https://button.deta.dev/1/svg)](https://go.deta.dev/deploy?repo=https://github.com/ndaidong/feed-reader-deta)
+
 ## Demo
 
 - [Give it a try!](https://demos.pwshub.com/feed-reader)
-- [Example FaaS](https://extractor.pwshub.com/feed/parse?url=https://news.google.com/rss&apikey=demo-TEyRycuuMCiGBiBocbLGSpagfj7gOF8AMyAWfEgP)
+- [Example FaaS](https://readfeed.deta.dev/?url=https://news.google.com/rss)
 
 ### Usage
 
@@ -19,7 +21,7 @@ To read & normalize RSS/ATOM/JSON feed data.
 import { read } from 'feed-reader'
 
 // with CommonJS environments
-// const { read } = require('./dist/cjs/feed-reader.js')
+// const { read } = require('feed-reader/dist/cjs/feed-reader.js')
 
 const url = 'https://news.google.com/rss'
 
