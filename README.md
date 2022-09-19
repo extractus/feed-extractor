@@ -34,7 +34,6 @@ read(url).then((feed) => {
 
 ## APIs
 
-- [.read(String url)](#readstring-url)
 
 ### `read(String url [, Object options])`
 
@@ -86,11 +85,12 @@ With default option, feed data object retuned by `read()` method should look lik
 }
 ```
 
-- `options`:
+#### `options`
+
   - `normalization`: Boolean, normalize feed data or keep original. Default `true`.
   - `includeEntryContent`: Boolean, include full content of feed entry if present. Default `false`.
   - `useISODateFormat`: Boolean, convert datetime to ISO format. Default `true`.
-  - `descriptionMaxLen`: Number, to truncate description. Default `210`.
+  - `descriptionMaxLen`: Number, to truncate description. Default `210` (characters).
 
 Note that when `normalization` is set to `false`, other options will take no effect to the last output.
 
