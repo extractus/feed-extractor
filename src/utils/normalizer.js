@@ -13,8 +13,6 @@ import { decode } from 'html-entities'
 
 import { isValid as isValidUrl, purify as purifyUrl } from './linker.js'
 
-import { getReaderOptions } from '../config.js'
-
 export const toISODateString = (dstr) => {
   try {
     return dstr ? (new Date(dstr)).toISOString() : ''
@@ -23,10 +21,9 @@ export const toISODateString = (dstr) => {
   }
 }
 
-export const buildDescription = (val) => {
-  const { descriptionMaxLen } = getReaderOptions()
+export const buildDescription = (val, maxlen) => {
   const stripped = stripTags(String(val))
-  return truncate(stripped, descriptionMaxLen).replace(/\n+/g, ' ')
+  return truncate(stripped, maxlen).replace(/\n+/g, ' ')
 }
 
 export const getText = (val) => {

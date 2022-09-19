@@ -3,7 +3,7 @@
 // specs: https://datatracker.ietf.org/doc/html/rfc5023
 // refer: https://validator.w3.org/feed/docs/atom.html
 
-import { isArray } from 'bellajs'
+import { isArray, hasProperty } from 'bellajs'
 
 import {
   getText,
@@ -12,9 +12,13 @@ import {
   getPureUrl
 } from './normalizer.js'
 
-import { getReaderOptions } from '../config.js'
+const transform = (item, options) => {
+  const {
+    includeEntryContent,
+    useISODateFormat,
+    descriptionMaxLen
+  } = options
 
-const transform = (item, includeFullContent, convertPubDateToISO) => {
   const {
     id = '',
     title = '',
@@ -30,16 +34,61 @@ const transform = (item, includeFullContent, convertPubDateToISO) => {
   const entry = {
     title: getText(title),
     link: getPureUrl(link, id),
-    published: convertPubDateToISO ? toISODateString(pubDate) : pubDate,
-    description: buildDescription(htmlContent || summary)
+    published: useISODateFormat ? toISODateString(pubDate) : pubDate,
+    description: buildDescription(htmlContent || summary, descriptionMaxLen)
   }
-  if (includeFullContent) {
+  if (includeEntryContent) {
     entry.content = htmlContent
   }
   return entry
 }
 
-const parseAtom = (data) => {
+const flatten = (feed) => {
+  const {
+    id,
+    title = '',
+    link = '',
+    entry
+  } = feed
+
+  const entries = isArray(entry) ? entry : [entry]
+  const items = entries.map((entry) => {
+    const {
+      id,
+      title = '',
+      link = '',
+      summary = '',
+      content = ''
+    } = entry
+    const item = {
+      ...entry,
+      title: getText(title),
+      link: getPureUrl(link, id)
+    }
+    if (hasProperty(item, 'summary')) {
+      item.summary = getText(summary)
+    }
+    if (hasProperty(item, 'content')) {
+      item.content = getText(content)
+    }
+    return item
+  })
+
+  const output = {
+    ...feed,
+    title: getText(title),
+    link: getPureUrl(link, id),
+    entry: isArray(entry) ? items : items[0]
+  }
+  return output
+}
+
+const parseAtom = (data, options = {}) => {
+  const { normalization } = options
+  if (!normalization) {
+    return flatten(data.feed)
+  }
+
   const {
     id = '',
     title = '',
@@ -53,10 +102,7 @@ const parseAtom = (data) => {
 
   const items = isArray(item) ? item : [item]
 
-  const {
-    includeFullContent,
-    convertPubDateToISO
-  } = getReaderOptions()
+  const published = options.useISODateFormat ? toISODateString(updated) : updated
 
   return {
     title: getText(title),
@@ -64,13 +110,13 @@ const parseAtom = (data) => {
     description: subtitle,
     language,
     generator,
-    published: toISODateString(updated),
+    published,
     entries: items.map((item) => {
-      return transform(item, includeFullContent, convertPubDateToISO)
+      return transform(item, options)
     })
   }
 }
 
-export default (data) => {
-  return parseAtom(data)
+export default (data, options = {}) => {
+  return parseAtom(data, options)
 }

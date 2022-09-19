@@ -2,11 +2,13 @@
 
 // import { writeFileSync } from 'fs'
 
+import parseArgs from 'args-parser'
+
 import { read } from './src/main.js'
 
-const extractFromUrl = async (url) => {
+const extractFromUrl = async (url, options) => {
   try {
-    const feed = await read(url)
+    const feed = await read(url, options)
     console.log(feed)
     // writeFileSync('output.json', JSON.stringify(feed, undefined, 2), 'utf8')
   } catch (err) {
@@ -15,11 +17,19 @@ const extractFromUrl = async (url) => {
 }
 
 const init = (argv) => {
-  if (argv.length === 3) {
-    const isUrl = argv[2]
-    return isUrl ? extractFromUrl(isUrl) : false
+  const {
+    url,
+    normalization = 'y',
+    includeEntryContent = 'n',
+    useISODateFormat = 'y'
+  } = parseArgs(argv)
+
+  const options = {
+    normalization: normalization === 'y',
+    includeEntryContent: includeEntryContent === 'y',
+    useISODateFormat: useISODateFormat === 'y'
   }
-  return 'Nothing to do!'
+  return url ? extractFromUrl(url, options) : false
 }
 
 init(process.argv)

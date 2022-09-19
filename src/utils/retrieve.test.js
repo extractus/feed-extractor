@@ -18,7 +18,7 @@ describe('test retrieve() method', () => {
     const url = 'https://some.where/bad/page'
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(500, 'Error 500')
-    expect(retrieve(url)).rejects.toThrow(new Error('AxiosError: Request failed with status code 500'))
+    expect(retrieve(url)).rejects.toThrow(new Error('Request failed with error code 500'))
   })
 
   test('test retrieve from good source', async () => {

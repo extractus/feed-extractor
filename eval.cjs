@@ -2,7 +2,7 @@
 
 // to quickly test with a single url or file
 
-const { read } = require('./dist/cjs/feed-reader.js')
+const { read } = require('feed-reader')
 
 const extractFromUrl = async (url) => {
   try {

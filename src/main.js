@@ -11,14 +11,7 @@ import parseJsonFeed from './utils/parseJsonFeed.js'
 import parseRssFeed from './utils/parseRssFeed.js'
 import parseAtomFeed from './utils/parseAtomFeed.js'
 
-export {
-  getRequestOptions,
-  setRequestOptions,
-  getReaderOptions,
-  setReaderOptions
-} from './config.js'
-
-export const read = async (url) => {
+export const read = async (url, options = {}) => {
   if (!isValidUrl(url)) {
     throw new Error('Input param must be a valid URL')
   }
@@ -29,8 +22,22 @@ export const read = async (url) => {
 
   const { type, json, text } = data
 
+  const {
+    includeEntryContent = false,
+    useISODateFormat = true,
+    normalization = true,
+    descriptionMaxLen = 210
+  } = options
+
+  const opts = {
+    normalization,
+    includeEntryContent,
+    useISODateFormat,
+    descriptionMaxLen
+  }
+
   if (type === 'json') {
-    return parseJsonFeed(json)
+    return parseJsonFeed(json, opts)
   }
 
   if (!validate(text)) {
@@ -39,8 +46,8 @@ export const read = async (url) => {
 
   const xml = xml2obj(text)
   return isRSS(xml)
-    ? parseRssFeed(xml)
+    ? parseRssFeed(xml, opts)
     : isAtom(xml)
-      ? parseAtomFeed(xml)
+      ? parseAtomFeed(xml, opts)
       : null
 }
