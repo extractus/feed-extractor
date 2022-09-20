@@ -1,0 +1,11 @@
+{
+  "name": "bun-feed-reader",
+  "module": "index.ts",
+  "devDependencies": {
+    "bun-types": "^0.1.0"
+  },
+  "dependencies": {
+    "feed-reader": "latest",
+    "hono": "^2.1.4"
+  }
+}

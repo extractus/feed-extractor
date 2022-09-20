@@ -1,5 +1,5 @@
 {
-  "version": "6.1.0rc3",
+  "version": "6.1.0",
   "name": "feed-reader",
   "description": "To read and normalize RSS/ATOM/JSON feed data",
   "homepage": "https://www.npmjs.com/package/feed-reader",
@@ -45,7 +45,8 @@
   },
   "standard": {
     "ignore": [
-      "/dist"
+      "/dist",
+      "/examples"
     ]
   },
   "keywords": [

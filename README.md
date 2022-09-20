@@ -86,6 +86,20 @@ getFeedData('https://news.google.com/atom')
 getFeedData('https://adactio.com/journal/feed.json')
 ```
 
+### Deno
+
+```ts
+import { read } from 'https://esm.sh/feed-reader'
+
+(async () => {
+  const data = await read('https://news.google.com/rss')
+  console.log(data)
+})();
+```
+
+View [more examples](https://github.com/ndaidong/article-parser/tree/main/examples).
+
+
 With default options, feed data object retuned by `read()` method should look like below:
 
 ```json
