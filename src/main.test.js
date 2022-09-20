@@ -291,7 +291,6 @@ describe('test read() without normalization', () => {
     const result = await read(url, {
       normalization: false
     })
-    console.log(result.item.category)
     expect(hasProperty(result, 'copyright')).toBe(true)
     expect(hasProperty(result, 'item')).toBe(true)
     expect(hasProperty(result.item, 'guid')).toBe(true)

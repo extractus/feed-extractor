@@ -1,9 +1,9 @@
 /**
  * build.js
  * @ndaidong
- **/
+**/
 
-import { readFileSync, writeFileSync, rmSync, mkdirSync } from 'fs'
+import { readFileSync, writeFileSync, copyFileSync, rmSync, mkdirSync } from 'fs'
 
 import { buildSync } from 'esbuild'
 
@@ -22,23 +22,29 @@ const comment = [
   `published under ${pkg.license} license`
 ].join(' - ')
 
-/**
- * @type {import('esbuild').BuildOptions}
- * */
 const baseOpt = {
   entryPoints: ['src/main.js'],
   bundle: true,
   charset: 'utf8',
   target: ['es2020', 'node14'],
-  minify: true,
-  write: true,
-  sourcemap: 'external',
-  external: ['canvas']
+  pure: ['console.log', 'debug', 'alert'],
+  legalComments: 'none',
+  minify: false,
+  sourcemap: false,
+  write: true
 }
 
-/**
- * @type {import('esbuild').BuildOptions}
- */
+const esmVersion = {
+  ...baseOpt,
+  platform: 'browser',
+  format: 'esm',
+  outfile: `dist/${pkg.name}.esm.js`,
+  banner: {
+    js: comment
+  }
+}
+buildSync(esmVersion)
+
 const cjsVersion = {
   ...baseOpt,
   platform: 'node',
@@ -52,26 +58,16 @@ const cjsVersion = {
 buildSync(cjsVersion)
 
 const cjspkg = {
-  name: pkg.name + '-cjs',
+  name: pkg.name,
   version: pkg.version,
   main: `./${pkg.name}.js`
 }
+
 writeFileSync(
   'dist/cjs/package.json',
   JSON.stringify(cjspkg, null, '  '),
   'utf8'
 )
 
-/**
- * @type {import('esbuild').BuildOptions}
- */
-const browserVersion = {
-  ...baseOpt,
-  platform: 'browser',
-  format: 'esm',
-  outfile: `dist/${pkg.name}.browser.js`,
-  banner: {
-    js: comment
-  }
-}
-buildSync(browserVersion)
+// copy types definition to cjs dir
+copyFileSync('./index.d.ts', 'dist/cjs/index.d.ts')

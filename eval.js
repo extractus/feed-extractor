@@ -26,10 +26,10 @@ const init = (argv) => {
   } = parseArgs(argv)
 
   const options = {
-    normalization: normalization === 'y',
     includeEntryContent: includeEntryContent === 'y',
     includeOptionalElements: includeOptionalElements === 'y',
-    useISODateFormat: useISODateFormat === 'y'
+    useISODateFormat: useISODateFormat !== 'n',
+    normalization: normalization !== 'n'
   }
   return url ? extractFromUrl(url, options) : false
 }
