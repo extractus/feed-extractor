@@ -115,7 +115,7 @@ describe('test read() standard feed', (done) => {
     const json = readFileSync('test-data/json-feed-standard-realworld.json', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, json, {
-      'Content-Type': 'application/json'
+      'Content-Type': 'text/json'
     })
     const result = await read(url)
     feedAttrs.forEach((k) => {

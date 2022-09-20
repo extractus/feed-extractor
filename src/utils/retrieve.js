@@ -12,17 +12,20 @@ export default async (url) => {
   if (status >= 400) {
     throw new Error(`Request failed with error code ${status}`)
   }
-  const contentType = res.headers.get('content-type') || 'application/xml'
+  const contentType = res.headers.get('content-type')
   const text = await res.text()
 
-  if (contentType.includes('/xml')) {
+  if (/(\+|\/)xml/.test(contentType)) {
     return { type: 'xml', text: text.trim(), status, contentType }
   }
 
-  try {
-    const data = JSON.parse(text)
-    return { type: 'json', json: data, status, contentType }
-  } catch (err) {
-    throw new Error('Failed to convert data to JSON object')
+  if (/(\+|\/)json/.test(contentType)) {
+    try {
+      const data = JSON.parse(text)
+      return { type: 'json', json: data, status, contentType }
+    } catch (err) {
+      throw new Error('Failed to convert data to JSON object')
+    }
   }
+  throw new Error(`Invalid content type: ${contentType}`)
 }
