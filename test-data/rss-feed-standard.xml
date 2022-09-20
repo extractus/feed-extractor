@@ -14,6 +14,11 @@
          <link>http://www.example.com/blog/post/1</link>
          <guid isPermaLink="false">7bd204c6-1655-4c27-aeee-53f933c5395f</guid>
          <pubDate>Sun, 6 September 2009 16:20:00 +0000</pubDate>
+         <comments>http://example.com/blog/post/1/comments</comments>
+         <category>Tech</category>
+         <category domain="http://block.chain/crypto">Crypto</category>
+         <author>alice@example.com (Alice Ecila)</author>
+         <source url="http://whatnew.pub/articles/163977">What's new</source>
       </item>
    </channel>
 </rss>

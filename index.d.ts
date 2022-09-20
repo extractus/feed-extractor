@@ -1,6 +1,6 @@
 // Type definitions
 
-export function read(url: string): Promise<FeedData>;
+export function read(url: string, options?: object): Promise<FeedData>;
 
 
 export interface FeedData {

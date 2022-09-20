@@ -34,12 +34,33 @@ read(url).then((feed) => {
 
 ## APIs
 
-- [.read(String url)](#readstring-url)
-- [Configuration methods](#configuration-methods)
 
-### read(String url)
+### `read(String url [, Object options])`
 
 Load and extract feed data from given RSS/ATOM/JSON source. Return a Promise object.
+
+#### `url`
+
+URL of a valid feed source
+
+Feed content must be accessible and conform one of the following standards:
+
+  - [RSS Feed](https://www.rssboard.org/rss-specification)
+  - [ATOM Feed](https://datatracker.ietf.org/doc/html/rfc5023)
+  - [JSON Feed](https://www.jsonfeed.org/version/1.1/)
+
+#### `options`
+
+Object with all or several of the following properties:
+
+  - `normalization`: Boolean, normalize feed data or keep original. Default `true`.
+  - `includeEntryContent`: Boolean, include full content of feed entry if present. Default `false`.
+  - `includeOptionalElements`: Boolean, include optional elements such as `enclosure`, `category`, etc. Default `false`.
+  - `useISODateFormat`: Boolean, convert datetime to ISO format. Default `true`.
+  - `descriptionMaxLen`: Number, to truncate description. Default `210` (characters).
+
+Note that when `normalization` is set to `false`, other options will take no effect to the last output.
+
 
 Example:
 
@@ -65,7 +86,7 @@ getFeedData('https://news.google.com/atom')
 getFeedData('https://adactio.com/journal/feed.json')
 ```
 
-Feed data object retuned by `read()` method should look like below:
+With default options, feed data object retuned by `read()` method should look like below:
 
 ```json
 {
@@ -87,42 +108,16 @@ Feed data object retuned by `read()` method should look like below:
 }
 ```
 
-### Configuration methods
-
-#### `setRequestOptions(Object requestOptions)`
-
-Affect to the way how `axios` works. Please refer [axios' request config](https://axios-http.com/docs/req_config) for more info.
-
-#### `getRequestOptions()`
-
-Return current request options.
-
-Default values can be found [here](https://github.com/ndaidong/feed-reader/blob/main/src/config.js#L5).
-
-#### `setReaderOptions(Object readerOptions)`
-
-To change default reader options.
-
-- `descriptionMaxLen`: Number, max num of chars for description (default: `210`)
-- `includeFullContent`: Boolean, add `content` to entry if available (default: `false`)
-- `convertPubDateToISO`: Boolean, reformat published date to [ISO standard](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString) (default: `true`)
-
-#### `getReaderOptions()`
-
-Return current reader options.
-
-
-## Test
+## Quick evaluation
 
 ```bash
 git clone https://github.com/ndaidong/feed-reader.git
 cd feed-reader
 npm install
 
-# quick evaluation
-npm run eval https://news.google.com/rss
-npm test
+node eval.js --url=https://news.google.com/rss --normalization=y --useISODateFormat=y --includeEntryContent=n
 ```
+
 
 ## License
 The MIT License (MIT)

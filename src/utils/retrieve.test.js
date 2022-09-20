@@ -18,13 +18,24 @@ describe('test retrieve() method', () => {
     const url = 'https://some.where/bad/page'
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(500, 'Error 500')
-    expect(retrieve(url)).rejects.toThrow(new Error('AxiosError: Request failed with status code 500'))
+    expect(retrieve(url)).rejects.toThrow(new Error('Request failed with error code 500'))
+  })
+
+  test('test retrieve with bad conten type', async () => {
+    const url = 'https://some.where/bad/page'
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, '<?xml version="1.0"?><tag>this is xml</tag>', {
+      'Content-Type': 'something/type'
+    })
+    expect(retrieve(url)).rejects.toThrow(new Error('Invalid content type: something/type'))
   })
 
   test('test retrieve from good source', async () => {
     const url = 'https://some.where/good/page'
     const { baseUrl, path } = parseUrl(url)
-    nock(baseUrl).get(path).reply(200, '<div>this is content</div>')
+    nock(baseUrl).get(path).reply(200, '<div>this is content</div>', {
+      'Content-Type': 'application/rss+xml'
+    })
     const result = await retrieve(url)
     expect(result.type).toEqual('xml')
     expect(result.text).toEqual('<div>this is content</div>')
@@ -33,7 +44,9 @@ describe('test retrieve() method', () => {
   test('test retrieve from good source, but having \\r\\n before/after root xml', async () => {
     const url = 'https://some.where/good/page'
     const { baseUrl, path } = parseUrl(url)
-    nock(baseUrl).get(path).reply(200, '\n\r\r\n\n<div>this is content</div>\n\r\r\n\n')
+    nock(baseUrl).get(path).reply(200, '\n\r\r\n\n<div>this is content</div>\n\r\r\n\n', {
+      'Content-Type': 'text/xml'
+    })
     const result = await retrieve(url)
     expect(result.type).toEqual('xml')
     expect(result.text).toBe('<div>this is content</div>')

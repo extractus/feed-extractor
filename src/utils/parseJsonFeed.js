@@ -11,9 +11,13 @@ import {
 
 import { purify as purifyUrl } from './linker.js'
 
-import { getReaderOptions } from '../config.js'
+const transform = (item, options) => {
+  const {
+    includeEntryContent,
+    useISODateFormat,
+    descriptionMaxLen
+  } = options
 
-const transform = (item, includeFullContent, convertPubDateToISO) => {
   const {
     title = '',
     url: link = '',
@@ -23,21 +27,26 @@ const transform = (item, includeFullContent, convertPubDateToISO) => {
     content_text: textContent = ''
   } = item
 
-  const published = convertPubDateToISO ? toISODateString(pubDate) : pubDate
+  const published = useISODateFormat ? toISODateString(pubDate) : pubDate
 
   const entry = {
     title,
     link: purifyUrl(link),
     published,
-    description: buildDescription(textContent || htmlContent || summary)
+    description: buildDescription(textContent || htmlContent || summary, descriptionMaxLen)
   }
-  if (includeFullContent) {
+  if (includeEntryContent) {
     entry.content = htmlContent || textContent || summary
   }
   return entry
 }
 
-const parseJson = (data) => {
+const parseJson = (data, options) => {
+  const { normalization } = options
+  if (!normalization) {
+    return data
+  }
+
   const {
     title = '',
     home_page_url: homepageUrl = '',
@@ -48,11 +57,6 @@ const parseJson = (data) => {
 
   const items = isArray(item) ? item : [item]
 
-  const {
-    includeFullContent,
-    convertPubDateToISO
-  } = getReaderOptions()
-
   return {
     title,
     link: purifyUrl(homepageUrl),
@@ -61,11 +65,11 @@ const parseJson = (data) => {
     published: '',
     generator: '',
     entries: items.map((item) => {
-      return transform(item, includeFullContent, convertPubDateToISO)
+      return transform(item, options)
     })
   }
 }
 
-export default (data) => {
-  return parseJson(data)
+export default (data, options = {}) => {
+  return parseJson(data, options)
 }

@@ -1,5 +1,5 @@
 {
-  "version": "6.0.2",
+  "version": "6.1.0rc2",
   "name": "feed-reader",
   "description": "To read and normalize RSS/ATOM/JSON feed data",
   "homepage": "https://www.npmjs.com/package/feed-reader",
@@ -10,6 +10,16 @@
   "author": "@ndaidong",
   "main": "./src/main.js",
   "type": "module",
+  "exports": {
+    "import": "./src/main.js",
+    "require": "./dist/cjs/feed-reader.js"
+  },
+  "imports": {
+    "cross-fetch": "./src/deno/cross-fetch.js"
+  },
+  "browser": {
+    "cross-fetch": "./src/deno/cross-fetch.js"
+  },
   "types": "./index.d.ts",
   "engines": {
     "node": ">= 14"
@@ -19,17 +29,16 @@
     "pretest": "npm run lint",
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage=true",
     "build": "node build",
-    "eval": "node eval",
-    "eval:cjs": "node eval.cjs",
     "reset": "node reset"
   },
   "dependencies": {
-    "axios": "^0.27.2",
     "bellajs": "^11.0.4",
+    "cross-fetch": "^3.1.5",
     "fast-xml-parser": "^4.0.9",
     "html-entities": "^2.3.3"
   },
   "devDependencies": {
+    "args-parser": "^1.3.0",
     "esbuild": "^0.15.5",
     "jest": "^28.1.3",
     "nock": "^13.2.9"

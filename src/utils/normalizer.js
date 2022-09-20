@@ -13,8 +13,6 @@ import { decode } from 'html-entities'
 
 import { isValid as isValidUrl, purify as purifyUrl } from './linker.js'
 
-import { getReaderOptions } from '../config.js'
-
 export const toISODateString = (dstr) => {
   try {
     return dstr ? (new Date(dstr)).toISOString() : ''
@@ -23,10 +21,9 @@ export const toISODateString = (dstr) => {
   }
 }
 
-export const buildDescription = (val) => {
-  const { descriptionMaxLen } = getReaderOptions()
+export const buildDescription = (val, maxlen) => {
   const stripped = stripTags(String(val))
-  return truncate(stripped, descriptionMaxLen).replace(/\n+/g, ' ')
+  return truncate(stripped, maxlen).replace(/\n+/g, ' ')
 }
 
 export const getText = (val) => {
@@ -42,7 +39,7 @@ export const getLink = (val = [], id = '') => {
     const items = links.map((item) => {
       return getLink(item)
     })
-    return items.length > 0 ? items[0] : null
+    return items.length > 0 ? items[0] : ''
   }
   return isString(val)
     ? getText(val)
@@ -50,12 +47,52 @@ export const getLink = (val = [], id = '') => {
       ? getText(val.href)
       : isObject(val) && hasProperty(val, '@_href')
         ? getText(val['@_href'])
-        : isObject(val) && hasProperty(val, '_attributes')
-          ? getText(val._attributes.href)
-          : isArray(val) ? getEntryLink(val) : null
+        : isObject(val) && hasProperty(val, '@_url')
+          ? getText(val['@_url'])
+          : isObject(val) && hasProperty(val, '_attributes')
+            ? getText(val._attributes.href)
+            : isArray(val) ? getEntryLink(val) : ''
 }
 
 export const getPureUrl = (url, id = '') => {
   const link = getLink(url, id)
-  return purifyUrl(link)
+  return link ? purifyUrl(link) : ''
+}
+
+export const getEnclosure = (val) => {
+  const url = hasProperty(val, '@_url') ? val['@_url'] : ''
+  const type = hasProperty(val, '@_type') ? val['@_type'] : ''
+  const length = Number(hasProperty(val, '@_length') ? val['@_length'] : 0)
+  return !url || !type
+    ? null
+    : {
+        url,
+        type,
+        length
+      }
+}
+
+const getCategory = (v) => {
+  return isObject(v)
+    ? {
+        text: getText(v),
+        domain: v['@_domain']
+      }
+    : v
+}
+
+export const getOptionalTags = (val, key) => {
+  if (key === 'source') {
+    return {
+      text: getText(val),
+      url: getLink(val)
+    }
+  }
+  if (key === 'category') {
+    return isArray(val) ? val.map(getCategory) : getCategory(val)
+  }
+  if (key === 'enclosure') {
+    return getEnclosure(val)
+  }
+  return val
 }

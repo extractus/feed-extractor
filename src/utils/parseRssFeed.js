@@ -2,18 +2,24 @@
 
 // specs: https://www.rssboard.org/rss-specification
 
-import { isArray } from 'bellajs'
+import { isArray, hasProperty } from 'bellajs'
 
 import {
   getText,
   toISODateString,
   buildDescription,
-  getPureUrl
+  getPureUrl,
+  getOptionalTags
 } from './normalizer.js'
 
-import { getReaderOptions } from '../config.js'
+const transform = (item, options) => {
+  const {
+    includeEntryContent,
+    includeOptionalElements,
+    useISODateFormat,
+    descriptionMaxLen
+  } = options
 
-const transform = (item, includeFullContent, convertPubDateToISO) => {
   const {
     title = '',
     link = '',
@@ -21,21 +27,84 @@ const transform = (item, includeFullContent, convertPubDateToISO) => {
     description = ''
   } = item
 
-  const published = convertPubDateToISO ? toISODateString(pubDate) : pubDate
+  const published = useISODateFormat ? toISODateString(pubDate) : pubDate
 
   const entry = {
     title: getText(title),
     link: getPureUrl(link),
     published,
-    description: buildDescription(description)
+    description: buildDescription(description, descriptionMaxLen)
   }
-  if (includeFullContent) {
+
+  if (includeOptionalElements) {
+    const optionalProps = 'author comments source category enclosure'.split(' ')
+    optionalProps.forEach((key) => {
+      if (hasProperty(item, key)) {
+        entry[key] = getOptionalTags(item[key], key)
+      }
+    })
+  }
+
+  if (includeEntryContent) {
     entry.content = description
   }
   return entry
 }
 
-const parseRss = (data) => {
+const flatten = (feed) => {
+  const {
+    title = '',
+    link = '',
+    item
+  } = feed
+
+  const items = isArray(item) ? item : [item]
+  const entries = items.map((entry) => {
+    const {
+      id,
+      title = '',
+      link = ''
+    } = entry
+
+    const item = {
+      ...entry,
+      title: getText(title),
+      link: getPureUrl(link, id)
+    }
+
+    const txtTags = 'guid description source'.split(' ')
+
+    txtTags.forEach((key) => {
+      if (hasProperty(entry, key)) {
+        item[key] = getText(entry[key])
+      }
+    })
+
+    const optionalProps = 'source category enclosure'.split(' ')
+    optionalProps.forEach((key) => {
+      if (hasProperty(item, key)) {
+        entry[key] = getOptionalTags(item[key], key)
+      }
+    })
+
+    return item
+  })
+
+  const output = {
+    ...feed,
+    title: getText(title),
+    link: getPureUrl(link),
+    item: isArray(item) ? entries : entries[0]
+  }
+  return output
+}
+
+const parseRss = (data, options = {}) => {
+  const { normalization } = options
+  if (!normalization) {
+    return flatten(data.rss.channel)
+  }
+
   const {
     title = '',
     link = '',
@@ -48,10 +117,7 @@ const parseRss = (data) => {
 
   const items = isArray(item) ? item : [item]
 
-  const {
-    includeFullContent,
-    convertPubDateToISO
-  } = getReaderOptions()
+  const published = options.useISODateFormat ? toISODateString(lastBuildDate) : lastBuildDate
 
   return {
     title: getText(title),
@@ -59,13 +125,13 @@ const parseRss = (data) => {
     description,
     language,
     generator,
-    published: toISODateString(lastBuildDate),
+    published,
     entries: items.map((item) => {
-      return transform(item, includeFullContent, convertPubDateToISO)
+      return transform(item, options)
     })
   }
 }
 
-export default (data) => {
-  return parseRss(data)
+export default (data, options = {}) => {
+  return parseRss(data, options)
 }
