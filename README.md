@@ -55,7 +55,7 @@ Object with all or several of the following properties:
 
   - `normalization`: Boolean, normalize feed data or keep original. Default `true`.
   - `includeEntryContent`: Boolean, include full content of feed entry if present. Default `false`.
-  - `includeOptionalElements`: Boolean, include optional elements such as `enclosure`, `category`, etc. Default `false`.
+  - `includeOptionalElements`: Boolean, include optional elements. Default `false`.
   - `useISODateFormat`: Boolean, convert datetime to ISO format. Default `true`.
   - `descriptionMaxLen`: Number, to truncate description. Default `210` (characters).
 
