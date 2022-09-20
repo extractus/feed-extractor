@@ -21,12 +21,14 @@ const init = (argv) => {
     url,
     normalization = 'y',
     includeEntryContent = 'n',
+    includeOptionalElements = 'n',
     useISODateFormat = 'y'
   } = parseArgs(argv)
 
   const options = {
     normalization: normalization === 'y',
     includeEntryContent: includeEntryContent === 'y',
+    includeOptionalElements: includeOptionalElements === 'y',
     useISODateFormat: useISODateFormat === 'y'
   }
   return url ? extractFromUrl(url, options) : false

@@ -24,6 +24,7 @@ export const read = async (url, options = {}) => {
 
   const {
     includeEntryContent = false,
+    includeOptionalElements = false,
     useISODateFormat = true,
     normalization = true,
     descriptionMaxLen = 210
@@ -32,6 +33,7 @@ export const read = async (url, options = {}) => {
   const opts = {
     normalization,
     includeEntryContent,
+    includeOptionalElements,
     useISODateFormat,
     descriptionMaxLen
   }

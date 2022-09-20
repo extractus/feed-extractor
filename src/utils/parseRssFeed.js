@@ -8,12 +8,14 @@ import {
   getText,
   toISODateString,
   buildDescription,
-  getPureUrl
+  getPureUrl,
+  getOptionalTags
 } from './normalizer.js'
 
 const transform = (item, options) => {
   const {
     includeEntryContent,
+    includeOptionalElements,
     useISODateFormat,
     descriptionMaxLen
   } = options
@@ -33,6 +35,16 @@ const transform = (item, options) => {
     published,
     description: buildDescription(description, descriptionMaxLen)
   }
+
+  if (includeOptionalElements) {
+    const optionalProps = 'author comments source category enclosure'.split(' ')
+    optionalProps.forEach((key) => {
+      if (hasProperty(item, key)) {
+        entry[key] = getOptionalTags(item[key], key)
+      }
+    })
+  }
+
   if (includeEntryContent) {
     entry.content = description
   }
@@ -51,25 +63,30 @@ const flatten = (feed) => {
     const {
       id,
       title = '',
-      link = '',
-      guid = '',
-      description = '',
-      source = ''
+      link = ''
     } = entry
+
     const item = {
       ...entry,
       title: getText(title),
       link: getPureUrl(link, id)
     }
-    if (hasProperty(item, 'guid')) {
-      item.guid = getText(guid)
-    }
-    if (hasProperty(item, 'description')) {
-      item.description = getText(description)
-    }
-    if (hasProperty(item, 'source')) {
-      item.source = getText(source)
-    }
+
+    const txtTags = 'guid description source'.split(' ')
+
+    txtTags.forEach((key) => {
+      if (hasProperty(entry, key)) {
+        item[key] = getText(entry[key])
+      }
+    })
+
+    const optionalProps = 'source category enclosure'.split(' ')
+    optionalProps.forEach((key) => {
+      if (hasProperty(item, key)) {
+        entry[key] = getOptionalTags(item[key], key)
+      }
+    })
+
     return item
   })
 

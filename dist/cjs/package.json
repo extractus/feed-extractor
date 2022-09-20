@@ -1,5 +1,5 @@
 {
   "name": "feed-reader-cjs",
-  "version": "6.1.0rc1",
+  "version": "6.1.0rc2",
   "main": "./feed-reader.js"
 }

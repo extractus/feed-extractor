@@ -5,7 +5,7 @@ import { readFileSync } from 'fs'
 
 import nock from 'nock'
 
-import { hasProperty } from 'bellajs'
+import { hasProperty, isArray } from 'bellajs'
 
 import { read } from './main.js'
 
@@ -125,6 +125,57 @@ describe('test read() standard feed', (done) => {
       expect(hasProperty(result.entries[0], k)).toBe(true)
     })
   })
+
+  test('read rss podcast feed with enclosure tag', async () => {
+    const url = 'https://some-podcast-page.tld/podcast/rss'
+    const xml = readFileSync('test-data/podcast.rss', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, xml, {
+      'Content-Type': 'application/xml'
+    })
+    const result = await read(url, {
+      includeOptionalElements: true
+    })
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(result, k)).toBe(true)
+    })
+    entryAttrs.forEach((k) => {
+      expect(hasProperty(result.entries[0], k)).toBe(true)
+      expect(hasProperty(result.entries[0], 'enclosure')).toBe(true)
+      const enclosure = result.entries[0].enclosure
+      expect(hasProperty(enclosure, 'url')).toBe(true)
+      expect(hasProperty(enclosure, 'type')).toBe(true)
+      expect(hasProperty(enclosure, 'length')).toBe(true)
+    })
+  })
+
+  test('read rss standard feed with optional elements', async () => {
+    const url = 'https://some-optional-element.tld/rss'
+    const xml = readFileSync('test-data/rss-feed-standard.xml', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, xml, {
+      'Content-Type': 'application/xml'
+    })
+    const result = await read(url, {
+      includeOptionalElements: true
+    })
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(result, k)).toBe(true)
+    })
+    const entry = result.entries[0]
+    entryAttrs.forEach((k) => {
+      expect(hasProperty(entry, k)).toBe(true)
+      expect(hasProperty(entry, 'author')).toBe(true)
+      expect(hasProperty(entry, 'comments')).toBe(true)
+      expect(hasProperty(entry, 'source')).toBe(true)
+      expect(hasProperty(entry, 'category')).toBe(true)
+    })
+    const source = entry.source
+    expect(hasProperty(source, 'text')).toBe(true)
+    expect(hasProperty(source, 'url')).toBe(true)
+    const category = entry.category
+    expect(isArray(category)).toBe(true)
+  })
 })
 
 describe('test read() standard feed full content', () => {
@@ -240,6 +291,7 @@ describe('test read() without normalization', () => {
     const result = await read(url, {
       normalization: false
     })
+    console.log(result.item.category)
     expect(hasProperty(result, 'copyright')).toBe(true)
     expect(hasProperty(result, 'item')).toBe(true)
     expect(hasProperty(result.item, 'guid')).toBe(true)
@@ -294,5 +346,19 @@ describe('test read() without normalization', () => {
     expect(hasProperty(result, 'items')).toBe(true)
     expect(hasProperty(result.items[0], 'tags')).toBe(true)
     expect(hasProperty(result.items[0], 'date_published')).toBe(true)
+  })
+
+  test('read rss podcast feed with enclosure tag', async () => {
+    const url = 'https://some-podcast-page.tld/podcast/rss'
+    const xml = readFileSync('test-data/podcast.rss', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, xml, {
+      'Content-Type': 'application/xml'
+    })
+    const result = await read(url, {
+      normalization: false
+    })
+    expect(hasProperty(result, 'itunes:owner')).toBe(true)
+    expect(hasProperty(result.item[0], 'itunes:duration')).toBe(true)
   })
 })

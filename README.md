@@ -39,6 +39,29 @@ read(url).then((feed) => {
 
 Load and extract feed data from given RSS/ATOM/JSON source. Return a Promise object.
 
+#### `url`
+
+URL of a valid feed source
+
+Feed content must be accessible and conform one of the following standards:
+
+  - [RSS Feed](https://www.rssboard.org/rss-specification)
+  - [ATOM Feed](https://datatracker.ietf.org/doc/html/rfc5023)
+  - [JSON Feed](https://www.jsonfeed.org/version/1.1/)
+
+#### `options`
+
+Object with all or several of the following properties:
+
+  - `normalization`: Boolean, normalize feed data or keep original. Default `true`.
+  - `includeEntryContent`: Boolean, include full content of feed entry if present. Default `false`.
+  - `includeOptionalElements`: Boolean, include optional elements such as `enclosure`, `category`, etc. Default `false`.
+  - `useISODateFormat`: Boolean, convert datetime to ISO format. Default `true`.
+  - `descriptionMaxLen`: Number, to truncate description. Default `210` (characters).
+
+Note that when `normalization` is set to `false`, other options will take no effect to the last output.
+
+
 Example:
 
 ```js
@@ -63,7 +86,7 @@ getFeedData('https://news.google.com/atom')
 getFeedData('https://adactio.com/journal/feed.json')
 ```
 
-With default option, feed data object retuned by `read()` method should look like below:
+With default options, feed data object retuned by `read()` method should look like below:
 
 ```json
 {
@@ -84,16 +107,6 @@ With default option, feed data object retuned by `read()` method should look lik
   ]
 }
 ```
-
-#### `options`
-
-  - `normalization`: Boolean, normalize feed data or keep original. Default `true`.
-  - `includeEntryContent`: Boolean, include full content of feed entry if present. Default `false`.
-  - `useISODateFormat`: Boolean, convert datetime to ISO format. Default `true`.
-  - `descriptionMaxLen`: Number, to truncate description. Default `210` (characters).
-
-Note that when `normalization` is set to `false`, other options will take no effect to the last output.
-
 
 ## Quick evaluation
 
