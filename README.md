@@ -21,6 +21,8 @@ To read & normalize RSS/ATOM/JSON feed data.
 import { read } from 'feed-reader'
 
 // with CommonJS environments
+// const { extract } = require('feed-reader')
+// or specify exactly path to cjs variant
 // const { read } = require('feed-reader/dist/cjs/feed-reader.js')
 
 const url = 'https://news.google.com/rss'
@@ -34,12 +36,11 @@ read(url).then((feed) => {
 
 ## APIs
 
-
 ### `read(String url [, Object options])`
 
 Load and extract feed data from given RSS/ATOM/JSON source. Return a Promise object.
 
-#### `url`
+#### `url` *required*
 
 URL of a valid feed source
 
@@ -49,7 +50,7 @@ Feed content must be accessible and conform one of the following standards:
   - [ATOM Feed](https://datatracker.ietf.org/doc/html/rfc5023)
   - [JSON Feed](https://www.jsonfeed.org/version/1.1/)
 
-#### `options`
+#### `options` *optional*
 
 Object with all or several of the following properties:
 
@@ -97,7 +98,7 @@ import { read } from 'https://esm.sh/feed-reader'
 })();
 ```
 
-View [more examples](https://github.com/ndaidong/article-parser/tree/main/examples).
+View [more examples](https://github.com/ndaidong/feed-reader/tree/main/examples).
 
 
 With default options, feed data object retuned by `read()` method should look like below:
@@ -129,7 +130,7 @@ git clone https://github.com/ndaidong/feed-reader.git
 cd feed-reader
 npm install
 
-node eval.js --url=https://news.google.com/rss --normalization=y --useISODateFormat=y --includeEntryContent=n
+node eval.js --url=https://news.google.com/rss --normalization=y --useISODateFormat=y --includeEntryContent=n --includeOptionalElements=n
 ```
 
 
