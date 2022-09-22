@@ -177,6 +177,9 @@ read(url, null, {
 })
 ```
 
+Passing requests to proxy is useful while running `feed-reader` on browser. View `examples/browser-feed-reader` as reference example.
+
+
 ## Quick evaluation
 
 ```bash
