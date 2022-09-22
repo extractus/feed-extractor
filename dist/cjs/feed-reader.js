@@ -1,4 +1,4 @@
-// feed-reader@6.1.0, by @ndaidong - built with esbuild at 2022-09-20T06:33:56.898Z - published under MIT license
+// feed-reader@6.1.1, by @ndaidong - built with esbuild at 2022-09-22T06:03:19.517Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4748,12 +4748,24 @@ var purify = (url) => {
 
 // src/utils/retrieve.js
 var import_cross_fetch = __toESM(require_node_ponyfill(), 1);
-var retrieve_default = async (url) => {
-  const res = await (0, import_cross_fetch.default)(url, {
-    headers: {
-      "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101 Firefox/104.0"
-    }
+var profetch = async (url, proxy = {}) => {
+  const {
+    target,
+    headers = {}
+  } = proxy;
+  const res = await (0, import_cross_fetch.default)(target + encodeURIComponent(url), {
+    headers
   });
+  return res;
+};
+var retrieve_default = async (url, options = {}) => {
+  const {
+    headers = {
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101 Firefox/104.0"
+    },
+    proxy = null
+  } = options;
+  const res = proxy ? await profetch(url, proxy) : await (0, import_cross_fetch.default)(url, { headers });
   const status = res.status;
   if (status >= 400) {
     throw new Error(`Request failed with error code ${status}`);
@@ -5171,11 +5183,11 @@ var parseAtomFeed_default = (data, options = {}) => {
 };
 
 // src/main.js
-var read = async (url, options = {}) => {
+var read = async (url, options = {}, fetchOptions = {}) => {
   if (!isValid(url)) {
     throw new Error("Input param must be a valid URL");
   }
-  const data = await retrieve_default(url);
+  const data = await retrieve_default(url, fetchOptions);
   if (!data.text && !data.json) {
     throw new Error(`Failed to load content from "${url}"`);
   }

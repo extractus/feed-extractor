@@ -15,32 +15,63 @@ To read & normalize RSS/ATOM/JSON feed data.
 - [Give it a try!](https://demos.pwshub.com/feed-reader)
 - [Example FaaS](https://readfeed.deta.dev/?url=https://news.google.com/rss)
 
-### Usage
+## Install & Usage
+
+### Node.js
+
+```bash
+npm i feed-reader
+
+# pnpm
+pnpm i feed-reader
+
+# yarn
+yarn add feed-reader
+```
 
 ```js
+// es6 module
 import { read } from 'feed-reader'
 
-// with CommonJS environments
-// const { extract } = require('feed-reader')
-// or specify exactly path to cjs variant
-// const { read } = require('feed-reader/dist/cjs/feed-reader.js')
+// CommonJS
+const { read } = require('feed-reader')
 
-const url = 'https://news.google.com/rss'
-
-read(url).then((feed) => {
-  console.log(feed)
-}).catch((err) => {
-  console.log(err)
-})
+// or specify exactly path to CommonJS variant
+const { read } = require('feed-reader/dist/cjs/feed-reader.js')
 ```
+
+### Deno
+
+```ts
+import { read } from 'https://esm.sh/feed-reader'
+```
+
+### Browser
+
+```js
+import { read } from 'https://unpkg.com/feed-reader@latest/dist/feed-reader.esm.js'
+```
+
+Please check [the examples](https://github.com/ndaidong/feed-reader/tree/main/examples) for reference.
+
 
 ## APIs
 
-### `read(String url [, Object options])`
+### `read()`
 
 Load and extract feed data from given RSS/ATOM/JSON source. Return a Promise object.
 
-#### `url` *required*
+#### Syntax
+
+```js
+read(String url)
+read(String url, Object options)
+read(String url, Object options, Object fetchOptions)
+```
+
+#### Parameters
+
+##### `url` *required*
 
 URL of a valid feed source
 
@@ -50,7 +81,37 @@ Feed content must be accessible and conform one of the following standards:
   - [ATOM Feed](https://datatracker.ietf.org/doc/html/rfc5023)
   - [JSON Feed](https://www.jsonfeed.org/version/1.1/)
 
-#### `options` *optional*
+For example:
+
+```js
+import { read } from 'feed-reader'
+
+read('https://news.google.com/atom').then(result => console.log(result))
+```
+
+Without any options, the result should have the following structure:
+
+```js
+{
+  title: String,
+  link: String,
+  description: String,
+  generator: String,
+  language: String,
+  published: ISO Date String,
+  entries: Array[
+    {
+      title: String,
+      link: String,
+      description: String,
+      published: ISO Datetime String
+    },
+    // ...
+  ]
+}
+```
+
+##### `options` *optional*
 
 Object with all or several of the following properties:
 
@@ -62,66 +123,62 @@ Object with all or several of the following properties:
 
 Note that when `normalization` is set to `false`, other options will take no effect to the last output.
 
-
-Example:
+For example:
 
 ```js
-import {
-  read
-} from 'feed-reader'
+import { read } from 'feed-reader'
 
-const getFeedData = async (url) => {
-  try {
-    console.log(`Get feed data from ${url}`)
-    const result = await read(url)
-    // result may be feed data or null
-    console.log(result)
-    return result
-  } catch (err) {
-    console.trace(err)
+read('https://news.google.com/atom', {
+  useISODateFormat: false
+})
+
+read('https://news.google.com/rss', {
+  useISODateFormat: false,
+  includeOptionalElements: true
+})
+```
+
+##### `fetchOptions` *optional*
+
+You can use this param to set request headers to fetch.
+
+For example:
+
+```js
+import { read } from 'feed-reader'
+
+const url = 'https://news.google.com/rss'
+read(url, null, {
+  headers: {
+    'user-agent': 'Opera/9.60 (Windows NT 6.0; U; en) Presto/2.1.1'
   }
-}
-
-getFeedData('https://news.google.com/rss')
-getFeedData('https://news.google.com/atom')
-getFeedData('https://adactio.com/journal/feed.json')
+})
 ```
 
-### Deno
+You can also specify a proxy endpoint to load remote content, instead of fetching directly.
 
-```ts
-import { read } from 'https://esm.sh/feed-reader'
+For example:
 
-(async () => {
-  const data = await read('https://news.google.com/rss')
-  console.log(data)
-})();
+```js
+import { read } from 'feed-reader'
+
+const url = 'https://news.google.com/rss'
+
+read(url, null, {
+  headers: {
+    'user-agent': 'Opera/9.60 (Windows NT 6.0; U; en) Presto/2.1.1'
+  },
+  proxy: {
+    target: 'https://your-secret-proxy.io/loadXml?url=',
+    headers: {
+      'Proxy-Authorization': 'Bearer YWxhZGRpbjpvcGVuc2VzYW1l...'
+    }
+  }
+})
 ```
 
-View [more examples](https://github.com/ndaidong/feed-reader/tree/main/examples).
+Passing requests to proxy is useful while running `feed-reader` on browser. View `examples/browser-feed-reader` as reference example.
 
-
-With default options, feed data object retuned by `read()` method should look like below:
-
-```json
-{
-  "title": "Top stories - Google News",
-  "link": "https://news.google.com/atom?hl=en-US&gl=US&ceid=US%3Aen",
-  "description": "Google News",
-  "generator": "NFE/5.0",
-  "language": "",
-  "published": "2021-12-23T15:01:12.000Z",
-  "entries": [
-    {
-      "title": "Lone suspect in Waukesha parade crash to appear in court today, as Wisconsin reels from tragedy that left 5 dead and dozens more injured - CNN",
-      "link": "https://news.google.com/__i/rss/rd/articles/CBMiTmh0dHBzOi8vd3d3LmNubi5jb20vMjAyMS8xMS8yMy91cy93YXVrZXNoYS1jYXItcGFyYWRlLWNyb3dkLXR1ZXNkYXkvaW5kZXguaHRtbNIBUmh0dHBzOi8vYW1wLmNubi5jb20vY25uLzIwMjEvMTEvMjMvdXMvd2F1a2VzaGEtY2FyLXBhcmFkZS1jcm93ZC10dWVzZGF5L2luZGV4Lmh0bWw?oc=5",
-      "description": "Lone suspect in Waukesha parade crash to appear in court today, as Wisconsin reels from tragedy that left 5 dead and dozens more injured &nbsp;&nbsp; CNN Waukesha Christmas parade attack: 5 dead, 48 injured, Darrell Brooks named as...",
-      "published": "2021-12-21T22:30:00.000Z"
-    },
-    // ...
-  ]
-}
-```
 
 ## Quick evaluation
 
@@ -132,7 +189,6 @@ npm install
 
 node eval.js --url=https://news.google.com/rss --normalization=y --useISODateFormat=y --includeEntryContent=n --includeOptionalElements=n
 ```
-
 
 ## License
 The MIT License (MIT)

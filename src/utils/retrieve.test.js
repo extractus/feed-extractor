@@ -51,4 +51,26 @@ describe('test retrieve() method', () => {
     expect(result.type).toEqual('xml')
     expect(result.text).toBe('<div>this is content</div>')
   })
+
+  test('test retrieve using proxy', async () => {
+    const url = 'https://some.where/good/source-with-proxy'
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, 'something bad', {
+      'Content-Type': 'bad/thing'
+    })
+    nock('https://proxy-server.com')
+      .get('/api/proxy?url=https%3A%2F%2Fsome.where%2Fgood%2Fsource-with-proxy')
+      .reply(200, '<?xml version="1.0"?><tag>this is xml</tag>', {
+        'Content-Type': 'text/xml'
+      })
+
+    const result = await retrieve(url, {
+      proxy: {
+        target: 'https://proxy-server.com/api/proxy?url='
+      }
+    })
+    expect(result.type).toEqual('xml')
+    expect(result.text).toEqual('<?xml version="1.0"?><tag>this is xml</tag>')
+    nock.cleanAll()
+  })
 })
