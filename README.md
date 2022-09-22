@@ -52,7 +52,7 @@ import { read } from 'https://esm.sh/feed-reader'
 import { read } from 'https://unpkg.com/feed-reader@latest/dist/feed-reader.esm.js'
 ```
 
-View [more examples](https://github.com/ndaidong/feed-reader/tree/main/examples).
+Please check [the examples](https://github.com/ndaidong/feed-reader/tree/main/examples) for reference.
 
 
 ## APIs
