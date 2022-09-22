@@ -11,11 +11,11 @@ import parseJsonFeed from './utils/parseJsonFeed.js'
 import parseRssFeed from './utils/parseRssFeed.js'
 import parseAtomFeed from './utils/parseAtomFeed.js'
 
-export const read = async (url, options = {}) => {
+export const read = async (url, options = {}, fetchOptions = {}) => {
   if (!isValidUrl(url)) {
     throw new Error('Input param must be a valid URL')
   }
-  const data = await retrieve(url)
+  const data = await retrieve(url, fetchOptions)
   if (!data.text && !data.json) {
     throw new Error(`Failed to load content from "${url}"`)
   }
