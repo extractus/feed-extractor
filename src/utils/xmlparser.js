@@ -16,9 +16,11 @@ export const validate = (xml) => {
   return (!isString(xml) || !xml.length) ? false : XMLValidator.validate(xml) === true
 }
 
-export const xml2obj = (xml = '') => {
+export const xml2obj = (xml = '', extraOptions = {}) => {
   const options = {
-    ignoreAttributes: false
+    ...extraOptions,
+    ignoreAttributes: false,
+    attributeNamePrefix: "@_"
   }
   const parser = new XMLParser(options)
   const jsonObj = parser.parse(xml)

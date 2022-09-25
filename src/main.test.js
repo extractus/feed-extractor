@@ -8,6 +8,7 @@ import nock from 'nock'
 import { hasProperty, isArray } from 'bellajs'
 
 import { read } from './main.js'
+import { getPureUrl } from './utils/normalizer.js'
 
 const feedAttrs = 'title link description generator language published entries'.split(' ')
 const entryAttrs = 'title link description published'.split(' ')
@@ -94,6 +95,29 @@ describe('test read() standard feed', (done) => {
     })
   })
 
+  test('read atom feed from Google with extraFields', async () => {
+    const url = 'https://some-news-page.tld/atom'
+    const xml = readFileSync('test-data/atom-feed-standard-realworld.xml', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, xml, {
+      'Content-Type': 'application/xml'
+    })
+    const result = await read(url, {
+      extraFeedFields: data => {
+        return {
+          author: data.author,
+        }
+      },
+      extraEntryFields: data => {
+        return {
+          id: data.id
+        }
+      }
+    })
+      expect(hasProperty(result, 'author')).toBe(true)
+      expect(hasProperty(result.entries[0], 'id')).toBe(true)
+  })
+
   test('read atom feed which contains multi links', async () => {
     const url = 'https://some-news-page.tld/atom/multilinks'
     const xml = readFileSync('test-data/atom-multilinks.xml', 'utf8')
@@ -124,6 +148,29 @@ describe('test read() standard feed', (done) => {
     entryAttrs.forEach((k) => {
       expect(hasProperty(result.entries[0], k)).toBe(true)
     })
+  })
+
+  test('read json feed from Micro.blog with extra fields', async () => {
+    const url = 'https://some-news-page.tld/json'
+    const json = readFileSync('test-data/json-feed-standard-realworld.json', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, json, {
+      'Content-Type': 'text/json'
+    })
+    const result = await read(url, {
+      extraFeedFields: data => {
+        return {
+          icon: data.icon,
+        }
+      },
+      extraEntryFields: data => {
+        return {
+          id: data.id
+        }
+      }
+    })
+    expect(hasProperty(result, 'icon')).toBe(true)
+    expect(hasProperty(result.entries[0], 'id')).toBe(true)
   })
 
   test('read rss podcast feed with enclosure tag', async () => {
@@ -175,6 +222,34 @@ describe('test read() standard feed', (done) => {
     expect(hasProperty(source, 'url')).toBe(true)
     const category = entry.category
     expect(isArray(category)).toBe(true)
+  })
+
+  test('read rss podcast feed with extra fields', async () => {
+    const url = 'https://some-podcast-page.tld/podcast/rss'
+    const xml = readFileSync('test-data/podcast.rss', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, xml, {
+      'Content-Type': 'application/xml'
+    })
+    const result = await read(url, {
+      extraFeedFields: (data) => {
+        return {
+          author: data.author,
+          image: getPureUrl(data.image)
+        }
+      },
+      extraEntryFields: (data) => {
+        return {
+          duration: data.duration
+        }
+      },
+      xmlParserOptions: {
+        removeNSPrefix: true,
+      }
+    })
+    expect(result.author).toBe("Dafna")
+    expect(result.image).toBe("https://www.example.com/podcasts/dafnas-zebras/img/dafna-zebra-pod-logo.jpg")
+    expect(result.entries[0].duration).toBe("30:00")
   })
 })
 

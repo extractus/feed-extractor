@@ -27,7 +27,10 @@ export const read = async (url, options = {}, fetchOptions = {}) => {
     includeOptionalElements = false,
     useISODateFormat = true,
     normalization = true,
-    descriptionMaxLen = 210
+    descriptionMaxLen = 210,
+    extraFeedFields = () => ({}),
+    extraEntryFields = () => ({}),
+    xmlParserOptions = {},
   } = options
 
   const opts = {
@@ -35,7 +38,9 @@ export const read = async (url, options = {}, fetchOptions = {}) => {
     includeEntryContent,
     includeOptionalElements,
     useISODateFormat,
-    descriptionMaxLen
+    descriptionMaxLen,
+    extraFeedFields,
+    extraEntryFields,
   }
 
   if (type === 'json') {
@@ -46,7 +51,7 @@ export const read = async (url, options = {}, fetchOptions = {}) => {
     throw new Error('The XML document is not well-formed')
   }
 
-  const xml = xml2obj(text)
+  const xml = xml2obj(text, xmlParserOptions)
   return isRSS(xml)
     ? parseRssFeed(xml, opts)
     : isAtom(xml)
