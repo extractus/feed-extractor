@@ -14,9 +14,9 @@ import {
 
 const transform = (item, options) => {
   const {
-    includeEntryContent,
     useISODateFormat,
-    descriptionMaxLen
+    descriptionMaxLen,
+    getExtraEntryFields
   } = options
 
   const {
@@ -37,10 +37,13 @@ const transform = (item, options) => {
     published: useISODateFormat ? toISODateString(pubDate) : pubDate,
     description: buildDescription(htmlContent || summary, descriptionMaxLen)
   }
-  if (includeEntryContent) {
-    entry.content = htmlContent
+
+  const extraFields = getExtraEntryFields(item)
+
+  return {
+    ...entry,
+    ...extraFields
   }
-  return entry
 }
 
 const flatten = (feed) => {
@@ -84,7 +87,11 @@ const flatten = (feed) => {
 }
 
 const parseAtom = (data, options = {}) => {
-  const { normalization } = options
+  const {
+    normalization,
+    getExtraFeedFields
+  } = options
+
   if (!normalization) {
     return flatten(data.feed)
   }
@@ -100,6 +107,8 @@ const parseAtom = (data, options = {}) => {
     entry: item = []
   } = data.feed
 
+  const extraFields = getExtraFeedFields(data.feed)
+
   const items = isArray(item) ? item : [item]
 
   const published = options.useISODateFormat ? toISODateString(updated) : updated
@@ -111,6 +120,7 @@ const parseAtom = (data, options = {}) => {
     language,
     generator,
     published,
+    ...extraFields,
     entries: items.map((item) => {
       return transform(item, options)
     })

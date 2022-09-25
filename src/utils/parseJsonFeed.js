@@ -13,9 +13,9 @@ import { purify as purifyUrl } from './linker.js'
 
 const transform = (item, options) => {
   const {
-    includeEntryContent,
     useISODateFormat,
-    descriptionMaxLen
+    descriptionMaxLen,
+    getExtraEntryFields
   } = options
 
   const {
@@ -28,6 +28,7 @@ const transform = (item, options) => {
   } = item
 
   const published = useISODateFormat ? toISODateString(pubDate) : pubDate
+  const extraFields = getExtraEntryFields(item)
 
   const entry = {
     title,
@@ -35,14 +36,19 @@ const transform = (item, options) => {
     published,
     description: buildDescription(textContent || htmlContent || summary, descriptionMaxLen)
   }
-  if (includeEntryContent) {
-    entry.content = htmlContent || textContent || summary
+
+  return {
+    ...entry,
+    ...extraFields
   }
-  return entry
 }
 
 const parseJson = (data, options) => {
-  const { normalization } = options
+  const {
+    normalization,
+    getExtraFeedFields
+  } = options
+
   if (!normalization) {
     return data
   }
@@ -55,6 +61,8 @@ const parseJson = (data, options) => {
     items: item = []
   } = data
 
+  const extraFields = getExtraFeedFields(data)
+
   const items = isArray(item) ? item : [item]
 
   return {
@@ -64,6 +72,7 @@ const parseJson = (data, options) => {
     language,
     published: '',
     generator: '',
+    ...extraFields,
     entries: items.map((item) => {
       return transform(item, options)
     })

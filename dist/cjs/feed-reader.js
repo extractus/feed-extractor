@@ -1,4 +1,4 @@
-// feed-reader@6.1.1, by @ndaidong - built with esbuild at 2022-09-22T06:03:19.517Z - published under MIT license
+// feed-reader@6.1.2, by @ndaidong - built with esbuild at 2022-09-25T16:43:35.779Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4847,9 +4847,11 @@ var isAtom = (data = {}) => {
 var validate = (xml) => {
   return !isString(xml) || !xml.length ? false : import_fast_xml_parser.XMLValidator.validate(xml) === true;
 };
-var xml2obj = (xml = "") => {
+var xml2obj = (xml = "", extraOptions = {}) => {
   const options = {
-    ignoreAttributes: false
+    ...extraOptions,
+    ignoreAttributes: false,
+    attributeNamePrefix: "@_"
   };
   const parser = new import_fast_xml_parser.XMLParser(options);
   const jsonObj = parser.parse(xml);
@@ -4924,9 +4926,9 @@ var getOptionalTags = (val, key) => {
 // src/utils/parseJsonFeed.js
 var transform = (item, options) => {
   const {
-    includeEntryContent,
     useISODateFormat,
-    descriptionMaxLen
+    descriptionMaxLen,
+    getExtraEntryFields
   } = options;
   const {
     title = "",
@@ -4937,19 +4939,23 @@ var transform = (item, options) => {
     content_text: textContent = ""
   } = item;
   const published = useISODateFormat ? toISODateString(pubDate) : pubDate;
+  const extraFields = getExtraEntryFields(item);
   const entry = {
     title,
     link: purify(link),
     published,
     description: buildDescription(textContent || htmlContent || summary, descriptionMaxLen)
   };
-  if (includeEntryContent) {
-    entry.content = htmlContent || textContent || summary;
-  }
-  return entry;
+  return {
+    ...entry,
+    ...extraFields
+  };
 };
 var parseJson = (data, options) => {
-  const { normalization } = options;
+  const {
+    normalization,
+    getExtraFeedFields
+  } = options;
   if (!normalization) {
     return data;
   }
@@ -4960,6 +4966,7 @@ var parseJson = (data, options) => {
     language = "",
     items: item = []
   } = data;
+  const extraFields = getExtraFeedFields(data);
   const items = isArray(item) ? item : [item];
   return {
     title,
@@ -4968,6 +4975,7 @@ var parseJson = (data, options) => {
     language,
     published: "",
     generator: "",
+    ...extraFields,
     entries: items.map((item2) => {
       return transform(item2, options);
     })
@@ -4980,10 +4988,9 @@ var parseJsonFeed_default = (data, options = {}) => {
 // src/utils/parseRssFeed.js
 var transform2 = (item, options) => {
   const {
-    includeEntryContent,
-    includeOptionalElements,
     useISODateFormat,
-    descriptionMaxLen
+    descriptionMaxLen,
+    getExtraEntryFields
   } = options;
   const {
     title = "",
@@ -4998,18 +5005,11 @@ var transform2 = (item, options) => {
     published,
     description: buildDescription(description, descriptionMaxLen)
   };
-  if (includeOptionalElements) {
-    const optionalProps = "author comments source category enclosure".split(" ");
-    optionalProps.forEach((key) => {
-      if (hasProperty(item, key)) {
-        entry[key] = getOptionalTags(item[key], key);
-      }
-    });
-  }
-  if (includeEntryContent) {
-    entry.content = description;
-  }
-  return entry;
+  const extraFields = getExtraEntryFields(item);
+  return {
+    ...entry,
+    ...extraFields
+  };
 };
 var flatten = (feed) => {
   const {
@@ -5035,7 +5035,7 @@ var flatten = (feed) => {
         item2[key] = getText(entry[key]);
       }
     });
-    const optionalProps = "source category enclosure".split(" ");
+    const optionalProps = "source category enclosure author image".split(" ");
     optionalProps.forEach((key) => {
       if (hasProperty(item2, key)) {
         entry[key] = getOptionalTags(item2[key], key);
@@ -5052,7 +5052,10 @@ var flatten = (feed) => {
   return output;
 };
 var parseRss = (data, options = {}) => {
-  const { normalization } = options;
+  const {
+    normalization,
+    getExtraFeedFields
+  } = options;
   if (!normalization) {
     return flatten(data.rss.channel);
   }
@@ -5065,6 +5068,7 @@ var parseRss = (data, options = {}) => {
     lastBuildDate = "",
     item = []
   } = data.rss.channel;
+  const extraFields = getExtraFeedFields(data.rss.channel);
   const items = isArray(item) ? item : [item];
   const published = options.useISODateFormat ? toISODateString(lastBuildDate) : lastBuildDate;
   return {
@@ -5074,6 +5078,7 @@ var parseRss = (data, options = {}) => {
     language,
     generator,
     published,
+    ...extraFields,
     entries: items.map((item2) => {
       return transform2(item2, options);
     })
@@ -5086,9 +5091,9 @@ var parseRssFeed_default = (data, options = {}) => {
 // src/utils/parseAtomFeed.js
 var transform3 = (item, options) => {
   const {
-    includeEntryContent,
     useISODateFormat,
-    descriptionMaxLen
+    descriptionMaxLen,
+    getExtraEntryFields
   } = options;
   const {
     id = "",
@@ -5107,10 +5112,11 @@ var transform3 = (item, options) => {
     published: useISODateFormat ? toISODateString(pubDate) : pubDate,
     description: buildDescription(htmlContent || summary, descriptionMaxLen)
   };
-  if (includeEntryContent) {
-    entry.content = htmlContent;
-  }
-  return entry;
+  const extraFields = getExtraEntryFields(item);
+  return {
+    ...entry,
+    ...extraFields
+  };
 };
 var flatten2 = (feed) => {
   const {
@@ -5150,7 +5156,10 @@ var flatten2 = (feed) => {
   return output;
 };
 var parseAtom = (data, options = {}) => {
-  const { normalization } = options;
+  const {
+    normalization,
+    getExtraFeedFields
+  } = options;
   if (!normalization) {
     return flatten2(data.feed);
   }
@@ -5164,6 +5173,7 @@ var parseAtom = (data, options = {}) => {
     updated = "",
     entry: item = []
   } = data.feed;
+  const extraFields = getExtraFeedFields(data.feed);
   const items = isArray(item) ? item : [item];
   const published = options.useISODateFormat ? toISODateString(updated) : updated;
   return {
@@ -5173,6 +5183,7 @@ var parseAtom = (data, options = {}) => {
     language,
     generator,
     published,
+    ...extraFields,
     entries: items.map((item2) => {
       return transform3(item2, options);
     })
@@ -5193,18 +5204,19 @@ var read = async (url, options = {}, fetchOptions = {}) => {
   }
   const { type, json, text } = data;
   const {
-    includeEntryContent = false,
-    includeOptionalElements = false,
-    useISODateFormat = true,
     normalization = true,
-    descriptionMaxLen = 210
+    descriptionMaxLen = 210,
+    useISODateFormat = true,
+    xmlParserOptions = {},
+    getExtraFeedFields = () => ({}),
+    getExtraEntryFields = () => ({})
   } = options;
   const opts = {
     normalization,
-    includeEntryContent,
-    includeOptionalElements,
+    descriptionMaxLen,
     useISODateFormat,
-    descriptionMaxLen
+    getExtraFeedFields,
+    getExtraEntryFields
   };
   if (type === "json") {
     return parseJsonFeed_default(json, opts);
@@ -5212,7 +5224,7 @@ var read = async (url, options = {}, fetchOptions = {}) => {
   if (!validate(text)) {
     throw new Error("The XML document is not well-formed");
   }
-  const xml = xml2obj(text);
+  const xml = xml2obj(text, xmlParserOptions);
   return isRSS(xml) ? parseRssFeed_default(xml, opts) : isAtom(xml) ? parseAtomFeed_default(xml, opts) : null;
 };
 // Annotate the CommonJS export names for ESM import in node:
