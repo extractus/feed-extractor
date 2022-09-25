@@ -14,11 +14,9 @@ import {
 
 const transform = (item, options) => {
   const {
-    includeEntryContent,
-    includeOptionalElements,
     useISODateFormat,
     descriptionMaxLen,
-    extraEntryFields,
+    getExtraEntryFields
   } = options
 
   const {
@@ -27,8 +25,6 @@ const transform = (item, options) => {
     pubDate = '',
     description = ''
   } = item
-
-  const extraFields = extraEntryFields(item)
 
   const published = useISODateFormat ? toISODateString(pubDate) : pubDate
 
@@ -39,21 +35,11 @@ const transform = (item, options) => {
     description: buildDescription(description, descriptionMaxLen)
   }
 
-  if (includeOptionalElements) {
-    const optionalProps = 'author comments source category enclosure'.split(' ')
-    optionalProps.forEach((key) => {
-      if (hasProperty(item, key)) {
-        entry[key] = getOptionalTags(item[key], key)
-      }
-    })
-  }
+  const extraFields = getExtraEntryFields(item)
 
-  if (includeEntryContent) {
-    entry.content = description
-  }
   return {
     ...entry,
-    ...extraFields,
+    ...extraFields
   }
 }
 
@@ -86,7 +72,7 @@ const flatten = (feed) => {
       }
     })
 
-    const optionalProps = 'source category enclosure'.split(' ')
+    const optionalProps = 'source category enclosure author image'.split(' ')
     optionalProps.forEach((key) => {
       if (hasProperty(item, key)) {
         entry[key] = getOptionalTags(item[key], key)
@@ -106,7 +92,11 @@ const flatten = (feed) => {
 }
 
 const parseRss = (data, options = {}) => {
-  const { normalization, extraFeedFields } = options
+  const {
+    normalization,
+    getExtraFeedFields
+  } = options
+
   if (!normalization) {
     return flatten(data.rss.channel)
   }
@@ -121,7 +111,7 @@ const parseRss = (data, options = {}) => {
     item = []
   } = data.rss.channel
 
-  const extraFields = extraFeedFields(data.rss.channel);
+  const extraFields = getExtraFeedFields(data.rss.channel)
 
   const items = isArray(item) ? item : [item]
 

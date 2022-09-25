@@ -116,12 +116,11 @@ Without any options, the result should have the following structure:
 Object with all or several of the following properties:
 
   - `normalization`: Boolean, normalize feed data or keep original. Default `true`.
-  - `includeEntryContent`: Boolean, include full content of feed entry if present. Default `false`.
-  - `includeOptionalElements`: Boolean, include optional elements. Default `false`.
   - `useISODateFormat`: Boolean, convert datetime to ISO format. Default `true`.
   - `descriptionMaxLen`: Number, to truncate description. Default `210` (characters).
-
-Note that when `normalization` is set to `false`, other options will take no effect to the last output.
+  - `xmlParserOptions`: Object, used by xml parser, view [fast-xml-parser's docs](https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/docs/v4/2.XMLparseOptions.md)
+  - `getExtraFeedFields`: Function, to get more fields from feed data
+  - `getExtraEntryFields`: Function, to get more fields from feed entry data
 
 For example:
 
@@ -134,7 +133,28 @@ read('https://news.google.com/atom', {
 
 read('https://news.google.com/rss', {
   useISODateFormat: false,
-  includeOptionalElements: true
+  getExtraFeedFields: (feedData) => {
+    return {
+      subtitle: feed.subtitle || ''
+    }
+  },
+  getExtraEntryFields: (feedEntry) => {
+    const {
+      enclosure,
+      category
+    } = feedEntry
+    return {
+      enclosure: {
+        url: enclosure['@_url'],
+        type: enclosure['@_type'],
+        length: enclosure['@_length']
+      },
+      category: isString(category) ? category : {
+        text: category['@_text'],
+        domain: category['@_domain']
+      }
+    }
+  }
 })
 ```
 

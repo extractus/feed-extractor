@@ -20,7 +20,7 @@ export const xml2obj = (xml = '', extraOptions = {}) => {
   const options = {
     ...extraOptions,
     ignoreAttributes: false,
-    attributeNamePrefix: "@_"
+    attributeNamePrefix: '@_'
   }
   const parser = new XMLParser(options)
   const jsonObj = parser.parse(xml)

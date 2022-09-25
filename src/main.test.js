@@ -5,10 +5,9 @@ import { readFileSync } from 'fs'
 
 import nock from 'nock'
 
-import { hasProperty, isArray } from 'bellajs'
+import { hasProperty } from 'bellajs'
 
 import { read } from './main.js'
-import { getPureUrl } from './utils/normalizer.js'
 
 const feedAttrs = 'title link description generator language published entries'.split(' ')
 const entryAttrs = 'title link description published'.split(' ')
@@ -103,19 +102,19 @@ describe('test read() standard feed', (done) => {
       'Content-Type': 'application/xml'
     })
     const result = await read(url, {
-      extraFeedFields: data => {
+      getExtraFeedFields: data => {
         return {
-          author: data.author,
+          author: data.author
         }
       },
-      extraEntryFields: data => {
+      getExtraEntryFields: data => {
         return {
           id: data.id
         }
       }
     })
-      expect(hasProperty(result, 'author')).toBe(true)
-      expect(hasProperty(result.entries[0], 'id')).toBe(true)
+    expect(hasProperty(result, 'author')).toBe(true)
+    expect(hasProperty(result.entries[0], 'id')).toBe(true)
   })
 
   test('read atom feed which contains multi links', async () => {
@@ -158,12 +157,12 @@ describe('test read() standard feed', (done) => {
       'Content-Type': 'text/json'
     })
     const result = await read(url, {
-      extraFeedFields: data => {
+      getExtraFeedFields: data => {
         return {
-          icon: data.icon,
+          icon: data.icon
         }
       },
-      extraEntryFields: data => {
+      getExtraEntryFields: data => {
         return {
           id: data.id
         }
@@ -171,143 +170,6 @@ describe('test read() standard feed', (done) => {
     })
     expect(hasProperty(result, 'icon')).toBe(true)
     expect(hasProperty(result.entries[0], 'id')).toBe(true)
-  })
-
-  test('read rss podcast feed with enclosure tag', async () => {
-    const url = 'https://some-podcast-page.tld/podcast/rss'
-    const xml = readFileSync('test-data/podcast.rss', 'utf8')
-    const { baseUrl, path } = parseUrl(url)
-    nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
-    })
-    const result = await read(url, {
-      includeOptionalElements: true
-    })
-    feedAttrs.forEach((k) => {
-      expect(hasProperty(result, k)).toBe(true)
-    })
-    entryAttrs.forEach((k) => {
-      expect(hasProperty(result.entries[0], k)).toBe(true)
-      expect(hasProperty(result.entries[0], 'enclosure')).toBe(true)
-      const enclosure = result.entries[0].enclosure
-      expect(hasProperty(enclosure, 'url')).toBe(true)
-      expect(hasProperty(enclosure, 'type')).toBe(true)
-      expect(hasProperty(enclosure, 'length')).toBe(true)
-    })
-  })
-
-  test('read rss standard feed with optional elements', async () => {
-    const url = 'https://some-optional-element.tld/rss'
-    const xml = readFileSync('test-data/rss-feed-standard.xml', 'utf8')
-    const { baseUrl, path } = parseUrl(url)
-    nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
-    })
-    const result = await read(url, {
-      includeOptionalElements: true
-    })
-    feedAttrs.forEach((k) => {
-      expect(hasProperty(result, k)).toBe(true)
-    })
-    const entry = result.entries[0]
-    entryAttrs.forEach((k) => {
-      expect(hasProperty(entry, k)).toBe(true)
-      expect(hasProperty(entry, 'author')).toBe(true)
-      expect(hasProperty(entry, 'comments')).toBe(true)
-      expect(hasProperty(entry, 'source')).toBe(true)
-      expect(hasProperty(entry, 'category')).toBe(true)
-    })
-    const source = entry.source
-    expect(hasProperty(source, 'text')).toBe(true)
-    expect(hasProperty(source, 'url')).toBe(true)
-    const category = entry.category
-    expect(isArray(category)).toBe(true)
-  })
-
-  test('read rss podcast feed with extra fields', async () => {
-    const url = 'https://some-podcast-page.tld/podcast/rss'
-    const xml = readFileSync('test-data/podcast.rss', 'utf8')
-    const { baseUrl, path } = parseUrl(url)
-    nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
-    })
-    const result = await read(url, {
-      extraFeedFields: (data) => {
-        return {
-          author: data.author,
-          image: getPureUrl(data.image)
-        }
-      },
-      extraEntryFields: (data) => {
-        return {
-          duration: data.duration
-        }
-      },
-      xmlParserOptions: {
-        removeNSPrefix: true,
-      }
-    })
-    expect(result.author).toBe("Dafna")
-    expect(result.image).toBe("https://www.example.com/podcasts/dafnas-zebras/img/dafna-zebra-pod-logo.jpg")
-    expect(result.entries[0].duration).toBe("30:00")
-  })
-})
-
-describe('test read() standard feed full content', () => {
-  const newEntryAttrs = [...entryAttrs, 'content']
-
-  test('read rss feed from Google', async () => {
-    const url = 'https://some-news-page.tld/rss'
-    const xml = readFileSync('test-data/rss-feed-standard-realworld.xml', 'utf8')
-    const { baseUrl, path } = parseUrl(url)
-    nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
-    })
-    const result = await read(url, {
-      includeEntryContent: true
-    })
-    feedAttrs.forEach((k) => {
-      expect(hasProperty(result, k)).toBe(true)
-    })
-    newEntryAttrs.forEach((k) => {
-      expect(hasProperty(result.entries[0], k)).toBe(true)
-    })
-  })
-
-  test('read atom feed from Google', async () => {
-    const url = 'https://some-news-page.tld/atom'
-    const xml = readFileSync('test-data/atom-feed-standard-realworld.xml', 'utf8')
-    const { baseUrl, path } = parseUrl(url)
-    nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
-    })
-    const result = await read(url, {
-      includeEntryContent: true
-    })
-    feedAttrs.forEach((k) => {
-      expect(hasProperty(result, k)).toBe(true)
-    })
-    newEntryAttrs.forEach((k) => {
-      expect(hasProperty(result.entries[0], k)).toBe(true)
-    })
-  })
-
-  test('read json feed from Micro.blog', async () => {
-    const url = 'https://some-news-page.tld/json'
-    const json = readFileSync('test-data/json-feed-standard-realworld.json', 'utf8')
-    const { baseUrl, path } = parseUrl(url)
-    nock(baseUrl).get(path).reply(200, json, {
-      'Content-Type': 'application/json'
-    })
-    const result = await read(url, {
-      includeEntryContent: true
-    })
-    feedAttrs.forEach((k) => {
-      expect(hasProperty(result, k)).toBe(true)
-    })
-    newEntryAttrs.forEach((k) => {
-      expect(hasProperty(result.entries[0], k)).toBe(true)
-    })
   })
 })
 

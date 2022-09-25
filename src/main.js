@@ -23,24 +23,20 @@ export const read = async (url, options = {}, fetchOptions = {}) => {
   const { type, json, text } = data
 
   const {
-    includeEntryContent = false,
-    includeOptionalElements = false,
-    useISODateFormat = true,
     normalization = true,
     descriptionMaxLen = 210,
-    extraFeedFields = () => ({}),
-    extraEntryFields = () => ({}),
+    useISODateFormat = true,
     xmlParserOptions = {},
+    getExtraFeedFields = () => ({}),
+    getExtraEntryFields = () => ({})
   } = options
 
   const opts = {
     normalization,
-    includeEntryContent,
-    includeOptionalElements,
-    useISODateFormat,
     descriptionMaxLen,
-    extraFeedFields,
-    extraEntryFields,
+    useISODateFormat,
+    getExtraFeedFields,
+    getExtraEntryFields
   }
 
   if (type === 'json') {
