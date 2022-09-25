@@ -17,7 +17,8 @@ const transform = (item, options) => {
     includeEntryContent,
     includeOptionalElements,
     useISODateFormat,
-    descriptionMaxLen
+    descriptionMaxLen,
+    extraEntryFields,
   } = options
 
   const {
@@ -26,6 +27,8 @@ const transform = (item, options) => {
     pubDate = '',
     description = ''
   } = item
+
+  const extraFields = extraEntryFields(item)
 
   const published = useISODateFormat ? toISODateString(pubDate) : pubDate
 
@@ -48,7 +51,10 @@ const transform = (item, options) => {
   if (includeEntryContent) {
     entry.content = description
   }
-  return entry
+  return {
+    ...entry,
+    ...extraFields,
+  }
 }
 
 const flatten = (feed) => {
@@ -100,7 +106,7 @@ const flatten = (feed) => {
 }
 
 const parseRss = (data, options = {}) => {
-  const { normalization } = options
+  const { normalization, extraFeedFields } = options
   if (!normalization) {
     return flatten(data.rss.channel)
   }
@@ -115,6 +121,8 @@ const parseRss = (data, options = {}) => {
     item = []
   } = data.rss.channel
 
+  const extraFields = extraFeedFields(data.rss.channel);
+
   const items = isArray(item) ? item : [item]
 
   const published = options.useISODateFormat ? toISODateString(lastBuildDate) : lastBuildDate
@@ -126,6 +134,7 @@ const parseRss = (data, options = {}) => {
     language,
     generator,
     published,
+    ...extraFields,
     entries: items.map((item) => {
       return transform(item, options)
     })

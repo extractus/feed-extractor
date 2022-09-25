@@ -48,6 +48,19 @@ export interface ReaderOptions {
    * default: 210
    */
   descriptionMaxLen?: number;
+  /**
+   * fast-xml-parser options
+   * https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/docs/v4/2.XMLparseOptions.md
+   */
+  xmlParserOptions?: any;
+  /**
+   * merge extra feed fields in result
+   */
+  extraFeedFields?: (feedData: object) => object;
+  /**
+   * merge extra entry fields in result
+   */
+  extraEntryFields?: (entryData: object) => object;
 }
 
 export interface FetchOptions {
