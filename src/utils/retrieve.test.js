@@ -13,35 +13,64 @@ const parseUrl = (url) => {
   }
 }
 
-test('test retrieve from good source', async () => {
-  const url = 'https://some.where/good/page'
-  const { baseUrl, path } = parseUrl(url)
-  nock(baseUrl).head(path).reply(200)
-  nock(baseUrl).get(path).reply(200, '<div>this is content</div>', {
-    'Content-Type': 'application/xml'
+describe('test retrieve() method', () => {
+  test('test retrieve with bad status code', async () => {
+    const url = 'https://some.where/bad/page'
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(500, 'Error 500')
+    expect(retrieve(url)).rejects.toThrow(new Error('Request failed with error code 500'))
   })
-  const result = await retrieve(url)
-  expect(result.xml).toBe('<div>this is content</div>')
-})
 
-test('test retrieve with invalid content type', async () => {
-  const url = 'https://some.where/bad/page'
-  const { baseUrl, path } = parseUrl(url)
-  nock(baseUrl).head(path).reply(200)
-  nock(baseUrl).get(path).reply(200, '', {
-    'Content-Type': 'something/strange'
+  test('test retrieve with bad conten type', async () => {
+    const url = 'https://some.where/bad/page'
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, '<?xml version="1.0"?><tag>this is xml</tag>', {
+      'Content-Type': 'something/type'
+    })
+    expect(retrieve(url)).rejects.toThrow(new Error('Invalid content type: something/type'))
   })
-  const result = await retrieve(url)
-  expect(result).toBe(null)
-})
 
-test('test retrieve with invalid status', async () => {
-  const url = 'https://some.where/bad/page'
-  const { baseUrl, path } = parseUrl(url)
-  nock(baseUrl).head(path).reply(500)
-  nock(baseUrl).get(path).reply(500, '<xml><message>Error 500</message></xml>', {
-    'Content-Type': 'application/xml'
+  test('test retrieve from good source', async () => {
+    const url = 'https://some.where/good/page'
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, '<div>this is content</div>', {
+      'Content-Type': 'application/rss+xml'
+    })
+    const result = await retrieve(url)
+    expect(result.type).toEqual('xml')
+    expect(result.text).toEqual('<div>this is content</div>')
   })
-  const result = await retrieve(url)
-  expect(result).toBe(null)
+
+  test('test retrieve from good source, but having \\r\\n before/after root xml', async () => {
+    const url = 'https://some.where/good/page'
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, '\n\r\r\n\n<div>this is content</div>\n\r\r\n\n', {
+      'Content-Type': 'text/xml'
+    })
+    const result = await retrieve(url)
+    expect(result.type).toEqual('xml')
+    expect(result.text).toBe('<div>this is content</div>')
+  })
+
+  test('test retrieve using proxy', async () => {
+    const url = 'https://some.where/good/source-with-proxy'
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, 'something bad', {
+      'Content-Type': 'bad/thing'
+    })
+    nock('https://proxy-server.com')
+      .get('/api/proxy?url=https%3A%2F%2Fsome.where%2Fgood%2Fsource-with-proxy')
+      .reply(200, '<?xml version="1.0"?><tag>this is xml</tag>', {
+        'Content-Type': 'text/xml'
+      })
+
+    const result = await retrieve(url, {
+      proxy: {
+        target: 'https://proxy-server.com/api/proxy?url='
+      }
+    })
+    expect(result.type).toEqual('xml')
+    expect(result.text).toEqual('<?xml version="1.0"?><tag>this is xml</tag>')
+    nock.cleanAll()
+  })
 })

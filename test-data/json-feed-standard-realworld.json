@@ -1,0 +1,233 @@
+
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Adactio: Journal",
+    "description": "The online journal of Jeremy Keith, an author and web developer living and working in Brighton, England.",
+    "icon": "https://adactio.com/images/photo-600.jpg",
+    "favicon": "https://adactio.com/favicon-96x96.png",
+    "home_page_url": "https://adactio.com/journal/",
+    "feed_url": "https://adactio.com/journal/feed.json",
+    "author": {
+        "name": "Jeremy Keith"
+    },
+    "items": [
+        {
+            "id": "19317",
+            "url": "https://adactio.com/journal/19317",
+            "title": "The line-up for dConstruct 2022 …revealed!",
+            "summary": "Eight fantastic people who are going to provoke, entertain, and stimulate you.",
+            "date_published": "2022-07-26 13:01:01",
+            "tags": [
+                "dconstruct",
+                "conferences",
+                "events",
+                "brighton",
+                "clearleft",
+                "lineup",
+                "speakers",
+                "tickets",
+                "medium:id=64164f20e87"
+            ],
+            "content_html": "<p>Alright, I’ve kept you in suspense for long enough. It’s time to reveal the magnificent line-up for <a href=\"https://2022.dconstruct.org\">dConstruct 2022</a>.</p><p>I’ll now put names to <a href=\"https://adactio.com/journal/19291\">the teasing list of descriptions I previously provided</a>&#8230;</p><blockquote>  <p>A technologist, product designer, and writer who defies categorisation. They’ve headed up a design studio, co-founded a start-up, and now consult on super-clever machine learning stuff. Their blog is brilliant.</p></blockquote><p>This is <a href=\"https://interconnected.org/\">Matt Webb</a>. Matt previously spoke at dConstruct back in 2007, when he gave a talk called <a href=\"https://archive.dconstruct.org/2007/experiencestack\">The Experience Stack</a></p><blockquote>  <p>An award-winning author from South Africa whose work has recently been adapted for television. Some of their work is kind of sci-fi, some of it is kind of horror, some of it is kind of magical realism, and all of it is great.</p></blockquote><p>This is <a href=\"https://laurenbeukes.com/\">Lauren Beukes</a>. Lauren previously spoke at dConstruct in 2012, when she gave a talk called <a href=\"https://archive.dconstruct.org/2012/imaginedfutures\">Imagined Futures</a>.</p><blockquote>  <p>An artist and designer who has created logos and illustrations for NASA, Apple, and Intel as well as custom typefaces for British Airways and Waitrose. A lover of letterforms, they are now one of the world’s highest-profile calligraphers posting their mesmerising work on Instagram.</p></blockquote><p>This is <a href=\"https://www.seblester.com/\">Seb Lester</a>.</p><blockquote>  <p>A Canadian digital designer who has previously worked in the agency world, at Silicon Valley startups, and even venture capital. But now they’re doing truly meaningful work, designing for busy healthcare workers in low-income countries.</p></blockquote><p>This is <a href=\"https://danielburka.com/\">Daniel Burka</a>. Daniel previously spoke at dConstruct back in 2008, when he gave a talk called <a href=\"https://archive.dconstruct.org/2008/designingforinteraction\">Designing for Interaction</a>.</p><blockquote>  <p>A multi-instrumentalist musician, producer and robotic artist who composes for film, theatre and the concert stage. They play a mean theremin.</p></blockquote><p>This is <a href=\"https://www.sarahangliss.com/\">Sarah Angliss</a>. Sarah previously spoke at dConstruct in 2013, when she gave a talk called <a href=\"https://archive.dconstruct.org/2013/uncannytech\">Tech and the Uncanny</a>.</p><blockquote>  <p>An Australian designer and entrepreneur. They work in the cultural heritage sector and they’re an expert on digital archives. Their latest challenge is working out how to make an online photography archive last for 100 years.</p></blockquote><p>This is <a href=\"http://abitofgeorge.com/\">George Oates</a>. George previously spoke at dConstruct back in 2007, where she and Denise Wilton had a conversation called <a href=\"https://archive.dconstruct.org/2007/humantraffic\">Human Traffic</a>.</p><blockquote>  <p>A tireless defender of web standards and co-author of the Inclusive Design Principles. They’re a member of the W3C Advisory Board and of the BIMA Inclusive Design Council. Expect some thoughtful takes on the intersection of accessibility and emerging technologies.</p></blockquote><p>This is <a href=\"https://tink.uk/\">Léonie Watson</a>.</p><blockquote>  <p>A professor of neuroscience who is also a bestselling author. They conduct experiments on people’s brains and then talk about it afterwards. Their talks have been known to be mind-altering.</p></blockquote><p>This is <a href=\"https://www.anilseth.com/\">Anil Seth</a>.</p><p>That’s quite a line-up, isn’t it?</p><p>Deducing the full line-up just from those descriptions wasn’t easy, but <a href=\"https://twitter.com/hdv/status/1549378854313230337\">Hidde de Vries managed it</a>. So Hidde gets a free ticket to dConstruct 2022 …or, at least, he <em>would</em> if it weren’t for the fact that he already has a ticket (because Hidde is smart; be like Hidde). So a friend of Hidde’s is getting a free ticket instead (because Hidde is generous; be like Hidde).</p><p>If you’ve been putting off <a href=\"https://ti.to/clearleft/dconstruct-2022\">getting a ticket</a> for <a href=\"https://2022.dconstruct.org/\">dConstruct 2022</a> until you knew what the line-up would be, well, put off no longer.</p><p>You’ll want to be at <a href=\"https://en.wikipedia.org/wiki/Duke_of_York's_Picture_House%2C_Brighton\">the Duke of York’s</a> in Brighton on Friday, September 9th. With this line-up of eight supersmart speakers, you know <a href=\"https://2022.dconstruct.org/\">it’s going to be a fantastic day</a>!</p>"
+        }
+,        {
+            "id": "19315",
+            "url": "https://adactio.com/journal/19315",
+            "title": "Control",
+            "summary": "Trying to understand a different mindset to mine.",
+            "date_published": "2022-07-25 15:36:20",
+            "tags": [
+                "control",
+                "trust",
+                "suspicion",
+                "browsers",
+                "html",
+                "interface",
+                "us",
+                "buttons",
+                "dropdowns",
+                "selects",
+                "datepickers",
+                "components",
+                "css",
+                "styling",
+                "javascript",
+                "aria",
+                "interaction",
+                "interactvity",
+                "mindset",
+                "frontend",
+                "development",
+                "medium:id=ee4a968f2f31"
+            ],
+            "content_html": "<p>In two of my recent talks—<a href=\"https://adactio.com/articles/19210\"><cite>In And Out Of Style</cite></a> and <a href=\"https://adactio.com/articles/17733\"><cite>Design Principles For The Web</cite></a>—I finish by looking at three different components:</p><ol><li>a button,</li><li>a dropdown, and</li><li>a datepicker.</li></ol><p>In each case you could use native HTML elements:</p><ol><li><code>button</code>,</li><li><code>select</code>, and</li><li><code>input type=\"date\"</code>.</li></ol><p>Or you could use <code>div</code>s with a whole bunch of JavaScript and ARIA.</p><p>In the case of a datepicker, I totally understand why you’d go for writing your own JavaScript and ARIA. The native HTML element is quite restricted, especially when it comes to styling.</p><p>In the case of a dropdown, it’s less clear-cut. Personally, I’d use a <code>select</code> element. While it’s currently impossible to style the <em>open</em> state of a <code>select</code> element, you can style the closed state with relative ease. That’s good enough for me.</p><p>Still, I can understand why that wouldn’t be good enough for some cases. If pixel-perfect consistency across platforms is a priority, then you’re going to have to break out the JavaScript and ARIA.</p><p>Personally, I think chasing pixel-perfect consistency across platforms isn’t even desirable, but I get it. I too would like to have more control over styling <code>select</code> elements. That’s one of the reasons why the work being done by <a href=\"https://open-ui.org/\">the Open UI group</a> is so important.</p><p>But there’s one more component: a button.</p><p>Again, you could use the native <code>button</code> element, or you could use a <code>div</code> or a <code>span</code> and add your own JavaScript and ARIA.</p><p>Now, in this case, I must admit that I just don’t get it. Why <em>wouldn’t</em> you just use the native <code>button</code> element? It has no styling issues and the browser gives you all the interactivity and accessibility out of the box.</p><p>I’ve been trying to understand the mindset of a developer who wouldn’t use a native <code>button</code> element. The easy answer would be that they’re just bad people, and dismiss them. But that would probably be lazy and inaccurate. Nobody sets out to make a website with poor performance or poor accessibility. And yet, by choosing not to use the native HTML element, that’s what’s likely to happen.</p><p>I think I might have finally figured out what might be going on in the mind of such a developer. I think the issue is one of control.</p><p>When I hear that there’s a native HTML element—like <code>button</code> or <code>select</code>—that comes with built-in behaviours around interaction and accessibility, I think “Great! That’s less work for me. I can just let the browser deal with it.” In other words, I relinquish control to the browser (though not entirely—I still want the styling to be under my control as much as possible).</p><p>But I now understand that someone else might hear that there’s a native HTML element—like <code>button</code> or <code>select</code>—that comes with built-in behaviours around interaction and accessibility, and think “Uh-oh! What if there unexpected side-effects of these built-in behaviours that might bite me on the ass?” In other words, <a href=\"https://adactio.com/journal/19021\">they don’t trust the browsers</a> enough to relinquish control.</p><p>I get it. I don’t agree. But I get it.</p><p>If your background is in computer science, then the ability to precisely predict how a programme will behave is a virtue. Any potential side-effects that aren’t within your control are undesirable. The only way to ensure that an interface will behave exactly as you want is to write it entirely from scratch, even if that means using more JavaScript and ARIA than is necessary.</p><p>But I don’t think it’s a great mindset for the web. The web is filled with uncertainties—browsers, devices, networks. You can’t possibly account for all of the possible variations. On the web, you have to relinquish some control.</p><p>Still, I’m glad that I now have a bit more insight into why someone would choose to attempt to retain control by using <code>div</code>, JavaScript and ARIA. It’s not what I would do, but I think I understand the motivation a bit better now.</p>"
+        }
+,        {
+            "id": "19302",
+            "url": "https://adactio.com/journal/19302",
+            "title": "Scale",
+            "summary": "Temperature and music.",
+            "date_published": "2022-07-21 17:41:14",
+            "tags": [
+                "temperature",
+                "heat",
+                "cold",
+                "weather",
+                "music",
+                "instruments",
+                "tuning",
+                "interface",
+                "ui",
+                "medium:id=192eeb0219e4"
+            ],
+            "content_html": "<p>A few years back, <a href=\"https://wordridden.com/\">Jessica</a> got a ceiling fan for our living room. This might seem like a strange decision, considering we live in England. Most of the time, the problem in this country is that it’s too cold.</p><p>But then you get situations like this week, when the country experienced the hottest temperatures ever recorded. I was very, very grateful for that ceiling fan. It may not get used for most of the year, but on the occasions when it’s needed, it’s a godsend. And it’s going to get used more and more often, given the inexorable momentum of the climate emergency.</p><p>Even with the ceiling fan, it was still very hot in the living room. I keep my musical instruments in that room, and they all responded to the changing temperature. The strings on my mandolin, bouzouki, and guitar went looser in the heat. The tuning dropped by at least a semitone.</p><p>I tuned them back up, but then I had to be careful when the extreme heat ended and the temperature began to drop. The strings began to tighten accordingly. My instruments went up a semitone.</p><p>I was thinking about this connection between sound and temperature when I was tuning the instruments back down again.</p><p>The electronic tuner I use shows the current tone in relation to the desired note: G, D, A, E. If the string is currently producing a tone that’s lower than, say, A, the tuner displays the difference on its little screen as lines behind the ideal A position. If the string is producing a tone higher than A, the lines appear in front of the desired note.</p><p>What if we thought about temperature like this? Instead of weather apps showing the absolute temperature in degrees, what if they showed the relative distance from a predefined ideal? Then you could see at a glance whether it’s a little cooler than you’d like, or a little hotter than you’d like.</p><p>Perhaps an interface like that would let you see at a glance how out of the tune the current temperature is.</p>"
+        }
+,        {
+            "id": "19299",
+            "url": "https://adactio.com/journal/19299",
+            "title": "Subscribing to newsletters",
+            "summary": "But not like that.",
+            "date_published": "2022-07-20 15:30:10",
+            "tags": [
+                "rss",
+                "feeds",
+                "reading",
+                "feedreaders",
+                "newsletters",
+                "email",
+                "writing",
+                "publishing",
+                "medium:id=9f22f6270a9a"
+            ],
+            "content_html": "<p>I like reading RSS feeds. I’ve written before about <a href=\"https://adactio.com/journal/18322\">how my feed reader feels different to my email client</a>:</p><blockquote>  <p>When I open my RSS reader to catch up on the feeds I’m subscribed to, it doesn’t feel like opening my email client. It feels more like opening a book. And, yes, books are also things to be completed—a bookmark not only marks my current page, it also acts as a progress bar—but books are for pleasure. The pleasure might come from escapism, or stimulation, or the pursuit of knowledge. That’s a very different category to email, calendars, and Slack.</p></blockquote><p>Giles put it far better when described <a href=\"https://gilest.org/rss-feels.html\">what using RSS feeds feels like</a>:</p><blockquote>  <p>To me, using RSS feeds to keep track of stuff I’m interested in is a good use of my time. It doesn’t feel like a burden, it doesn’t feel like I’m being tracked or spied on, and it doesn’t feel like I’m just another number in the ads game.</p>    <p>To me, it feels good. It’s a way of reading the web that better respects my time, is more likely to appeal to my interests, and isn’t trying to constantly sell me things.</p></blockquote><p>That’s why I feel somewhat conflicted about email newsletters. On the one hand, people are publishing some really interesting things in newsletters. On the hand, the delivery mechanism is email, which feels burdensome. Add <a href=\"https://adactio.com/journal/18625\">tracking</a> into the mix, and they can feel downright icky.</p><p>But never fear! My feed reader came to the rescue. Many newsletter providers also provide RSS feeds. <a href=\"https://netnewswire.com/\">NetNewsWire</a>—my feed reader of choice—will try to find the RSS feed that corresponds to the newsletter. Hurrah!</p><p>I get to read newsletters without being tracked, which is nice for me. But I also think it would be nice to let the authors of those newsletters know that I’m reading. So here’s a list of some of the newsletters I’m currently subscribed to in my feed reader:</p><p><a href=\"https://thewhippet.org/\">The Whippet</a> by McKinley Valentine:</p><blockquote>  <p>A newsletter for the terminally curious.</p></blockquote><p><a href=\"https://sentiers.media/newsletter/1/\">Sentiers</a> by Patrick Tanguay:</p><blockquote>  <p>A carefully curated selection of articles with thoughtful commentary on technology, society, culture, and potential futures.</p></blockquote><p><a href=\"https://www.thefitzwilliam.com/\">The Fitzwilliam</a>:</p><blockquote>  <p>Policy, ethics and applied rationality with an Irish slant.</p></blockquote><p><a href=\"https://www.sciof.fi/\">The Science Of Fiction</a>:</p><blockquote>  <p>How science shapes stories about the future and how stories about the future shape science.</p></blockquote><p><a href=\"https://adjacentpossible.substack.com/\">Adjacent Possible</a> by Steven Johnson:</p><blockquote>  <p>Exploring where good ideas come from—and how to keep them from turning against us.</p></blockquote><p><a href=\"https://fasterplease.substack.com/\">Faster, Please!</a> by James Pethokoukis:</p><blockquote>  <p>Discovering, creating, and inventing a better world through technological innovation, economic growth, and pro-progress culture.</p></blockquote><p><a href=\"https://sarahendren.substack.com/\">undefended / undefeated</a> by Sara Hendren:</p><blockquote>  <p>Ideas at the heart of material culture—the everyday stuff in all our lives</p></blockquote><p><a href=\"https://www.todayintabs.com/\">Today in Tabs</a> by Rusty Foster:</p><blockquote>  <p>Your favorite newsletter&#8217;s favorite newsletter.</p></blockquote>"
+        }
+,        {
+            "id": "19291",
+            "url": "https://adactio.com/journal/19291",
+            "title": "The line-up for dConstruct 2022",
+            "summary": "Shall we play a game? If you’re first to figure out the line-up, you get a free ticket.",
+            "date_published": "2022-07-19 09:45:34",
+            "tags": [
+                "dconstruct",
+                "conferences",
+                "events",
+                "brighton",
+                "clearleft",
+                "lineup",
+                "speakers",
+                "tickets",
+                "medium:id=3b7c50a5bf8c"
+            ],
+            "content_html": "<p>The line-up for <a href=\"https://2022.dconstruct.org/\">dConstruct 2022</a> is complete!</p><p>If you haven’t yet got your ticket, <a href=\"https://ti.to/clearleft/dconstruct-2022\">it’s not too late</a>.</p><p>Now here’s the thing…</p><p>When <a href=\"https://adactio.com/journal/19109\">I announced the event back in May</a>, I said:</p><blockquote>  <p>I’m currently putting the line-up together. I’m not revealing anything just yet, but trust me, you will want to be there.</p></blockquote><p>I still haven’t revealed anything, and I’m kind of tempted to keep it that way. Imagine showing up at an event and not knowing who’s going to be speaking. Is this is the best idea or the worst idea?</p><p>I suspect I’m going to have to announce the line-up at some point, but today is not that day. I’m going to string it out a bit longer.</p><p>But I <em>am</em> going to describe the line-up. And I’m going to throw in a challenge. The first person to figure out the complete line-up gets a free ticket. Send a tweet to <a href=\"https://twitter.com/dconstruct\">the @dConstruct Twitter account</a> with your deductions.</p><p>Ready? Here’s who’s speaking at <a href=\"https://2022.dconstruct.org/\">dConstruct 2022</a> on Friday, September 9th in The Duke Of Yorks in Brighton…</p><ol><li>A technologist, product designer, and writer who defies categorisation. They’ve headed up a design studio, co-founded a start-up, and now consult on super-clever machine learning stuff. Their blog is brilliant.</li><li>An award-winning author from South Africa whose work has recently been adapted for television. Some of their work is kind of sci-fi, some of it is kind of horror, some of it is kind of magical realism, and all of it is great.</li><li>An artist and designer who has created logos and illustrations for NASA, Apple, and Intel as well as custom typefaces for British Airways and Waitrose. A lover of letterforms, they are now one of the world’s highest-profile calligraphers posting their mesmerising work on Instagram.</li><li>A Canadian digital designer who has previously worked in the agency world, at Silicon Valley startups, and even venture capital. But now they’re doing truly meaningful work, designing for busy healthcare workers in low-income countries.</li><li>A multi-instrumentalist musician, producer and robotic artist who composes for film, theatre and the concert stage. They play a mean theremin.</li><li>An Australian designer and entrepreneur. They work in the cultural heritage sector and they’re an expert on digital archives. Their latest challenge is working out how to make an online photography archive last for 100 years.</li><li>A tireless defender of web standards and co-author of the Inclusive Design Principles. They’re a member of the W3C Advisory Board and of the BIMA Inclusive Design Council. Expect some thoughtful takes on the intersection of accessibility and emerging technologies.</li><li>A professor of neuroscience who is also a bestselling author. They conduct experiments on people’s brains and then talk about it afterwards. Their talks have been known to be mind-altering.</li></ol><p>Sounds pretty freaking great, right?</p><p>Some further clues…</p><p>Many of these people have spoken at dConstruct in the past. After all, this year’s one-off event is going to be a kind of “best of.” So you might want to have a nose around <a href=\"https://archive.dconstruct.org/\">the dConstruct archive</a>.</p><p>Also, I’ve mentioned some nationalities like Australian, Canadian, and South African, but my self-imposed carbon footprint policy for this event forbids me from flying anyone in. So that’s a clue too.</p><p>The game is afoot! Tweet your deductions to <a href=\"https://twitter.com/dconstruct\">the @dConstruct Twitter account</a> or, even better, write a blog post and tweet the link, mentioning @dConstruct. The first correct answer gets a free ticket.</p><p>For everyone else, <a href=\"https://ti.to/clearleft/dconstruct-2022\">you can still get a ticket</a>.</p>"
+        }
+,        {
+            "id": "19230",
+            "url": "https://adactio.com/journal/19230",
+            "title": "Negative",
+            "summary": "Have negative result, will travel.",
+            "date_published": "2022-06-30 13:21:45",
+            "tags": [
+                "covid-19",
+                "coronavirus",
+                "pandemic",
+                "life",
+                "vaccines",
+                "travel",
+                "health",
+                "events",
+                "uxlondon",
+                "music",
+                "willieclancy",
+                "ireland",
+                "irish",
+                "traditional",
+                "music",
+                "medium:id=67fde38247c3"
+            ],
+            "content_html": "<p>I no longer have Covid. I am released from isolation.</p><p>Alas, my negative diagnosis came too late for me to make it to <a href=\"https://2022.uxlondon.com/\">UX London</a>. But that’s okay—by the third and final day of the event, everything was running smooth like buttah! Had I shown up, I would’ve just got in the way. The <a href=\"https://clearleft.com/\">Clearleft</a> crew ran the event like a well-oiled machine.</p><p>I am in the coronaclear just in time to go away for a week. My original thinking was this would be my post-UX-London break to rest up for a while, but it turns out I’ve been getting plenty of rest <em>during</em> UX London.</p><p>I’m heading to the west coast of Ireland for <a href=\"https://www.scoilsamhraidhwillieclancy.com/\">The Willie Clancy Summer School</a>, a trad music pilgrimage.</p><p><a href=\"https://wordridden.com/\">Jessica</a> and I last <a href=\"https://adactio.com/journal/15513\">went to Willie Week in 2019</a>. We had a great time and I distinctly remember thinking “I’m definitely coming back next year!”</p><p>Well, a global pandemic put paid to that. The event ran online for the past two years. But now that it’s back for real, I wouldn’t miss it for the world.</p><p>My mandolin and I are <a href=\"https://thesession.org/trips/564\">bound for Miltown Malbay</a>!</p>"
+        }
+,        {
+            "id": "19229",
+            "url": "https://adactio.com/journal/19229",
+            "title": "Two books",
+            "summary": "A Ghost In The Throat and No One Is Talking About This.",
+            "date_published": "2022-06-29 15:43:02",
+            "tags": [
+                "books",
+                "reading",
+                "fiction",
+                "writing",
+                "novels",
+                "medium:id=1b49d3ef90ca"
+            ],
+            "content_html": "<p>I’ve mentioned before that <a href=\"https://adactio.com/notes/reading/\">I like to read a mixture of fiction of non-fiction</a>. In fact, I try to alternate between the two. If I’ve just read some non-fiction, then I’ll follow it with a novel and I’ve just read some fiction, then I’ll follow it with some non-fiction.</p><p>But those categorisations can be slippery. I recently read two books that were ostensibly fiction but were strongly autobiographical and didn’t have the usual narrative structure of a novel.</p><p>Just to clarify, I’m not complaining! Quite the opposite. I enjoy the discomfort of not being able to pigeonhole a piece of writing so easily.</p><p>Also, both books were excellent.</p><p>The first one was <a href=\"https://adactio.com/notes/18751\"><cite>A Ghost In The Throat</cite> by Doireann Ní Ghríofa</a>. It’s sort of about the narrator’s obsessive quest to translate the <a href=\"https://en.wikipedia.org/wiki/Caoineadh_Airt_U%C3%AD_Laoghaire\"><cite lang=\"ie\">Caoineadh Airt Uí Laoghaire</cite></a>. But it’s also about the translator’s life, which mirrors the author’s. And it’s about all life—life in its bodily, milky, bloody, crungey reality. The writing is astonishing, creating an earthy musky atmosphere. It feels vibrant and new but somehow ancient and eternal at the same time.</p><p>By contrast, <a href=\"https://adactio.com/notes/19022\"><cite>No One Is Talking About This</cite> by Patricia Lockwood</a> is rooted in technology. Reading the book feels like scrolling through Twitter, complete with nervous anxiety. Again, the narrator’s life mirrors that of the author, but this time the style has more of the arch detachment of the modern networked world.</p><p>It took me a little while at first, but then I settled into the book’s cadence and vibe. Then, once I felt like I had a handle on the kind of book I was reading, it began to subtly change. I won’t reveal how, because I want you to experience that change for yourself. It’s like a slow-building sucker punch.</p><p>When I started reading <cite>No One Is Talking About This</cite>, I thought it might end up being the kind of book where I would <em>admire</em> the writing, but it didn’t seem like a work that invited emotional connection.</p><p>I couldn’t have been more wrong. I can’t remember the last time a book had such an emotional impact on me. Maybe that’s because it so deliberately lowered my defences, but damn, when I finished reading the book, I was in pieces.</p><p>I’m still not quite sure how to classify <a href=\"https://uk.bookshop.org/a/980/9781916434271\"><cite>A Ghost In The Throat</cite></a> or <a href=\"https://uk.bookshop.org/a/980/9781526629777\"><cite>No One Is Talking About This</cite></a> but I don’t care. They’re both just great books.</p>"
+        }
+,        {
+            "id": "19225",
+            "url": "https://adactio.com/journal/19225",
+            "title": "UX FOMO",
+            "summary": "Missing out on the event I curated.",
+            "date_published": "2022-06-28 15:01:39",
+            "tags": [
+                "uxlondon",
+                "conferences",
+                "events",
+                "clearleft",
+                "curation",
+                "talks",
+                "presentations",
+                "workshops",
+                "fomo",
+                "covid",
+                "coronavirus",
+                "medium:id=6979dd639391"
+            ],
+            "content_html": "<p>Today is the first day of <a href=\"https://2022.uxlondon.com/\">UX London 2022</a> &#8230;and I’m not there. <a href=\"https://adactio.com/journal/19198\">Stoopid Covid</a>.</p><p>I’m still testing positive although I’m almost certainly near the end of my infection. But I don’t want to take any chances. Much as I hate to miss out on UX London, I would hate passing this on even more. So my isolation continues.</p><p><a href=\"https://clearleft.com/about/team/chris-pearce\">Chris</a> jumped in at the last minute to do the hosting duties—thanks, Chris!</p><p>From the buzz I’m seeing on Twitter, it sounds like everything is going just great without me, which is great to see. Still, I’m experiencing plenty of FOMO—even more than the usual levels of FOMO I’d have when there’s a great conference happening that I’m not at.</p><p>To be honest, nearly all of my work on UX London was completed before the event. My number one task was putting the line-up together, and I have to say, <a href=\"https://2022.uxlondon.com/speakers/\">I think I nailed it</a>.</p><p>If I were there to host the event, it would mostly be for selfish reasons. I’d get a real kick out of introducing each one of the superb speakers. I’d probably get very tedious, repeatedly saying “Oh, you’re going to love this next one!” followed by “Wasn’t that great‽”</p><p>But UX London isn’t about me. It’s about the inspiring talks and practical workshops.</p><p>I wish I were there to experience it in person but I can still bask in the glow of a job well done, hearing how much people are enjoying the event.</p>"
+        }
+,        {
+            "id": "19222",
+            "url": "https://adactio.com/journal/19222",
+            "title": "On reading",
+            "summary": "Words on screens. Words on paper.",
+            "date_published": "2022-06-27 16:04:58",
+            "tags": [
+                "reading",
+                "ontyranny",
+                "books",
+                "screens",
+                "politics",
+                "technology",
+                "words",
+                "paper",
+                "medium:id=7989c5fbb000"
+            ],
+            "content_html": "<p><a href=\"https://www.timothysnyder.org/books/on-tyranny-tr\"><cite>On Tyranny</cite> by Timothy Snyder</a> is a very short book. Most of the time, this is a feature, not a bug.</p><p>There are plenty of non-fiction books I’ve read that definitely could’ve been much, much shorter. Books that have a good sensible idea, but one that could’ve been written on the back of a napkin instead of being expanded into an arbitrarily long form.</p><p>In the world of fiction, there’s the short story. I guess the equivelent in the non-fiction world is the essay. But <cite>On Tyranny</cite> isn’t an essay. It’s got chapters. They’re just really, really short.</p><p>Sometimes that brevity means that nuance goes out the window. What might’ve been a subtle argument that required paragraphs of pros and cons in another book gets reduced to a single sentence here. Mostly that’s okay.</p><p>The premise of the book is that Trump’s America is comparable to Europe in the 1930s:</p><blockquote>  <p>We are no wiser than the Europeans who saw democracy yield to fascism, Nazism, or communism. Our one advantage is that we might learn from their experience.</p></blockquote><p>But in making the comparison, Synder goes all in. There’s very little accounting for the <em>differences</em> between the world of the early 20th century and the world of the early 21st century.</p><p>This becomes really apparent when it comes to technology. One piece of advice offered is:</p><blockquote>  <p>Make an effort to separate yourself from the internet. Read books.</p></blockquote><p>Wait. He’s not actually saying that words on screens are in some way inherently worse than words on paper, is he? Surely that’s just the nuance getting lost in the brevity, right?</p><p>Alas, no:</p><blockquote>  <p>Staring at screens is perhaps unavoidable but the two-dimensional world makes little sense unless we can draw upon a mental armory that we have developed somewhere else. &#8230; So get screens out of your room and surround yourself with books.</p></blockquote><p>I mean, I’m all for reading books. But books are about what’s <em>in</em> them, not what they’re made of. To value words on a page more than the same words on a screen is like judging a book by its cover; its judging a book by its atoms.</p><p>For a book that’s about defending liberty and progress, <cite>On Tyranny</cite> is puzzingly conservative at times. </p>"
+        }
+,        {
+            "id": "19216",
+            "url": "https://adactio.com/journal/19216",
+            "title": "Talking about style",
+            "summary": "The transcript of a talk.",
+            "date_published": "2022-06-24 12:17:39",
+            "tags": [
+                "talk",
+                "presentation",
+                "conferences",
+                "speaking",
+                "transcript",
+                "transcription",
+                "cssday",
+                "aneventapart",
+                "aea",
+                "frontend",
+                "development",
+                "styling",
+                "style",
+                "audio",
+                "video",
+                "medium:id=84c71404f6d9"
+            ],
+            "content_html": "<p>I’ve published a transcription of the talk I gave at CSS Day:</p><p><a href=\"https://adactio.com/articles/19210\">In And Out Of Style</a>.</p><p>The title is intended to have double meaning. The obvious reference is that CSS is about styling web pages. But the talk also covers some long-term trends looking at ideas that have appear, disappear, and reappear over time. Hence, style as in trends and fashion.</p><p>There are some hyperlinks in the transcript but I also published <a href=\"https://adactio.com/journal/19016\">a list of links</a> if you’re interested in diving deeper into some of the topics mentioned in the talk.</p><p>I also published <a href=\"https://adactio.com/extras/slides/inandoutofstyle.pdf\">the slides</a> but, as usual, they don’t make much sense out of context. They’re <a href=\"https://noti.st/adactio/Gfh9pl/in-and-out-of-style\">on Noti.st</a> too.</p><p>I made <a href=\"https://adactio.s3.amazonaws.com/audio/articles/aea2022inandoutofstyle.mp3\">an audio recording</a> <a href=\"https://huffduffer.com/add?page=https://adactio.com/articles/19210\">for your huffduffing pleasure</a>.</p><p>There are two videos of this talk. On Vimeo, there’s <a href=\"https://vimeo.com/722925963\">the version I pre-recorded for An Event Apart online</a>. On YouTube, there’s <a href=\"https://www.youtube.com/watch?v=CdZZcbZG83o\">the recording from CSS Day</a>.</p><p>It’s kind of interesting to compare the two (well, interesting to me, anyway). The pre-recorded version feels like a documentary. The live version has more a different vibe and it obviously has more audience interaction. I think my style of delivery suits a live audience best.</p><p>I invite you to <a href=\"https://adactio.com/articles/19210\">read</a>, <a href=\"https://www.youtube.com/watch?v=CdZZcbZG83o\">watch</a>, or <a href=\"http://adactio.s3.amazonaws.com/audio/articles/aea2022inandoutofstyle.mp3\">listen to</a> <cite>In And Out Of Style</cite>, whichever you prefer.</p>"
+        }
+    ]
+}

@@ -3,33 +3,54 @@
  * @ndaidong
  **/
 
-import { info } from './utils/logger.js'
+import { isValid as isValidUrl } from "./utils/linker.js";
 
-import getXML from './utils/retrieve.js'
-import xml2obj from './utils/xml2obj.js'
-import { parseRSS, parseAtom } from './utils/parser.js'
+import retrieve from "./utils/retrieve.js";
+import { validate, xml2obj, isRSS, isAtom } from "./utils/xmlparser.js";
+import parseJsonFeed from "./utils/parseJsonFeed.js";
+import parseRssFeed from "./utils/parseRssFeed.js";
+import parseAtomFeed from "./utils/parseAtomFeed.js";
 
-import {
-  validate,
-  isRSS,
-  isAtom
-} from './utils/validator.js'
-
-export {
-  getRequestOptions,
-  setRequestOptions
-} from './config.js'
-
-export const read = async (url, requestFn) => {
-  const xmldata = await getXML(url, requestFn)
-  if (!xmldata) {
-    throw new Error(`Could not fetch XML content from "${url}"`)
+export const read = async (url, options = {}, fetchOptions = {}) => {
+  if (!isValidUrl(url)) {
+    throw new Error("Input param must be a valid URL");
   }
-  const { xml } = xmldata
-  if (!validate(xml)) {
-    throw new Error(`Failed while validating XML format from "${url}"`)
+  const data = await retrieve(url, fetchOptions);
+  if (!data.text && !data.json) {
+    throw new Error(`Failed to load content from "${url}"`);
   }
-  info('Parsing XML data...')
-  const jsonObj = xml2obj(xml)
-  return isRSS(jsonObj) ? parseRSS(jsonObj) : isAtom(jsonObj) ? parseAtom(jsonObj) : null
-}
+
+  const { type, json, text } = data;
+
+  const {
+    normalization = true,
+    descriptionMaxLen = 210,
+    useISODateFormat = true,
+    xmlParserOptions = {},
+    getExtraFeedFields = () => ({}),
+    getExtraEntryFields = () => ({}),
+  } = options;
+
+  const opts = {
+    normalization,
+    descriptionMaxLen,
+    useISODateFormat,
+    getExtraFeedFields,
+    getExtraEntryFields,
+  };
+
+  if (type === "json") {
+    return parseJsonFeed(json, opts);
+  }
+
+  if (!validate(text)) {
+    throw new Error("The XML document is not well-formed");
+  }
+
+  const xml = xml2obj(text, xmlParserOptions);
+  return isRSS(xml)
+    ? parseRssFeed(xml, opts)
+    : isAtom(xml)
+    ? parseAtomFeed(xml, opts)
+    : null;
+};

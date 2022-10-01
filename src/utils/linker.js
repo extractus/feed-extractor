@@ -1,4 +1,22 @@
-// utils -> purifyUrl
+// utils -> linker
+
+export const isValid = (url = '') => {
+  try {
+    const ourl = new URL(url)
+    return ourl !== null && ourl.protocol.startsWith('http')
+  } catch (err) {
+    return false
+  }
+}
+
+export const absolutify = (fullUrl = '', relativeUrl = '') => {
+  try {
+    const result = new URL(relativeUrl, fullUrl)
+    return result.toString()
+  } catch (err) {
+    return ''
+  }
+}
 
 const blacklistKeys = [
   'CNDID',
@@ -60,7 +78,7 @@ const blacklistKeys = [
   'pk_campaign'
 ]
 
-export default (url) => {
+export const purify = (url) => {
   try {
     const pureUrl = new URL(url)
 

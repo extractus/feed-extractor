@@ -8,11 +8,11 @@ on: [push, pull_request]
 jobs:
   test:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node_version: [14.x, 15.x, 16.x, 17.x]
+        node_version: [14.x, 15.x, 16.x, 17.x, 18.x]
 
     steps:
     - uses: actions/checkout@v2

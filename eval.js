@@ -1,38 +1,37 @@
 // eval.js
 
-import { readFileSync, writeFileSync, existsSync } from 'fs'
+// import { writeFileSync } from 'fs'
 
-import isValidUrl from './src/utils/isValidUrl.js'
+import parseArgs from 'args-parser'
+
 import { read } from './src/main.js'
 
-const extractFromUrl = async (url) => {
+const extractFromUrl = async (url, options) => {
   try {
-    const art = await read(url)
-    console.log(art)
-    writeFileSync('./output.json', JSON.stringify(art), 'utf8')
+    const feed = await read(url, options)
+    console.log(feed)
+    // writeFileSync('output.json', JSON.stringify(feed, undefined, 2), 'utf8')
   } catch (err) {
-    console.trace(err)
-  }
-}
-
-const extractFromFile = async (fpath) => {
-  try {
-    const xml = readFileSync(fpath, 'utf8')
-    const art = await read(xml)
-    console.log(art)
-    writeFileSync('./output.json', JSON.stringify(art), 'utf8')
-  } catch (err) {
-    console.trace(err)
+    console.log(err)
   }
 }
 
 const init = (argv) => {
-  if (argv.length === 3) {
-    const input = argv[2]
-    const isUrl = isValidUrl(input)
-    return isUrl ? extractFromUrl(input) : existsSync(input) ? extractFromFile(input) : false
+  const {
+    url,
+    normalization = 'y',
+    includeEntryContent = 'n',
+    includeOptionalElements = 'n',
+    useISODateFormat = 'y'
+  } = parseArgs(argv)
+
+  const options = {
+    includeEntryContent: includeEntryContent === 'y',
+    includeOptionalElements: includeOptionalElements === 'y',
+    useISODateFormat: useISODateFormat !== 'n',
+    normalization: normalization !== 'n'
   }
-  return 'Nothing to do!'
+  return url ? extractFromUrl(url, options) : false
 }
 
 init(process.argv)
