@@ -74,6 +74,11 @@ export interface FetchOptions {
    * default: null
    */
   proxy?: ProxyConfig;
+  /**
+   * an optional fetch function override
+   * default: fetch from cross-fetch
+   */
+  fetchFn?: typeof fetch;
 }
 
 export function read(
