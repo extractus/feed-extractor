@@ -1,12 +1,5 @@
 // Type definitions
 
-export function read(
-  url: string,
-  requestFn: (
-    url: string,
-    getRequestOptions: () => any
-  ) => Promise<{ data: any; headers: any }>
-): Promise<FeedData>;
 export interface FeedEntry {
   link?: string;
   title?: string;
