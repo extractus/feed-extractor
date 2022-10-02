@@ -80,7 +80,7 @@ export interface FetchOptions {
    */
   fetchFn?: (
     ...args: Parameters<typeof fetch>
-  ) => Pick<Response, "headers" | "text" | status>;
+  ) => Pick<Response, "headers" | "text" | "status">;
 }
 
 export function read(

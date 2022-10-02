@@ -1,4 +1,4 @@
-// feed-reader@6.1.2, by @ndaidong - built with esbuild at 2022-10-02T19:35:01.518Z - published under MIT license
+// feed-reader@6.1.2, by @ndaidong - built with esbuild at 2022-10-02T19:40:41.232Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
