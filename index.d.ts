@@ -78,7 +78,9 @@ export interface FetchOptions {
    * an optional fetch function override
    * default: fetch from cross-fetch
    */
-  fetchFn?: typeof fetch;
+  fetchFn?: (
+    ...args: Parameters<typeof fetch>
+  ) => Pick<Response, "headers" | "text" | status>;
 }
 
 export function read(
