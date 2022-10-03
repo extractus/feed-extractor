@@ -63,6 +63,9 @@ export interface ReaderOptions {
   extraEntryFields?: (entryData: object) => object;
 }
 
+type FetchFnReturnType = Partial<Response> &
+  Pick<Response, "headers" | "text" | "status">;
+
 export interface FetchOptions {
   /**
    * list of request headers
@@ -78,9 +81,7 @@ export interface FetchOptions {
    * an optional fetch function override
    * default: fetch from cross-fetch
    */
-  fetchFn?: (
-    ...args: Parameters<typeof fetch>
-  ) => Promise<Pick<Response, "headers" | "text" | "status">>;
+  fetchFn?: (...args: Parameters<typeof fetch>) => Promise<FetchFnReturnType>;
 }
 
 export function read(
