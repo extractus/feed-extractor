@@ -10,7 +10,7 @@ To read & normalize RSS/ATOM/JSON feed data.
 
 ## Intro
 
-*oembed-parser* is a part of tool sets for content builder:
+*feed-reader* is a part of tool sets for content builder:
 
 - [feed-reader](https://github.com/ndaidong/feed-reader): extract & normalize RSS/ATOM/JSON feed
 - [article-parser](https://github.com/ndaidong/article-parser): extract main article from given URL
