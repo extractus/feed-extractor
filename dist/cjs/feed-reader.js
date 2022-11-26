@@ -1,4 +1,4 @@
-// feed-reader@6.1.2, by @ndaidong - built with esbuild at 2022-10-03T16:58:15.956Z - published under MIT license
+// feed-reader@6.1.3, by @ndaidong - built with esbuild at 2022-11-26T19:16:02.625Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -3516,12 +3516,12 @@ var require_OrderedObjParser = __commonJS({
         this.tagsNodeStack = [];
         this.docTypeEntities = {};
         this.lastEntities = {
-          "amp": { regex: /&(amp|#38|#x26);/g, val: "&" },
           "apos": { regex: /&(apos|#39|#x27);/g, val: "'" },
           "gt": { regex: /&(gt|#62|#x3E);/g, val: ">" },
           "lt": { regex: /&(lt|#60|#x3C);/g, val: "<" },
           "quot": { regex: /&(quot|#34|#x22);/g, val: '"' }
         };
+        this.ampEntity = { regex: /&(amp|#38|#x26);/g, val: "&" };
         this.htmlEntities = {
           "space": { regex: /&(nbsp|#160);/g, val: " " },
           "cent": { regex: /&(cent|#162);/g, val: "¢" },
@@ -3800,6 +3800,7 @@ var require_OrderedObjParser = __commonJS({
             val = val.replace(entity.regex, entity.val);
           }
         }
+        val = val.replace(this.ampEntity.regex, this.ampEntity.val);
       }
       return val;
     };
@@ -4087,6 +4088,8 @@ var require_XMLParser = __commonJS({
           throw new Error("Entity value can't have '&'");
         } else if (key.indexOf("&") !== -1 || key.indexOf(";") !== -1) {
           throw new Error("An entity must be set without '&' and ';'. Eg. use '#xD' for '&#xD;'");
+        } else if (value === "&") {
+          throw new Error("An entity with value '&' is not permitted");
         } else {
           this.externalEntities[key] = value;
         }

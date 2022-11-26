@@ -8,7 +8,27 @@ To read & normalize RSS/ATOM/JSON feed data.
 ![CodeQL](https://github.com/ndaidong/feed-reader/workflows/CodeQL/badge.svg)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-[![Deploy](https://button.deta.dev/1/svg)](https://go.deta.dev/deploy?repo=https://github.com/ndaidong/feed-reader-deta)
+## Intro
+
+*feed-reader* is a part of tool sets for content builder:
+
+- [feed-reader](https://github.com/ndaidong/feed-reader): extract & normalize RSS/ATOM/JSON feed
+- [article-parser](https://github.com/ndaidong/article-parser): extract main article from given URL
+- [oembed-parser](https://github.com/ndaidong/oembed-parser): extract oEmbed data from supported providers
+
+You can use one or combination of these tools to build news sites, create automated content systems for marketing campaign or gather dataset for NLP projects...
+
+```
+                                    ┌────────────────┐
+                            ┌───────► article-parser ├──────────┐
+                            │       └────────────────┘          │
+┌─────────────┐   ┌─────────┴────┐                     ┌────────▼─────────┐   ┌─────────────┐
+│ feed-reader ├───► feed entries │                     │ content database ├───► public APIs │
+└─────────────┘   └─────────┬────┘                     └────────▲─────────┘   └─────────────┘
+                            │       ┌────────────────┐          │
+                            └───────► oembed-parser  ├──────────┘
+                                    └────────────────┘
+```
 
 ## Demo
 
@@ -29,7 +49,7 @@ pnpm i feed-reader
 yarn add feed-reader
 ```
 
-```js
+```ts
 // es6 module
 import { read } from 'feed-reader'
 
@@ -48,11 +68,17 @@ import { read } from 'https://esm.sh/feed-reader'
 
 ### Browser
 
-```js
+```ts
 import { read } from 'https://unpkg.com/feed-reader@latest/dist/feed-reader.esm.js'
 ```
 
 Please check [the examples](https://github.com/ndaidong/feed-reader/tree/main/examples) for reference.
+
+### Deta cloud
+
+For [Deta](https://www.deta.sh/) devs please refer [the source code and guideline here](https://github.com/ndaidong/feed-reader-deta) or simply click the button below.
+
+[![Deploy](https://button.deta.dev/1/svg)](https://go.deta.dev/deploy?repo=https://github.com/ndaidong/feed-reader-deta)
 
 
 ## APIs
@@ -63,7 +89,7 @@ Load and extract feed data from given RSS/ATOM/JSON source. Return a Promise obj
 
 #### Syntax
 
-```js
+```ts
 read(String url)
 read(String url, Object options)
 read(String url, Object options, Object fetchOptions)
@@ -91,7 +117,7 @@ read('https://news.google.com/atom').then(result => console.log(result))
 
 Without any options, the result should have the following structure:
 
-```js
+```ts
 {
   title: String,
   link: String,
@@ -124,7 +150,7 @@ Object with all or several of the following properties:
 
 For example:
 
-```js
+```ts
 import { read } from 'feed-reader'
 
 read('https://news.google.com/atom', {
@@ -135,7 +161,7 @@ read('https://news.google.com/rss', {
   useISODateFormat: false,
   getExtraFeedFields: (feedData) => {
     return {
-      subtitle: feed.subtitle || ''
+      subtitle: feedData.subtitle || ''
     }
   },
   getExtraEntryFields: (feedEntry) => {
