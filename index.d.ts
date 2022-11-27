@@ -57,18 +57,13 @@ export interface ReaderOptions {
   getExtraEntryFields?: (entryData: object) => object;
 }
 
-export interface FetchOptions {
-  //  Definitions by: Ryan Graham <https://github.com/ryan-codingintrigue>
-  method?: "GET" | "POST" | "DELETE" | "PATCH" | "PUT" | "HEAD" | "OPTIONS" | "CONNECT";
-  headers?: any;
-  body?: any;
-  mode?: "cors" | "no-cors" | "same-origin";
-  credentials?: "omit" | "same-origin" | "include";
-  cache?: "default" | "no-store" | "reload" | "no-cache" | "force-cache" | "only-if-cached";
-  redirect?: "follow" | "error" | "manual";
-  referrer?: string;
-  referrerPolicy?: "referrer" | "no-referrer-when-downgrade" | "origin" | "origin-when-cross-origin" | "unsafe-url";
-  integrity?: any;
+export type FetchOptions = ProxyFetchOptions | RequestInit
+
+interface ProxyFetchOptions {
+  /**
+   * the values to configure proxy
+   * default: null
+   */
   proxy?: ProxyConfig;
 }
 
