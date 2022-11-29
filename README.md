@@ -1,34 +1,23 @@
-# feed-reader
+# feed-extractor
 
 To read & normalize RSS/ATOM/JSON feed data.
 
-[![NPM](https://badge.fury.io/js/feed-reader.svg)](https://badge.fury.io/js/feed-reader)
-![CI test](https://github.com/ndaidong/feed-reader/workflows/ci-test/badge.svg)
-[![Coverage Status](https://img.shields.io/coveralls/github/ndaidong/feed-reader)](https://coveralls.io/github/ndaidong/feed-reader?branch=main)
-![CodeQL](https://github.com/ndaidong/feed-reader/workflows/CodeQL/badge.svg)
+[![npm version](https://badge.fury.io/js/@extractus%2Ffeed-extractor.svg)](https://badge.fury.io/js/@extractus%2Ffeed-extractor)
+![CI test](https://github.com/extractus/feed-extractor/workflows/ci-test/badge.svg)
+[![Coverage Status](https://img.shields.io/coveralls/github/extractus/feed-extractor)](https://coveralls.io/github/extractus/feed-extractor?branch=main)
+![CodeQL](https://github.com/extractus/feed-extractor/workflows/CodeQL/badge.svg)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Intro
 
-*feed-reader* is a part of tool sets for content builder:
+*feed-extractor* is a part of tool sets for content builder:
 
-- [feed-reader](https://github.com/ndaidong/feed-reader): extract & normalize RSS/ATOM/JSON feed
-- [article-parser](https://github.com/ndaidong/article-parser): extract main article from given URL
-- [oembed-parser](https://github.com/ndaidong/oembed-parser): extract oEmbed data from supported providers
+- [feed-extractor](https://github.com/extractus/feed-extractor): extract & normalize RSS/ATOM/JSON feed
+- [article-extractor](https://github.com/extractus/article-extractor): extract main article from given URL
+- [oembed-extractor](https://github.com/extractus/oembed-extractor): extract oEmbed data from supported providers
 
 You can use one or combination of these tools to build news sites, create automated content systems for marketing campaign or gather dataset for NLP projects...
 
-```
-                                    ┌────────────────┐
-                            ┌───────► article-parser ├──────────┐
-                            │       └────────────────┘          │
-┌─────────────┐   ┌─────────┴────┐                     ┌────────▼─────────┐   ┌─────────────┐
-│ feed-reader ├───► feed entries │                     │ content database ├───► public APIs │
-└─────────────┘   └─────────┬────┘                     └────────▲─────────┘   └─────────────┘
-                            │       ┌────────────────┐          │
-                            └───────► oembed-parser  ├──────────┘
-                                    └────────────────┘
-```
 
 ## Demo
 
@@ -40,39 +29,43 @@ You can use one or combination of these tools to build news sites, create automa
 ### Node.js
 
 ```bash
-npm i feed-reader
+npm i @extractus/feed-extractor
 
 # pnpm
-pnpm i feed-reader
+pnpm i @extractus/feed-extractor
 
 # yarn
-yarn add feed-reader
+yarn add @extractus/feed-extractor
 ```
 
 ```ts
 // es6 module
-import { read } from 'feed-reader'
+import { read } from '@extractus/feed-extractor'
 
 // CommonJS
-const { read } = require('feed-reader')
+const { read } = require('@extractus/feed-extractor')
 
 // or specify exactly path to CommonJS variant
-const { read } = require('feed-reader/dist/cjs/feed-reader.js')
+const { read } = require('@extractus/feed-extractor/dist/cjs/feed-extractor.js')
 ```
 
 ### Deno
 
 ```ts
-import { read } from 'https://esm.sh/feed-reader'
+// deno > 1.28
+import { read } from 'npm:@extractus/feed-extractor'
+
+// deno < 1.28
+// import { read } from 'https://esm.sh/@extractus/feed-extractor'
 ```
 
 ### Browser
 
 ```ts
-import { read } from 'https://unpkg.com/feed-reader@latest/dist/feed-reader.esm.js'
+import { read } from 'https://unpkg.com/@extractus/feed-extractor@latest/dist/feed-extractor.esm.js'
 ```
 
-Please check [the examples](https://github.com/ndaidong/feed-reader/tree/main/examples) for reference.
+Please check [the examples](https://github.com/extractus/feed-extractor/tree/main/examples) for reference.
 
 ### Deta cloud
 
@@ -110,9 +103,10 @@ Feed content must be accessible and conform one of the following standards:
 For example:
 
 ```js
-import { read } from 'feed-reader'
+import { read } from '@extractus/feed-extractor'
 
-read('https://news.google.com/atom').then(result => console.log(result))
+const result = await read('https://news.google.com/atom')
+console.log(result)
 ```
 
 Without any options, the result should have the following structure:
@@ -151,13 +145,13 @@ Object with all or several of the following properties:
 For example:
 
 ```ts
-import { read } from 'feed-reader'
+import { read } from '@extractus/feed-extractor'
 
-read('https://news.google.com/atom', {
+await read('https://news.google.com/atom', {
   useISODateFormat: false
 })
 
-read('https://news.google.com/rss', {
+await read('https://news.google.com/rss', {
   useISODateFormat: false,
   getExtraFeedFields: (feedData) => {
     return {
@@ -191,10 +185,10 @@ You can use this param to set request headers to fetch.
 For example:
 
 ```js
-import { read } from 'feed-reader'
+import { read } from '@extractus/feed-extractor'
 
 const url = 'https://news.google.com/rss'
-read(url, null, {
+await read(url, null, {
   headers: {
     'user-agent': 'Opera/9.60 (Windows NT 6.0; U; en) Presto/2.1.1'
   }
@@ -206,11 +200,11 @@ You can also specify a proxy endpoint to load remote content, instead of fetchin
 For example:
 
 ```js
-import { read } from 'feed-reader'
+import { read } from '@extractus/feed-extractor'
 
 const url = 'https://news.google.com/rss'
 
-read(url, null, {
+await read(url, null, {
   headers: {
     'user-agent': 'Opera/9.60 (Windows NT 6.0; U; en) Presto/2.1.1'
   },
@@ -223,14 +217,14 @@ read(url, null, {
 })
 ```
 
-Passing requests to proxy is useful while running `feed-reader` on browser. View `examples/browser-feed-reader` as reference example.
+Passing requests to proxy is useful while running `@extractus/feed-extractor` on browser. View `examples/browser-feed-reader` as reference example.
 
 
 ## Quick evaluation
 
 ```bash
-git clone https://github.com/ndaidong/feed-reader.git
-cd feed-reader
+git clone https://github.com/extractus/feed-extractor.git
+cd feed-extractor
 npm install
 
 node eval.js --url=https://news.google.com/rss --normalization=y --useISODateFormat=y --includeEntryContent=n --includeOptionalElements=n

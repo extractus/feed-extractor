@@ -1,7 +1,4 @@
-/**
- * build.js
- * @ndaidong
-**/
+// build.js
 
 import { readFileSync, writeFileSync, copyFileSync, rmSync, mkdirSync } from 'fs'
 
@@ -38,7 +35,7 @@ const esmVersion = {
   ...baseOpt,
   platform: 'browser',
   format: 'esm',
-  outfile: `dist/${pkg.name}.esm.js`,
+  outfile: 'dist/feed-extractor.esm.js',
   banner: {
     js: comment
   }
@@ -50,7 +47,7 @@ const cjsVersion = {
   platform: 'node',
   format: 'cjs',
   mainFields: ['main'],
-  outfile: `dist/cjs/${pkg.name}.js`,
+  outfile: 'dist/cjs/feed-extractor.js',
   banner: {
     js: comment
   }
