@@ -1,5 +1,5 @@
 {
-  "version": "6.1.4",
+  "version": "6.1.5rc1",
   "name": "@extractus/feed-extractor",
   "description": "To read and normalize RSS/ATOM/JSON feed data",
   "homepage": "https://github.com/extractus/feed-extractor",
@@ -26,6 +26,7 @@
   },
   "scripts": {
     "lint": "standard .",
+    "lint:fix": "standard --fix",
     "pretest": "npm run lint",
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage=true",
     "build": "node build",
