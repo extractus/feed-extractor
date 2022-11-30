@@ -18,6 +18,9 @@ To read & normalize RSS/ATOM/JSON feed data.
 
 You can use one or combination of these tools to build news sites, create automated content systems for marketing campaign or gather dataset for NLP projects...
 
+### Attention
+
+`feed-reader` has been renamed to `@extractus/feed-extractor` since v6.1.4
 
 ## Demo
 
