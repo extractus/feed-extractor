@@ -1,5 +1,5 @@
 import express from 'express'
-import { read } from 'feed-reader'
+import { read } from '@extractus/feed-extractor'
 
 const app = express()
 

@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 
-import { read } from 'feed-reader'
+import { read } from '@extractus/feed-extractor'
 
 const app = new Hono()
 

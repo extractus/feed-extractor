@@ -1,18 +1,18 @@
 {
-  "version": "6.1.3",
-  "name": "feed-reader",
+  "version": "6.1.4rc1",
+  "name": "@extractus/feed-extractor",
   "description": "To read and normalize RSS/ATOM/JSON feed data",
-  "homepage": "https://www.npmjs.com/package/feed-reader",
+  "homepage": "https://github.com/extractus/feed-extractor",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ndaidong/feed-reader.git"
+    "url": "git@github.com:extractus/feed-extractor.git"
   },
-  "author": "@ndaidong",
+  "author": "@extractus",
   "main": "./src/main.js",
   "type": "module",
   "exports": {
     "import": "./src/main.js",
-    "require": "./dist/cjs/feed-reader.js"
+    "require": "./dist/cjs/feed-extractor.js"
   },
   "imports": {
     "cross-fetch": "./src/deno/cross-fetch.js"
