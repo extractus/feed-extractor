@@ -1,5 +1,5 @@
 {
   "name": "@extractus/feed-extractor",
-  "version": "6.1.4rc1",
+  "version": "6.1.4",
   "main": "./@extractus/feed-extractor.js"
 }

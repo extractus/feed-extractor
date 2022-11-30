@@ -1,5 +1,5 @@
 {
-  "version": "6.1.4rc1",
+  "version": "6.1.4",
   "name": "@extractus/feed-extractor",
   "description": "To read and normalize RSS/ATOM/JSON feed data",
   "homepage": "https://github.com/extractus/feed-extractor",
