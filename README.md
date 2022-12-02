@@ -24,8 +24,8 @@ You can use one or combination of these tools to build news sites, create automa
 
 ## Demo
 
-- [Give it a try!](https://demos.pwshub.com/feed-reader)
-- [Example FaaS](https://readfeed.deta.dev/?url=https://news.google.com/rss)
+- [Give it a try!](https://extractor-demos.pages.dev/feed-extractor)
+- [Example FaaS](https://extractus.deno.dev/extract?apikey=rn0wbHos2e73W6ghQf705bdF&type=feed&url=https://news.google.com/rss)
 
 ## Install & Usage
 
@@ -55,11 +55,11 @@ const { read } = require('@extractus/feed-extractor/dist/cjs/feed-extractor.js')
 ### Deno
 
 ```ts
+// deno < 1.28
+import { read } from 'https://esm.sh/@extractus/feed-extractor'
+
 // deno > 1.28
 import { read } from 'npm:@extractus/feed-extractor'
-
-// deno < 1.28
-// import { read } from 'https://esm.sh/@extractus/feed-extractor'
 ```
 
 ### Browser

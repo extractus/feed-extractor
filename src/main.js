@@ -1,7 +1,4 @@
-/**
- * Feed Reader
- * @ndaidong
- **/
+// main.js
 
 import { isValid as isValidUrl } from './utils/linker.js'
 
