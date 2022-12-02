@@ -65,7 +65,7 @@ If test coverage decreased, please check test scripts and try to improve this nu
 
 ## Documentation
 
-If you've changed APIs, please update README and [the examples](https://github.com/extractus/feed-extractor/tree/main/examples).
+If you've changed APIs, please update README and [the examples](examples).
 
 
 ## Clean commit histories
@@ -84,6 +84,6 @@ For people new to git, please refer the following guides:
 
 ## License
 
-By contributing to `@extractus/feed-extractor`, you agree that your contributions will be licensed under its [MIT license](https://github.com/extractus/feed-extractor/blob/main/LICENSE).
+By contributing to `@extractus/feed-extractor`, you agree that your contributions will be licensed under its [MIT license](LICENSE).
 
 ---

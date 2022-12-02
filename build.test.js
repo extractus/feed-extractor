@@ -1,5 +1,4 @@
 // release.test
-
 /* eslint-env jest */
 
 import {

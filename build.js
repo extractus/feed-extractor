@@ -57,7 +57,7 @@ buildSync(cjsVersion)
 const cjspkg = {
   name: pkg.name,
   version: pkg.version,
-  main: `./${pkg.name}.js`
+  main: './feed-extractor.js'
 }
 
 writeFileSync(
