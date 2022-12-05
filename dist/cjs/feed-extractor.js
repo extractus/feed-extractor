@@ -1,4 +1,4 @@
-// @extractus/feed-extractor@6.1.5, by @extractus - built with esbuild at 2022-12-02T14:07:13.301Z - published under MIT license
+// @extractus/feed-extractor@6.1.6, by @extractus - built with esbuild at 2022-12-05T01:51:24.880Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;

@@ -70,12 +70,6 @@ import { read } from 'https://unpkg.com/@extractus/feed-extractor@latest/dist/fe
 
 Please check [the examples](https://github.com/extractus/feed-extractor/tree/main/examples) for reference.
 
-### Deta cloud
-
-For [Deta](https://www.deta.sh/) devs please refer [the source code and guideline here](https://github.com/ndaidong/feed-reader-deta) or simply click the button below.
-
-[![Deploy](https://button.deta.dev/1/svg)](https://go.deta.dev/deploy?repo=https://github.com/ndaidong/feed-reader-deta)
-
 
 ## APIs
 
@@ -220,7 +214,8 @@ await read(url, null, {
 })
 ```
 
-Passing requests to proxy is useful while running `@extractus/feed-extractor` on browser. View `examples/browser-feed-reader` as reference example.
+Passing requests to proxy is useful while running `@extractus/feed-extractor` on browser.
+View `examples/browser-feed-reader` as reference example.
 
 
 ## Quick evaluation
