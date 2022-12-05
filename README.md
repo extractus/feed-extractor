@@ -217,6 +217,17 @@ await read(url, null, {
 Passing requests to proxy is useful while running `@extractus/feed-extractor` on browser.
 View `examples/browser-feed-reader` as reference example.
 
+## Test
+
+```bash
+git clone https://github.com/extractus/feed-extractor.git
+cd feed-extractor
+npm i
+npm test
+```
+
+![feed-extractor-test.png](https://i.imgur.com/2b5xt6S.png)
+
 
 ## Quick evaluation
 
