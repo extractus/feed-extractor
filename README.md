@@ -3,24 +3,15 @@
 To read & normalize RSS/ATOM/JSON feed data.
 
 [![npm version](https://badge.fury.io/js/@extractus%2Ffeed-extractor.svg)](https://badge.fury.io/js/@extractus%2Ffeed-extractor)
+![CodeQL](https://github.com/extractus/feed-extractor/workflows/CodeQL/badge.svg)
 ![CI test](https://github.com/extractus/feed-extractor/workflows/ci-test/badge.svg)
 [![Coverage Status](https://img.shields.io/coveralls/github/extractus/feed-extractor)](https://coveralls.io/github/extractus/feed-extractor?branch=main)
-![CodeQL](https://github.com/extractus/feed-extractor/workflows/CodeQL/badge.svg)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-
-## Intro
-
-*feed-extractor* is a part of tool sets for content builder:
-
-- [feed-extractor](https://github.com/extractus/feed-extractor): extract & normalize RSS/ATOM/JSON feed
-- [article-extractor](https://github.com/extractus/article-extractor): extract main article from given URL
-- [oembed-extractor](https://github.com/extractus/oembed-extractor): extract oEmbed data from supported providers
-
-You can use one or combination of these tools to build news sites, create automated content systems for marketing campaign or gather dataset for NLP projects...
 
 ### Attention
 
 `feed-reader` has been renamed to `@extractus/feed-extractor` since v6.1.4
+
 
 ## Demo
 
@@ -48,8 +39,12 @@ import { read } from '@extractus/feed-extractor'
 // CommonJS
 const { read } = require('@extractus/feed-extractor')
 
-// or specify exactly path to CommonJS variant
+// you can specify exactly path to CommonJS version
 const { read } = require('@extractus/feed-extractor/dist/cjs/feed-extractor.js')
+
+// extract a RSS
+const result = await read('https://news.google.com/rss')
+console.log(result)
 ```
 
 ### Deno
