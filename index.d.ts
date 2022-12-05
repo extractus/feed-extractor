@@ -56,11 +56,11 @@ export interface ReaderOptions {
   /**
    * merge extra feed fields in result
    */
-  extraFeedFields?: (feedData: object) => object;
+  getExtraFeedFields?: (feedData: object) => object;
   /**
    * merge extra entry fields in result
    */
-  extraEntryFields?: (entryData: object) => object;
+  getExtraEntryFields?: (entryData: object) => object;
 }
 
 export interface FetchOptions {
