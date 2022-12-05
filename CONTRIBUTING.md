@@ -58,7 +58,7 @@ cd feed-extractor
 npm test
 ```
 
-![feed-extractor unit test](https://i.imgur.com/xTwZK6B.png)
+![feed-extractor unit test](https://i.imgur.com/2b5xt6S.png)
 
 If test coverage decreased, please check test scripts and try to improve this number.
 
