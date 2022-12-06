@@ -30,7 +30,7 @@ export default async (url, options = {}) => {
   const contentType = res.headers.get('content-type')
   const text = await res.text()
 
-  if (/(\+|\/)xml/.test(contentType)) {
+  if (/(\+|\/)(xml|html)/.test(contentType)) {
     return { type: 'xml', text: text.trim(), status, contentType }
   }
 

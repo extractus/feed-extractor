@@ -1,4 +1,4 @@
-// @extractus/feed-extractor@6.1.6, by @extractus - built with esbuild at 2022-12-05T01:51:24.880Z - published under MIT license
+// @extractus/feed-extractor@6.1.7, by @extractus - built with esbuild at 2022-12-06T05:40:03.694Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4775,7 +4775,7 @@ var retrieve_default = async (url, options = {}) => {
   }
   const contentType = res.headers.get("content-type");
   const text = await res.text();
-  if (/(\+|\/)xml/.test(contentType)) {
+  if (/(\+|\/)(xml|html)/.test(contentType)) {
     return { type: "xml", text: text.trim(), status, contentType };
   }
   if (/(\+|\/)json/.test(contentType)) {
