@@ -231,7 +231,7 @@ git clone https://github.com/extractus/feed-extractor.git
 cd feed-extractor
 npm install
 
-node eval.js --url=https://news.google.com/rss --normalization=y --useISODateFormat=y --includeEntryContent=n --includeOptionalElements=n
+npm run eval https://news.google.com/rss
 ```
 
 ## License
