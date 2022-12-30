@@ -1,6 +1,10 @@
 // Type definitions
 
 export interface FeedEntry {
+  /**
+   * id, guid, or generated identifier for the entry
+   */
+  id: string;
   link?: string;
   title?: string;
   description?: string;

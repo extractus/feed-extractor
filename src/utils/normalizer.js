@@ -59,6 +59,10 @@ export const getPureUrl = (url, id = '') => {
   return link ? purifyUrl(link) : ''
 }
 
+export const getEntryId = (id, url, pubDate) => {
+  return id || (getPureUrl(url, id) + toISODateString(pubDate))
+}
+
 export const getEnclosure = (val) => {
   const url = hasProperty(val, '@_url') ? val['@_url'] : ''
   const type = hasProperty(val, '@_type') ? val['@_type'] : ''

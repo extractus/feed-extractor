@@ -9,7 +9,8 @@ import {
   getText,
   toISODateString,
   buildDescription,
-  getPureUrl
+  getPureUrl,
+  getEntryId
 } from './normalizer.js'
 
 const transform = (item, options) => {
@@ -32,6 +33,7 @@ const transform = (item, options) => {
   const pubDate = updated || published
   const htmlContent = getText(content || summary)
   const entry = {
+    id: getEntryId(id, link, pubDate),
     title: getText(title),
     link: getPureUrl(link, id),
     published: useISODateFormat ? toISODateString(pubDate) : pubDate,
