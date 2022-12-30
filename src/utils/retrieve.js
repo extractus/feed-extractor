@@ -16,7 +16,7 @@ const profetch = async (url, proxy = {}) => {
 export default async (url, options = {}) => {
   const {
     headers = {
-      'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101 Firefox/104.0'
+      'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0'
     },
     proxy = null
   } = options

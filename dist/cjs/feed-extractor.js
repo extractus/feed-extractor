@@ -1,4 +1,4 @@
-// @extractus/feed-extractor@6.1.7, by @extractus - built with esbuild at 2022-12-06T05:40:03.694Z - published under MIT license
+// @extractus/feed-extractor@6.1.8, by @extractus - built with esbuild at 2022-12-30T05:55:09.972Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4764,7 +4764,7 @@ var profetch = async (url, proxy = {}) => {
 var retrieve_default = async (url, options = {}) => {
   const {
     headers = {
-      "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101 Firefox/104.0"
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0"
     },
     proxy = null
   } = options;
@@ -4894,6 +4894,10 @@ var getPureUrl = (url, id = "") => {
   const link = getLink(url, id);
   return link ? purify(link) : "";
 };
+var hash = (str) => Math.abs(str.split("").reduce((s, c) => Math.imul(31, s) + c.charCodeAt(0) | 0, 0)).toString(36);
+var getEntryId = (id, url, pubDate) => {
+  return id ? getText(id) : hash(getPureUrl(url)) + "-" + new Date(pubDate).getTime();
+};
 var getEnclosure = (val) => {
   const url = hasProperty(val, "@_url") ? val["@_url"] : "";
   const type = hasProperty(val, "@_type") ? val["@_type"] : "";
@@ -4934,6 +4938,7 @@ var transform = (item, options) => {
     getExtraEntryFields
   } = options;
   const {
+    id = "",
     title = "",
     url: link = "",
     date_published: pubDate = "",
@@ -4944,6 +4949,7 @@ var transform = (item, options) => {
   const published = useISODateFormat ? toISODateString(pubDate) : pubDate;
   const extraFields = getExtraEntryFields(item);
   const entry = {
+    id: getEntryId(id, link, pubDate),
     title,
     link: purify(link),
     published,
@@ -4996,6 +5002,7 @@ var transform2 = (item, options) => {
     getExtraEntryFields
   } = options;
   const {
+    guid = "",
     title = "",
     link = "",
     pubDate = "",
@@ -5003,6 +5010,7 @@ var transform2 = (item, options) => {
   } = item;
   const published = useISODateFormat ? toISODateString(pubDate) : pubDate;
   const entry = {
+    id: getEntryId(guid, link, pubDate),
     title: getText(title),
     link: getPureUrl(link),
     published,
@@ -5110,6 +5118,7 @@ var transform3 = (item, options) => {
   const pubDate = updated || published;
   const htmlContent = getText(content || summary);
   const entry = {
+    id: getEntryId(id, link, pubDate),
     title: getText(title),
     link: getPureUrl(link, id),
     published: useISODateFormat ? toISODateString(pubDate) : pubDate,
