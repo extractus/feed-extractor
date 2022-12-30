@@ -6,7 +6,8 @@ import { isArray } from 'bellajs'
 
 import {
   toISODateString,
-  buildDescription
+  buildDescription,
+  getEntryId
 } from './normalizer.js'
 
 import { purify as purifyUrl } from './linker.js'
@@ -19,6 +20,7 @@ const transform = (item, options) => {
   } = options
 
   const {
+    id = '',
     title = '',
     url: link = '',
     date_published: pubDate = '',
@@ -31,6 +33,7 @@ const transform = (item, options) => {
   const extraFields = getExtraEntryFields(item)
 
   const entry = {
+    id: getEntryId(id, link, pubDate),
     title,
     link: purifyUrl(link),
     published,

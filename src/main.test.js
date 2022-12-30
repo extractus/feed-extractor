@@ -10,7 +10,7 @@ import { hasProperty } from 'bellajs'
 import { read } from './main.js'
 
 const feedAttrs = 'title link description generator language published entries'.split(' ')
-const entryAttrs = 'title link description published'.split(' ')
+const entryAttrs = 'title link description published id'.split(' ')
 
 const parseUrl = (url) => {
   const re = new URL(url)

@@ -59,6 +59,12 @@ export const getPureUrl = (url, id = '') => {
   return link ? purifyUrl(link) : ''
 }
 
+const hash = (str) => Math.abs(str.split('').reduce((s, c) => Math.imul(31, s) + c.charCodeAt(0) | 0, 0)).toString(36)
+
+export const getEntryId = (id, url, pubDate) => {
+  return id ? getText(id) : hash(getPureUrl(url)) + '-' + (new Date(pubDate)).getTime()
+}
+
 export const getEnclosure = (val) => {
   const url = hasProperty(val, '@_url') ? val['@_url'] : ''
   const type = hasProperty(val, '@_type') ? val['@_type'] : ''
