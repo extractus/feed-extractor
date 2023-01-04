@@ -5,9 +5,10 @@ import { readFileSync } from 'fs'
 
 import nock from 'nock'
 
-import { hasProperty } from 'bellajs'
+import { hasProperty, isString } from 'bellajs'
 
 import { read } from './main.js'
+import { isValid as isValidUrl } from './utils/linker.js'
 
 const feedAttrs = 'title link description generator language published entries'.split(' ')
 const entryAttrs = 'title link description published id'.split(' ')
@@ -18,6 +19,19 @@ const parseUrl = (url) => {
     baseUrl: `${re.protocol}//${re.host}`,
     path: re.pathname
   }
+}
+
+const isValidDate = (d) => {
+  return (new Date(d)).toString() !== 'Invalid Date'
+}
+
+const validateProps = (entry) => {
+  const { id, link, title, published, description } = entry
+  return isString(description) &&
+    isString(id) && id !== '' &&
+    isString(title) && title !== '' &&
+    isString(link) && isValidUrl(link) &&
+    isString(published) && isValidDate(published)
 }
 
 describe('test read() function with common issues', () => {
@@ -76,6 +90,7 @@ describe('test read() standard feed', (done) => {
     entryAttrs.forEach((k) => {
       expect(hasProperty(result.entries[0], k)).toBe(true)
     })
+    expect(validateProps(result.entries[0])).toBe(true)
   })
 
   test('read atom feed from Google', async () => {
@@ -92,6 +107,7 @@ describe('test read() standard feed', (done) => {
     entryAttrs.forEach((k) => {
       expect(hasProperty(result.entries[0], k)).toBe(true)
     })
+    expect(validateProps(result.entries[0])).toBe(true)
   })
 
   test('read atom feed from Google with extraFields', async () => {
@@ -115,6 +131,7 @@ describe('test read() standard feed', (done) => {
     })
     expect(hasProperty(result, 'author')).toBe(true)
     expect(hasProperty(result.entries[0], 'id')).toBe(true)
+    expect(validateProps(result.entries[0])).toBe(true)
   })
 
   test('read atom feed which contains multi links', async () => {
@@ -131,6 +148,7 @@ describe('test read() standard feed', (done) => {
     entryAttrs.forEach((k) => {
       expect(hasProperty(result.entries[0], k)).toBe(true)
     })
+    expect(validateProps(result.entries[0])).toBe(true)
   })
 
   test('read json feed from Micro.blog', async () => {
@@ -147,6 +165,7 @@ describe('test read() standard feed', (done) => {
     entryAttrs.forEach((k) => {
       expect(hasProperty(result.entries[0], k)).toBe(true)
     })
+    expect(validateProps(result.entries[0])).toBe(true)
   })
 
   test('read json feed from Micro.blog with extra fields', async () => {
@@ -170,6 +189,24 @@ describe('test read() standard feed', (done) => {
     })
     expect(hasProperty(result, 'icon')).toBe(true)
     expect(hasProperty(result.entries[0], 'id')).toBe(true)
+    expect(validateProps(result.entries[0])).toBe(true)
+  })
+
+  test('read rss feed from huggingface.co (no link)', async () => {
+    const url = 'https://huggingface.co/no-link/rss'
+    const xml = readFileSync('test-data/rss-feed-miss-link.xml', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, xml, {
+      'Content-Type': 'application/xml'
+    })
+    const result = await read(url)
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(result, k)).toBe(true)
+    })
+    entryAttrs.forEach((k) => {
+      expect(hasProperty(result.entries[0], k)).toBe(true)
+    })
+    expect(validateProps(result.entries[0])).toBe(true)
   })
 })
 

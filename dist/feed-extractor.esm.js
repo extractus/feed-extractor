@@ -1,4 +1,4 @@
-// @extractus/feed-extractor@6.1.9, by @extractus - built with esbuild at 2023-01-04T04:09:49.802Z - published under MIT license
+// @extractus/feed-extractor@6.2.0, by @extractus - built with esbuild at 2023-01-04T04:59:05.957Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -2003,7 +2003,7 @@ var getLink = (val = [], id = "") => {
   if (id && isValid(id)) {
     return id;
   }
-  if (isObject(id) && hasProperty(id, "@_isPermaLink") && Boolean(id["@_isPermaLink"]) === true) {
+  if (isObject(id) && hasProperty(id, "@_isPermaLink") && id["@_isPermaLink"] === "true") {
     return getText(id);
   }
   const getEntryLink = (links) => {
@@ -2233,13 +2233,15 @@ var transform3 = (item, options) => {
   const {
     id = "",
     title = "",
+    issued = "",
+    modified = "",
     updated = "",
     published = "",
     link = "",
     summary = "",
     content = ""
   } = item;
-  const pubDate = updated || published;
+  const pubDate = updated || modified || published || issued;
   const htmlContent = getText(content || summary);
   const entry = {
     id: getEntryId(id, link, pubDate),

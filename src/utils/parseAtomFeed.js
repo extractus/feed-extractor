@@ -23,6 +23,8 @@ const transform = (item, options) => {
   const {
     id = '',
     title = '',
+    issued = '',
+    modified = '',
     updated = '',
     published = '',
     link = '',
@@ -30,7 +32,7 @@ const transform = (item, options) => {
     content = ''
   } = item
 
-  const pubDate = updated || published
+  const pubDate = updated || modified || published || issued
   const htmlContent = getText(content || summary)
   const entry = {
     id: getEntryId(id, link, pubDate),
