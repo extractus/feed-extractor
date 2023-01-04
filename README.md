@@ -113,6 +113,7 @@ Without any options, the result should have the following structure:
   published: ISO Date String,
   entries: Array[
     {
+      id: String,
       title: String,
       link: String,
       description: String,

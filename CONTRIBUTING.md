@@ -7,21 +7,6 @@ Collaborations and pull requests are always welcomed, though larger proposals sh
 As an OSS, it's better to follow the Unix philosophy: "do one thing and do it well".
 
 
-## What you can contribute?
-
-We are planing to re-write this tool in TypeScript and make it Deno-first library.
-If you are interested, please join our team.
-
-Besides that, you can also:
-
-- Test and report bugs
-- Fix unresolved issues
-- Improve performance
-- Write better documentation
-- Create examples or build demos
-- Feedback on software design and APIs
-
-
 ## Third-party libraries
 
 Please avoid using libaries other than those available in the standard library, unless necessary.
