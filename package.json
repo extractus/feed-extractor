@@ -1,5 +1,5 @@
 {
-  "version": "6.1.8",
+  "version": "6.1.9",
   "name": "@extractus/feed-extractor",
   "description": "To read and normalize RSS/ATOM/JSON feed data",
   "homepage": "https://github.com/extractus/feed-extractor",
@@ -40,7 +40,7 @@
     "html-entities": "^2.3.3"
   },
   "devDependencies": {
-    "esbuild": "^0.16.12",
+    "esbuild": "^0.16.13",
     "jest": "^29.3.1",
     "nock": "^13.2.9",
     "standard": "^17.0.0"

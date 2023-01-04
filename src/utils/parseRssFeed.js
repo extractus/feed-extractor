@@ -33,7 +33,7 @@ const transform = (item, options) => {
   const entry = {
     id: getEntryId(guid, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link),
+    link: getPureUrl(link, guid),
     published,
     description: buildDescription(description, descriptionMaxLen)
   }

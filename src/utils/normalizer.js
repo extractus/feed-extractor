@@ -35,6 +35,9 @@ export const getLink = (val = [], id = '') => {
   if (id && isValidUrl(id)) {
     return id
   }
+  if (isObject(id) && hasProperty(id, '@_isPermaLink') && Boolean(id['@_isPermaLink']) === true) {
+    return getText(id)
+  }
   const getEntryLink = (links) => {
     const items = links.map((item) => {
       return getLink(item)

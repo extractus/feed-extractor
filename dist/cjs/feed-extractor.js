@@ -1,4 +1,4 @@
-// @extractus/feed-extractor@6.1.8, by @extractus - built with esbuild at 2022-12-30T05:55:09.972Z - published under MIT license
+// @extractus/feed-extractor@6.1.9, by @extractus - built with esbuild at 2023-01-04T04:09:49.802Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4882,6 +4882,9 @@ var getLink = (val = [], id = "") => {
   if (id && isValid(id)) {
     return id;
   }
+  if (isObject(id) && hasProperty(id, "@_isPermaLink") && Boolean(id["@_isPermaLink"]) === true) {
+    return getText(id);
+  }
   const getEntryLink = (links) => {
     const items = links.map((item) => {
       return getLink(item);
@@ -5012,7 +5015,7 @@ var transform2 = (item, options) => {
   const entry = {
     id: getEntryId(guid, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link),
+    link: getPureUrl(link, guid),
     published,
     description: buildDescription(description, descriptionMaxLen)
   };
