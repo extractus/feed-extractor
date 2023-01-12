@@ -3,6 +3,10 @@
 With `deno`, we have not much thing to do. Just start the server:
 
 ```bash
+# reload if needed
+deno cache --reload index.ts
+
+# start server
 deno run --allow-net --allow-env --allow-read index.ts
 ```
 

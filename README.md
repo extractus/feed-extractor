@@ -21,12 +21,6 @@ To read & normalize RSS/ATOM/JSON feed data.
 
 ```bash
 npm i @extractus/feed-extractor
-
-# pnpm
-pnpm i @extractus/feed-extractor
-
-# yarn
-yarn add @extractus/feed-extractor
 ```
 
 ```ts
