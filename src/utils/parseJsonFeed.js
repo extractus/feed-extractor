@@ -16,7 +16,7 @@ const transform = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
-    getExtraEntryFields
+    getExtraEntryFields,
   } = options
 
   const {
@@ -26,7 +26,7 @@ const transform = (item, options) => {
     date_published: pubDate = '',
     summary = '',
     content_html: htmlContent = '',
-    content_text: textContent = ''
+    content_text: textContent = '',
   } = item
 
   const published = useISODateFormat ? toISODateString(pubDate) : pubDate
@@ -37,19 +37,19 @@ const transform = (item, options) => {
     title,
     link: purifyUrl(link),
     published,
-    description: buildDescription(textContent || htmlContent || summary, descriptionMaxLen)
+    description: buildDescription(textContent || htmlContent || summary, descriptionMaxLen),
   }
 
   return {
     ...entry,
-    ...extraFields
+    ...extraFields,
   }
 }
 
 const parseJson = (data, options) => {
   const {
     normalization,
-    getExtraFeedFields
+    getExtraFeedFields,
   } = options
 
   if (!normalization) {
@@ -61,7 +61,7 @@ const parseJson = (data, options) => {
     home_page_url: homepageUrl = '',
     description = '',
     language = '',
-    items: item = []
+    items: item = [],
   } = data
 
   const extraFields = getExtraFeedFields(data)
@@ -78,7 +78,7 @@ const parseJson = (data, options) => {
     ...extraFields,
     entries: items.map((item) => {
       return transform(item, options)
-    })
+    }),
   }
 }
 

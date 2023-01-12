@@ -75,18 +75,18 @@ export const getEnclosure = (val) => {
   return !url || !type
     ? null
     : {
-        url,
-        type,
-        length
-      }
+      url,
+      type,
+      length,
+    }
 }
 
 const getCategory = (v) => {
   return isObject(v)
     ? {
-        text: getText(v),
-        domain: v['@_domain']
-      }
+      text: getText(v),
+      domain: v['@_domain'],
+    }
     : v
 }
 
@@ -94,7 +94,7 @@ export const getOptionalTags = (val, key) => {
   if (key === 'source') {
     return {
       text: getText(val),
-      url: getLink(val)
+      url: getLink(val),
     }
   }
   if (key === 'category') {

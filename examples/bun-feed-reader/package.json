@@ -2,10 +2,10 @@
   "name": "bun-feed-reader",
   "module": "index.ts",
   "devDependencies": {
-    "bun-types": "^0.1.0"
+    "bun-types": "^0.4.0"
   },
   "dependencies": {
     "@extractus/feed-extractor": "latest",
-    "hono": "^2.1.4"
+    "hono": "^2.7.2"
   }
 }

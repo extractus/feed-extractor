@@ -23,7 +23,7 @@ export interface FeedData {
 
 export interface ProxyConfig {
   target?: string;
-  headers?: string[];
+  headers?: any;
 }
 
 export interface ReaderOptions {
@@ -32,16 +32,6 @@ export interface ReaderOptions {
    * default: true
    */
   normalization?: boolean;
-  /**
-   * include full content of feed entry if present
-   * default: false
-   */
-  includeEntryContent?: boolean;
-  /**
-   * include optional elements if any
-   * default: false
-   */
-  includeOptionalElements?: boolean;
   /**
    * convert datetime to ISO format
    * default: true
@@ -68,16 +58,23 @@ export interface ReaderOptions {
 }
 
 export interface FetchOptions {
-  /**
-   * list of request headers
-   * default: null
-   */
-  headers?: string[];
-  /**
-   * the values to configure proxy
-   * default: null
-   */
+  //  Definitions by: Ryan Graham <https://github.com/ryan-codingintrigue>
+  method?: "GET" | "POST" | "DELETE" | "PATCH" | "PUT" | "HEAD" | "OPTIONS" | "CONNECT";
+  headers?: any;
+  body?: any;
+  mode?: "cors" | "no-cors" | "same-origin";
+  credentials?: "omit" | "same-origin" | "include";
+  cache?: "default" | "no-store" | "reload" | "no-cache" | "force-cache" | "only-if-cached";
+  redirect?: "follow" | "error" | "manual";
+  referrer?: string;
+  referrerPolicy?: "referrer" | "no-referrer-when-downgrade" | "origin" | "origin-when-cross-origin" | "unsafe-url";
+  integrity?: any;
   proxy?: ProxyConfig;
 }
+
+export function extractFromXml(xml: string, options?: ReaderOptions): FeedData;
+export function extractFromJson(json: string, options?: ReaderOptions): FeedData;
+
+export function extract(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;
 
 export function read(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;

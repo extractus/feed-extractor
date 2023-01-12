@@ -1,5 +1,5 @@
 import express from 'express'
-import { read } from '@extractus/feed-extractor'
+import { extract } from '@extractus/feed-extractor'
 
 const app = express()
 
@@ -7,7 +7,7 @@ const meta = {
   service: 'feed-reader',
   lang: 'javascript',
   server: 'express',
-  platform: 'node'
+  platform: 'node',
 }
 
 app.get('/', async (req, res) => {
@@ -17,33 +17,29 @@ app.get('/', async (req, res) => {
   }
 
   const {
-    includeEntryContent = 'n',
-    includeOptionalElements = 'n',
     useISODateFormat = 'y',
-    normalization = 'y'
+    normalization = 'y',
   } = req.query
 
   const opts = {
-    includeEntryContent: includeEntryContent === 'y',
-    includeOptionalElements: includeOptionalElements === 'y',
     useISODateFormat: useISODateFormat !== 'n',
-    normalization: normalization !== 'n'
+    normalization: normalization !== 'n',
   }
 
   try {
-    const data = await read(url, opts)
+    const data = await extract(url, opts)
     return res.json({
       error: 0,
       message: 'feed data has been extracted successfully',
       data,
-      meta
+      meta,
     })
   } catch (err) {
     return res.json({
       error: 1,
       message: err.message,
       data: null,
-      meta
+      meta,
     })
   }
 })

@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 
-import { read } from '@extractus/feed-extractor'
+import { extract } from '@extractus/feed-extractor'
 
 const app = new Hono()
 
@@ -16,20 +16,16 @@ app.get('/', async (c) => {
   if (!url) {
     return c.json(meta)
   }
-  const includeEntryContent = c.req.query('includeEntryContent') || 'n'
-  const includeOptionalElements = c.req.query('includeOptionalElements') || 'n'
   const useISODateFormat = c.req.query('useISODateFormat') || 'y'
   const normalization = c.req.query('normalization') || 'y'
 
   const opts = {
-    includeEntryContent: includeEntryContent === 'y',
-    includeOptionalElements: includeOptionalElements === 'y',
     useISODateFormat: useISODateFormat !== 'n',
     normalization: normalization !== 'n'
   }
 
   try {
-    const data = await read(url, opts)
+    const data = await extract(url, opts)
     return c.json({
       error: 0,
       message: 'feed data has been extracted successfully',

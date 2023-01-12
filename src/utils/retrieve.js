@@ -5,10 +5,10 @@ import fetch from 'cross-fetch'
 const profetch = async (url, proxy = {}) => {
   const {
     target,
-    headers = {}
+    headers = {},
   } = proxy
   const res = await fetch(target + encodeURIComponent(url), {
-    headers
+    headers,
   })
   return res
 }
@@ -16,9 +16,9 @@ const profetch = async (url, proxy = {}) => {
 export default async (url, options = {}) => {
   const {
     headers = {
-      'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0'
+      'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0',
     },
-    proxy = null
+    proxy = null,
   } = options
 
   const res = proxy ? await profetch(url, proxy) : await fetch(url, { headers })

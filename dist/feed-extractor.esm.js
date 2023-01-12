@@ -1,4 +1,4 @@
-// @extractus/feed-extractor@6.2.0, by @extractus - built with esbuild at 2023-01-04T04:59:05.957Z - published under MIT license
+// @extractus/feed-extractor@6.2.1, by @extractus - built with esbuild at 2023-01-12T04:44:59.011Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -17,13 +17,17 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
 
-// node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/util.js
+// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/util.js
 var require_util = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/util.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/util.js"(exports) {
     "use strict";
     var nameStartChar = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
     var nameChar = nameStartChar + "\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040";
@@ -80,13 +84,14 @@ var require_util = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/validator.js
+// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/validator.js
 var require_validator = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/validator.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/validator.js"(exports) {
     "use strict";
     var util = require_util();
     var defaultOptions = {
       allowBooleanAttributes: false,
+      //A tag can have attributes without any value
       unpairedTags: []
     };
     exports.validate = function(xmlData, options) {
@@ -381,6 +386,7 @@ var require_validator = __commonJS({
       const lines = xmlData.substring(0, index).split(/\r?\n/);
       return {
         line: lines.length,
+        // column number is last line's length + 1, because column numbering starts at 1:
         col: lines[lines.length - 1].length + 1
       };
     }
@@ -390,9 +396,9 @@ var require_validator = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
+// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
 var require_OptionsBuilder = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js"(exports) {
     var defaultOptions = {
       preserveOrder: false,
       attributeNamePrefix: "@_",
@@ -400,10 +406,14 @@ var require_OptionsBuilder = __commonJS({
       textNodeName: "#text",
       ignoreAttributes: true,
       removeNSPrefix: false,
+      // remove NS from tag name or attribute name if true
       allowBooleanAttributes: false,
+      //a tag can have attributes without any value
+      //ignoreRootElement : false,
       parseTagValue: true,
       parseAttributeValue: false,
       trimValues: true,
+      //Trim string values of tag and attributes
       cdataPropName: false,
       numberParseOptions: {
         hex: true,
@@ -416,6 +426,7 @@ var require_OptionsBuilder = __commonJS({
         return val;
       },
       stopNodes: [],
+      //nested tags will not be parsed even for errors
       alwaysCreateTextNode: false,
       isArray: () => false,
       commentPropName: false,
@@ -424,7 +435,8 @@ var require_OptionsBuilder = __commonJS({
       htmlEntities: false,
       ignoreDeclaration: false,
       ignorePiTags: false,
-      transformTagName: false
+      transformTagName: false,
+      transformAttributeName: false
     };
     var buildOptions = function(options) {
       return Object.assign({}, defaultOptions, options);
@@ -434,9 +446,9 @@ var require_OptionsBuilder = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
+// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
 var require_xmlNode = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js"(exports, module) {
     "use strict";
     var XmlNode = class {
       constructor(tagname) {
@@ -459,9 +471,9 @@ var require_xmlNode = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
+// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
 var require_DocTypeReader = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js"(exports, module) {
     function readDocType(xmlData, i) {
       const entities = {};
       if (xmlData[i + 3] === "O" && xmlData[i + 4] === "C" && xmlData[i + 5] === "T" && xmlData[i + 6] === "Y" && xmlData[i + 7] === "P" && xmlData[i + 8] === "E") {
@@ -480,7 +492,10 @@ var require_DocTypeReader = __commonJS({
               i += 8;
             } else if (hasBody && xmlData[i + 1] === "!" && xmlData[i + 2] === "N" && xmlData[i + 3] === "O" && xmlData[i + 4] === "T" && xmlData[i + 5] === "A" && xmlData[i + 6] === "T" && xmlData[i + 7] === "I" && xmlData[i + 8] === "O" && xmlData[i + 9] === "N") {
               i += 9;
-            } else if (xmlData[i + 1] === "!" && xmlData[i + 2] === "-" && xmlData[i + 3] === "-") {
+            } else if (
+              //comment
+              xmlData[i + 1] === "!" && xmlData[i + 2] === "-" && xmlData[i + 3] === "-"
+            ) {
               comment = true;
             } else {
               throw new Error("Invalid DOCTYPE");
@@ -546,6 +561,7 @@ var require_strnum = __commonJS({
       leadingZeros: true,
       decimalPoint: ".",
       eNotation: true
+      //skipLike: /regex/
     };
     function toNumber(str, options = {}) {
       options = Object.assign({}, consider, options);
@@ -626,9 +642,9 @@ var require_strnum = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
+// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
 var require_OrderedObjParser = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js"(exports, module) {
     "use strict";
     var util = require_util();
     var xmlNode = require_xmlNode();
@@ -650,6 +666,11 @@ var require_OrderedObjParser = __commonJS({
         this.ampEntity = { regex: /&(amp|#38|#x26);/g, val: "&" };
         this.htmlEntities = {
           "space": { regex: /&(nbsp|#160);/g, val: " " },
+          // "lt" : { regex: /&(lt|#60);/g, val: "<" },
+          // "gt" : { regex: /&(gt|#62);/g, val: ">" },
+          // "amp" : { regex: /&(amp|#38);/g, val: "&" },
+          // "quot" : { regex: /&(quot|#34);/g, val: "\"" },
+          // "apos" : { regex: /&(apos|#39);/g, val: "'" },
           "cent": { regex: /&(cent|#162);/g, val: "¢" },
           "pound": { regex: /&(pound|#163);/g, val: "£" },
           "yen": { regex: /&(yen|#165);/g, val: "¥" },
@@ -727,8 +748,11 @@ var require_OrderedObjParser = __commonJS({
         for (let i = 0; i < len; i++) {
           const attrName = this.resolveNameSpace(matches[i][1]);
           let oldVal = matches[i][4];
-          const aName = this.options.attributeNamePrefix + attrName;
+          let aName = this.options.attributeNamePrefix + attrName;
           if (attrName.length) {
+            if (this.options.transformAttributeName) {
+              aName = this.options.transformAttributeName(aName);
+            }
             if (oldVal !== void 0) {
               if (this.options.trimValues) {
                 oldVal = oldVal.trim();
@@ -1083,9 +1107,9 @@ var require_OrderedObjParser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/node2json.js
+// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/node2json.js
 var require_node2json = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/node2json.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/node2json.js"(exports) {
     "use strict";
     function prettify(node, options) {
       return compress(node, options);
@@ -1174,9 +1198,9 @@ var require_node2json = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
+// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
 var require_XMLParser = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js"(exports, module) {
     var { buildOptions } = require_OptionsBuilder();
     var OrderedObjParser = require_OrderedObjParser();
     var { prettify } = require_node2json();
@@ -1186,6 +1210,11 @@ var require_XMLParser = __commonJS({
         this.externalEntities = {};
         this.options = buildOptions(options);
       }
+      /**
+       * Parse XML dats to JS object 
+       * @param {string|Buffer} xmlData 
+       * @param {boolean|Object} validationOption 
+       */
       parse(xmlData, validationOption) {
         if (typeof xmlData === "string") {
         } else if (xmlData.toString) {
@@ -1209,6 +1238,11 @@ var require_XMLParser = __commonJS({
         else
           return prettify(orderedResult, this.options);
       }
+      /**
+       * Add Entity which is not by default supported by this library
+       * @param {string} key 
+       * @param {string} value 
+       */
       addEntity(key, value) {
         if (value.indexOf("&") !== -1) {
           throw new Error("Entity value can't have '&'");
@@ -1225,19 +1259,20 @@ var require_XMLParser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js
+// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js
 var require_orderedJs2Xml = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js"(exports, module) {
     var EOL = "\n";
     function toXml(jArray, options) {
-      return arrToStr(jArray, options, "", 0);
-    }
-    function arrToStr(arr, options, jPath, level) {
-      let xmlStr = "";
       let indentation = "";
       if (options.format && options.indentBy.length > 0) {
-        indentation = EOL + "" + options.indentBy.repeat(level);
+        indentation = EOL;
       }
+      return arrToStr(jArray, options, "", indentation);
+    }
+    function arrToStr(arr, options, jPath, indentation) {
+      let xmlStr = "";
+      let isPreviousElementTag = false;
       for (let i = 0; i < arr.length; i++) {
         const tagObj = arr[i];
         const tagName = propName(tagObj);
@@ -1252,13 +1287,22 @@ var require_orderedJs2Xml = __commonJS({
             tagText = options.tagValueProcessor(tagName, tagText);
             tagText = replaceEntitiesValue(tagText, options);
           }
-          xmlStr += indentation + tagText;
+          if (isPreviousElementTag) {
+            xmlStr += indentation;
+          }
+          xmlStr += tagText;
+          isPreviousElementTag = false;
           continue;
         } else if (tagName === options.cdataPropName) {
-          xmlStr += indentation + `<![CDATA[${tagObj[tagName][0][options.textNodeName]}]]>`;
+          if (isPreviousElementTag) {
+            xmlStr += indentation;
+          }
+          xmlStr += `<![CDATA[${tagObj[tagName][0][options.textNodeName]}]]>`;
+          isPreviousElementTag = false;
           continue;
         } else if (tagName === options.commentPropName) {
           xmlStr += indentation + `<!--${tagObj[tagName][0][options.textNodeName]}-->`;
+          isPreviousElementTag = true;
           continue;
         } else if (tagName[0] === "?") {
           const attStr2 = attr_to_str(tagObj[":@"], options);
@@ -1266,11 +1310,16 @@ var require_orderedJs2Xml = __commonJS({
           let piTextNodeName = tagObj[tagName][0][options.textNodeName];
           piTextNodeName = piTextNodeName.length !== 0 ? " " + piTextNodeName : "";
           xmlStr += tempInd + `<${tagName}${piTextNodeName}${attStr2}?>`;
+          isPreviousElementTag = true;
           continue;
         }
+        let newIdentation = indentation;
+        if (newIdentation !== "") {
+          newIdentation += options.indentBy;
+        }
         const attStr = attr_to_str(tagObj[":@"], options);
-        let tagStart = indentation + `<${tagName}${attStr}`;
-        let tagValue = arrToStr(tagObj[tagName], options, newJPath, level + 1);
+        const tagStart = indentation + `<${tagName}${attStr}`;
+        const tagValue = arrToStr(tagObj[tagName], options, newJPath, newIdentation);
         if (options.unpairedTags.indexOf(tagName) !== -1) {
           if (options.suppressUnpairedNode)
             xmlStr += tagStart + ">";
@@ -1278,9 +1327,18 @@ var require_orderedJs2Xml = __commonJS({
             xmlStr += tagStart + "/>";
         } else if ((!tagValue || tagValue.length === 0) && options.suppressEmptyNode) {
           xmlStr += tagStart + "/>";
-        } else {
+        } else if (tagValue && tagValue.endsWith(">")) {
           xmlStr += tagStart + `>${tagValue}${indentation}</${tagName}>`;
+        } else {
+          xmlStr += tagStart + ">";
+          if (tagValue && indentation !== "" && (tagValue.includes("/>") || tagValue.includes("</"))) {
+            xmlStr += indentation + options.indentBy + tagValue + indentation;
+          } else {
+            xmlStr += tagValue;
+          }
+          xmlStr += `</${tagName}>`;
         }
+        isPreviousElementTag = true;
       }
       return xmlStr;
     }
@@ -1329,9 +1387,9 @@ var require_orderedJs2Xml = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
+// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
 var require_json2xml = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js"(exports, module) {
     "use strict";
     var buildFromOrderedJs = require_orderedJs2Xml();
     var defaultOptions = {
@@ -1356,14 +1414,16 @@ var require_json2xml = __commonJS({
       unpairedTags: [],
       entities: [
         { regex: new RegExp("&", "g"), val: "&amp;" },
+        //it must be on top
         { regex: new RegExp(">", "g"), val: "&gt;" },
         { regex: new RegExp("<", "g"), val: "&lt;" },
         { regex: new RegExp("'", "g"), val: "&apos;" },
         { regex: new RegExp('"', "g"), val: "&quot;" }
       ],
       processEntities: true,
-      stopNodes: [],
-      transformTagName: false
+      stopNodes: []
+      // transformTagName: false,
+      // transformAttributeName: false,
     };
     function Builder(options) {
       this.options = Object.assign({}, defaultOptions, options);
@@ -1564,9 +1624,9 @@ var require_json2xml = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/fxp.js
+// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/fxp.js
 var require_fxp = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.12/node_modules/fast-xml-parser/src/fxp.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/fxp.js"(exports, module) {
     "use strict";
     var validator = require_validator();
     var XMLParser2 = require_XMLParser();
@@ -2332,15 +2392,7 @@ var parseAtomFeed_default = (data, options = {}) => {
 };
 
 // src/main.js
-var read = async (url, options = {}, fetchOptions = {}) => {
-  if (!isValid(url)) {
-    throw new Error("Input param must be a valid URL");
-  }
-  const data = await retrieve_default(url, fetchOptions);
-  if (!data.text && !data.json) {
-    throw new Error(`Failed to load content from "${url}"`);
-  }
-  const { type, json, text } = data;
+var getopt = (options = {}) => {
   const {
     normalization = true,
     descriptionMaxLen = 210,
@@ -2349,22 +2401,44 @@ var read = async (url, options = {}, fetchOptions = {}) => {
     getExtraFeedFields = () => ({}),
     getExtraEntryFields = () => ({})
   } = options;
-  const opts = {
+  return {
     normalization,
     descriptionMaxLen,
     useISODateFormat,
+    xmlParserOptions,
     getExtraFeedFields,
     getExtraEntryFields
   };
-  if (type === "json") {
-    return parseJsonFeed_default(json, opts);
-  }
-  if (!validate(text)) {
+};
+var extractFromJson = (json, options = {}) => {
+  return parseJsonFeed_default(json, getopt(options));
+};
+var extractFromXml = (xml, options = {}) => {
+  if (!validate(xml)) {
     throw new Error("The XML document is not well-formed");
   }
-  const xml = xml2obj(text, xmlParserOptions);
-  return isRSS(xml) ? parseRssFeed_default(xml, opts) : isAtom(xml) ? parseAtomFeed_default(xml, opts) : null;
+  const opts = getopt(options);
+  const data = xml2obj(xml, opts.xmlParserOptions);
+  return isRSS(data) ? parseRssFeed_default(data, opts) : isAtom(data) ? parseAtomFeed_default(data, opts) : null;
+};
+var extract = async (url, options = {}, fetchOptions = {}) => {
+  if (!isValid(url)) {
+    throw new Error("Input param must be a valid URL");
+  }
+  const data = await retrieve_default(url, fetchOptions);
+  if (!data.text && !data.json) {
+    throw new Error(`Failed to load content from "${url}"`);
+  }
+  const { type, json, text } = data;
+  return type === "json" ? extractFromJson(json, options) : extractFromXml(text, options);
+};
+var read = async (url, options, fetchOptions) => {
+  console.warn("WARNING: read() is deprecated. Please use extract() instead!");
+  return extract(url, options, fetchOptions);
 };
 export {
+  extract,
+  extractFromJson,
+  extractFromXml,
   read
 };

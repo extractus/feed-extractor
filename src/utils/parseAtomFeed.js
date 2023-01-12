@@ -17,7 +17,7 @@ const transform = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
-    getExtraEntryFields
+    getExtraEntryFields,
   } = options
 
   const {
@@ -29,7 +29,7 @@ const transform = (item, options) => {
     published = '',
     link = '',
     summary = '',
-    content = ''
+    content = '',
   } = item
 
   const pubDate = updated || modified || published || issued
@@ -39,14 +39,14 @@ const transform = (item, options) => {
     title: getText(title),
     link: getPureUrl(link, id),
     published: useISODateFormat ? toISODateString(pubDate) : pubDate,
-    description: buildDescription(htmlContent || summary, descriptionMaxLen)
+    description: buildDescription(htmlContent || summary, descriptionMaxLen),
   }
 
   const extraFields = getExtraEntryFields(item)
 
   return {
     ...entry,
-    ...extraFields
+    ...extraFields,
   }
 }
 
@@ -55,7 +55,7 @@ const flatten = (feed) => {
     id,
     title = '',
     link = '',
-    entry
+    entry,
   } = feed
 
   const entries = isArray(entry) ? entry : [entry]
@@ -65,12 +65,12 @@ const flatten = (feed) => {
       title = '',
       link = '',
       summary = '',
-      content = ''
+      content = '',
     } = entry
     const item = {
       ...entry,
       title: getText(title),
-      link: getPureUrl(link, id)
+      link: getPureUrl(link, id),
     }
     if (hasProperty(item, 'summary')) {
       item.summary = getText(summary)
@@ -85,7 +85,7 @@ const flatten = (feed) => {
     ...feed,
     title: getText(title),
     link: getPureUrl(link, id),
-    entry: isArray(entry) ? items : items[0]
+    entry: isArray(entry) ? items : items[0],
   }
   return output
 }
@@ -93,7 +93,7 @@ const flatten = (feed) => {
 const parseAtom = (data, options = {}) => {
   const {
     normalization,
-    getExtraFeedFields
+    getExtraFeedFields,
   } = options
 
   if (!normalization) {
@@ -108,7 +108,7 @@ const parseAtom = (data, options = {}) => {
     generator = '',
     language = '',
     updated = '',
-    entry: item = []
+    entry: item = [],
   } = data.feed
 
   const extraFields = getExtraFeedFields(data.feed)
@@ -127,7 +127,7 @@ const parseAtom = (data, options = {}) => {
     ...extraFields,
     entries: items.map((item) => {
       return transform(item, options)
-    })
+    }),
   }
 }
 

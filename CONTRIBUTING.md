@@ -16,10 +16,7 @@ This library needs to be simple and flexible to run on multiple platforms such a
 
 ## Coding convention
 
-Please follow [standardjs](https://standardjs.com/) style guide.
-
 Make sure your code lints before opening a pull request.
-
 
 ```bash
 cd feed-extractor
