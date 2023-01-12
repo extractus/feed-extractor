@@ -45,10 +45,10 @@
     </div>
   </body>
   <script type="module">
-    import { read } from 'https://unpkg.com/@extractus/feed-extractor@latest/dist/feed-extractor.esm.js'
+    import { extract } from 'https://unpkg.com/@extractus/feed-extractor@latest/dist/feed-extractor.esm.js'
 
     const loadFeed = async (url, useProxy = false) => {
-      const data = await read(url, {
+      const data = await extract(url, {
         useISODateFormat: true,
         includeEntryContent: false
       }, {

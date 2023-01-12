@@ -8,7 +8,46 @@ import parseJsonFeed from './utils/parseJsonFeed.js'
 import parseRssFeed from './utils/parseRssFeed.js'
 import parseAtomFeed from './utils/parseAtomFeed.js'
 
-export const read = async (url, options = {}, fetchOptions = {}) => {
+const getopt = (options = {}) => {
+  const {
+    normalization = true,
+    descriptionMaxLen = 210,
+    useISODateFormat = true,
+    xmlParserOptions = {},
+    getExtraFeedFields = () => ({}),
+    getExtraEntryFields = () => ({}),
+  } = options
+
+  return {
+    normalization,
+    descriptionMaxLen,
+    useISODateFormat,
+    xmlParserOptions,
+    getExtraFeedFields,
+    getExtraEntryFields,
+  }
+}
+
+export const extractFromJson = (json, options = {}) => {
+  return parseJsonFeed(json, getopt(options))
+}
+
+export const extractFromXml = (xml, options = {}) => {
+  if (!validate(xml)) {
+    throw new Error('The XML document is not well-formed')
+  }
+
+  const opts = getopt(options)
+
+  const data = xml2obj(xml, opts.xmlParserOptions)
+  return isRSS(data)
+    ? parseRssFeed(data, opts)
+    : isAtom(data)
+      ? parseAtomFeed(data, opts)
+      : null
+}
+
+export const extract = async (url, options = {}, fetchOptions = {}) => {
   if (!isValidUrl(url)) {
     throw new Error('Input param must be a valid URL')
   }
@@ -19,35 +58,10 @@ export const read = async (url, options = {}, fetchOptions = {}) => {
 
   const { type, json, text } = data
 
-  const {
-    normalization = true,
-    descriptionMaxLen = 210,
-    useISODateFormat = true,
-    xmlParserOptions = {},
-    getExtraFeedFields = () => ({}),
-    getExtraEntryFields = () => ({}),
-  } = options
+  return type === 'json' ? extractFromJson(json, options) : extractFromXml(text, options)
+}
 
-  const opts = {
-    normalization,
-    descriptionMaxLen,
-    useISODateFormat,
-    getExtraFeedFields,
-    getExtraEntryFields,
-  }
-
-  if (type === 'json') {
-    return parseJsonFeed(json, opts)
-  }
-
-  if (!validate(text)) {
-    throw new Error('The XML document is not well-formed')
-  }
-
-  const xml = xml2obj(text, xmlParserOptions)
-  return isRSS(xml)
-    ? parseRssFeed(xml, opts)
-    : isAtom(xml)
-      ? parseAtomFeed(xml, opts)
-      : null
+export const read = async (url, options, fetchOptions) => {
+  console.warn('WARNING: read() is deprecated. Please use extract() instead!')
+  return extract(url, options, fetchOptions)
 }
