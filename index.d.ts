@@ -33,16 +33,6 @@ export interface ReaderOptions {
    */
   normalization?: boolean;
   /**
-   * include full content of feed entry if present
-   * default: false
-   */
-  includeEntryContent?: boolean;
-  /**
-   * include optional elements if any
-   * default: false
-   */
-  includeOptionalElements?: boolean;
-  /**
    * convert datetime to ISO format
    * default: true
    */
@@ -80,4 +70,7 @@ export interface FetchOptions {
   proxy?: ProxyConfig;
 }
 
+export function extractFromXml(xml: string, options?: ReaderOptions): object<FeedData>;
+export function extractFromJson(json: string, options?: ReaderOptions): object<FeedData>;
+export function extract(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;
 export function read(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;
