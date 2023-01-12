@@ -2,7 +2,7 @@
   "version": "6.2.1",
   "name": "@extractus/feed-extractor",
   "description": "To read and normalize RSS/ATOM/JSON feed data",
-  "homepage": "https://github.com/extractus/feed-extractor",
+  "homepage": "https://extractor-demos.pages.dev",
   "repository": {
     "type": "git",
     "url": "git@github.com:extractus/feed-extractor.git"
