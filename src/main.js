@@ -25,7 +25,7 @@ export const read = async (url, options = {}, fetchOptions = {}) => {
     useISODateFormat = true,
     xmlParserOptions = {},
     getExtraFeedFields = () => ({}),
-    getExtraEntryFields = () => ({})
+    getExtraEntryFields = () => ({}),
   } = options
 
   const opts = {
@@ -33,7 +33,7 @@ export const read = async (url, options = {}, fetchOptions = {}) => {
     descriptionMaxLen,
     useISODateFormat,
     getExtraFeedFields,
-    getExtraEntryFields
+    getExtraEntryFields,
   }
 
   if (type === 'json') {

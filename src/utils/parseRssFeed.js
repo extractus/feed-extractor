@@ -17,7 +17,7 @@ const transform = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
-    getExtraEntryFields
+    getExtraEntryFields,
   } = options
 
   const {
@@ -25,7 +25,7 @@ const transform = (item, options) => {
     title = '',
     link = '',
     pubDate = '',
-    description = ''
+    description = '',
   } = item
 
   const published = useISODateFormat ? toISODateString(pubDate) : pubDate
@@ -35,14 +35,14 @@ const transform = (item, options) => {
     title: getText(title),
     link: getPureUrl(link, guid),
     published,
-    description: buildDescription(description, descriptionMaxLen)
+    description: buildDescription(description, descriptionMaxLen),
   }
 
   const extraFields = getExtraEntryFields(item)
 
   return {
     ...entry,
-    ...extraFields
+    ...extraFields,
   }
 }
 
@@ -50,7 +50,7 @@ const flatten = (feed) => {
   const {
     title = '',
     link = '',
-    item
+    item,
   } = feed
 
   const items = isArray(item) ? item : [item]
@@ -58,13 +58,13 @@ const flatten = (feed) => {
     const {
       id,
       title = '',
-      link = ''
+      link = '',
     } = entry
 
     const item = {
       ...entry,
       title: getText(title),
-      link: getPureUrl(link, id)
+      link: getPureUrl(link, id),
     }
 
     const txtTags = 'guid description source'.split(' ')
@@ -89,7 +89,7 @@ const flatten = (feed) => {
     ...feed,
     title: getText(title),
     link: getPureUrl(link),
-    item: isArray(item) ? entries : entries[0]
+    item: isArray(item) ? entries : entries[0],
   }
   return output
 }
@@ -97,7 +97,7 @@ const flatten = (feed) => {
 const parseRss = (data, options = {}) => {
   const {
     normalization,
-    getExtraFeedFields
+    getExtraFeedFields,
   } = options
 
   if (!normalization) {
@@ -111,7 +111,7 @@ const parseRss = (data, options = {}) => {
     generator = '',
     language = '',
     lastBuildDate = '',
-    item = []
+    item = [],
   } = data.rss.channel
 
   const extraFields = getExtraFeedFields(data.rss.channel)
@@ -130,7 +130,7 @@ const parseRss = (data, options = {}) => {
     ...extraFields,
     entries: items.map((item) => {
       return transform(item, options)
-    })
+    }),
   }
 }
 

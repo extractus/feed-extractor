@@ -17,7 +17,7 @@ const parseUrl = (url) => {
   const re = new URL(url)
   return {
     baseUrl: `${re.protocol}//${re.host}`,
-    path: re.pathname
+    path: re.pathname,
   }
 }
 
@@ -50,7 +50,7 @@ describe('test read() function with common issues', () => {
     const url = 'https://empty-source.elsewhere/rss'
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, '', {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     expect(read(url)).rejects.toThrow(new Error(`Failed to load content from "${url}"`))
   })
@@ -60,7 +60,7 @@ describe('test read() function with common issues', () => {
     const xml = '<?xml version="1.0" encoding="UTF-8><noop><oops></ooops>'
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     expect(read(url)).rejects.toThrow(new Error('The XML document is not well-formed'))
   })
@@ -69,19 +69,19 @@ describe('test read() function with common issues', () => {
     const url = 'https://averybad-source.elsewhere/jsonfeed'
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, 'this is not json string', {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     })
     expect(read(url)).rejects.toThrow(new Error('Failed to convert data to JSON object'))
   })
 })
 
-describe('test read() standard feed', (done) => {
+describe('test read() standard feed', () => {
   test('read rss feed from Google', async () => {
     const url = 'https://some-news-page.tld/rss'
     const xml = readFileSync('test-data/rss-feed-standard-realworld.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url)
     feedAttrs.forEach((k) => {
@@ -98,7 +98,7 @@ describe('test read() standard feed', (done) => {
     const xml = readFileSync('test-data/atom-feed-standard-realworld.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url)
     feedAttrs.forEach((k) => {
@@ -115,19 +115,19 @@ describe('test read() standard feed', (done) => {
     const xml = readFileSync('test-data/atom-feed-standard-realworld.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url, {
       getExtraFeedFields: data => {
         return {
-          author: data.author
+          author: data.author,
         }
       },
       getExtraEntryFields: data => {
         return {
-          id: data.id
+          id: data.id,
         }
-      }
+      },
     })
     expect(hasProperty(result, 'author')).toBe(true)
     expect(hasProperty(result.entries[0], 'id')).toBe(true)
@@ -139,7 +139,7 @@ describe('test read() standard feed', (done) => {
     const xml = readFileSync('test-data/atom-multilinks.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url)
     feedAttrs.forEach((k) => {
@@ -156,7 +156,7 @@ describe('test read() standard feed', (done) => {
     const json = readFileSync('test-data/json-feed-standard-realworld.json', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, json, {
-      'Content-Type': 'text/json'
+      'Content-Type': 'text/json',
     })
     const result = await read(url)
     feedAttrs.forEach((k) => {
@@ -173,19 +173,19 @@ describe('test read() standard feed', (done) => {
     const json = readFileSync('test-data/json-feed-standard-realworld.json', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, json, {
-      'Content-Type': 'text/json'
+      'Content-Type': 'text/json',
     })
     const result = await read(url, {
       getExtraFeedFields: data => {
         return {
-          icon: data.icon
+          icon: data.icon,
         }
       },
       getExtraEntryFields: data => {
         return {
-          id: data.id
+          id: data.id,
         }
-      }
+      },
     })
     expect(hasProperty(result, 'icon')).toBe(true)
     expect(hasProperty(result.entries[0], 'id')).toBe(true)
@@ -197,7 +197,7 @@ describe('test read() standard feed', (done) => {
     const xml = readFileSync('test-data/rss-feed-miss-link.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url)
     feedAttrs.forEach((k) => {
@@ -216,10 +216,10 @@ describe('test read() with `useISODateFormat` option', () => {
     const xml = readFileSync('test-data/rss-feed-standard-realworld.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url, {
-      useISODateFormat: false
+      useISODateFormat: false,
     })
     expect(result.published).toEqual('Thu, 28 Jul 2022 03:39:57 GMT')
     expect(result.entries[0].published).toEqual('Thu, 28 Jul 2022 02:43:00 GMT')
@@ -230,10 +230,10 @@ describe('test read() with `useISODateFormat` option', () => {
     const xml = readFileSync('test-data/rss-feed-standard-realworld.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url, {
-      useISODateFormat: true
+      useISODateFormat: true,
     })
     expect(result.published).toEqual('2022-07-28T03:39:57.000Z')
     expect(result.entries[0].published).toEqual('2022-07-28T02:43:00.000Z')
@@ -246,10 +246,10 @@ describe('test read() without normalization', () => {
     const xml = readFileSync('test-data/rss-feed-standard-realworld.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url, {
-      normalization: false
+      normalization: false,
     })
     expect(hasProperty(result, 'webMaster')).toBe(true)
     expect(hasProperty(result, 'item')).toBe(true)
@@ -260,10 +260,10 @@ describe('test read() without normalization', () => {
     const xml = readFileSync('test-data/rss-feed-standard.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url, {
-      normalization: false
+      normalization: false,
     })
     expect(hasProperty(result, 'copyright')).toBe(true)
     expect(hasProperty(result, 'item')).toBe(true)
@@ -275,10 +275,10 @@ describe('test read() without normalization', () => {
     const xml = readFileSync('test-data/atom-feed-standard-realworld.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url, {
-      normalization: false
+      normalization: false,
     })
     expect(hasProperty(result, 'id')).toBe(true)
     expect(hasProperty(result, 'rights')).toBe(true)
@@ -291,10 +291,10 @@ describe('test read() without normalization', () => {
     const xml = readFileSync('test-data/atom-feed-standard.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url, {
-      normalization: false
+      normalization: false,
     })
     expect(hasProperty(result, 'id')).toBe(true)
     expect(hasProperty(result, 'entry')).toBe(true)
@@ -309,10 +309,10 @@ describe('test read() without normalization', () => {
     const json = readFileSync('test-data/json-feed-standard-realworld.json', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, json, {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     })
     const result = await read(url, {
-      normalization: false
+      normalization: false,
     })
     expect(hasProperty(result, 'icon')).toBe(true)
     expect(hasProperty(result, 'favicon')).toBe(true)
@@ -326,10 +326,10 @@ describe('test read() without normalization', () => {
     const xml = readFileSync('test-data/podcast.rss', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
-      'Content-Type': 'application/xml'
+      'Content-Type': 'application/xml',
     })
     const result = await read(url, {
-      normalization: false
+      normalization: false,
     })
     expect(hasProperty(result, 'itunes:owner')).toBe(true)
     expect(hasProperty(result.item[0], 'itunes:duration')).toBe(true)
