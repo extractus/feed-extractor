@@ -21,12 +21,16 @@ export interface FeedData {
   entries?: Array<FeedEntry>;
 }
 
+export type MergedFeedEntry<TFeedExtraField extends object, TFeedEntryExtraField extends object> = Omit<FeedData, 'entries'> & TFeedExtraField & {
+  entries?: (FeedEntry & TFeedEntryExtraField)[]
+}
+
 export interface ProxyConfig {
   target?: string;
   headers?: any;
 }
 
-export interface ReaderOptions {
+export interface ReaderOptions<TFeedExtraField extends object, TFeedEntryExtraField extends object> {
   /**
    * normalize feed data or keep original
    * default: true
@@ -50,11 +54,11 @@ export interface ReaderOptions {
   /**
    * merge extra feed fields in result
    */
-  getExtraFeedFields?: (feedData: object) => object;
+  getExtraFeedFields?: (feedData: Record<keyof any, unknown>) => TFeedExtraField;
   /**
    * merge extra entry fields in result
    */
-  getExtraEntryFields?: (entryData: object) => object;
+  getExtraEntryFields?: (entryData: Record<keyof any, unknown>) => TFeedEntryExtraField;
 }
 
 export interface FetchOptions {
@@ -72,9 +76,9 @@ export interface FetchOptions {
   proxy?: ProxyConfig;
 }
 
-export function extractFromXml(xml: string, options?: ReaderOptions): FeedData;
-export function extractFromJson(json: string, options?: ReaderOptions): FeedData;
+export function extractFromXml<TFeedExtraField extends object = {}, TFeedEntryExtraField extends object = {}>(xml: string, options?: ReaderOptions<TFeedExtraField, TFeedEntryExtraField>): MergedFeedEntry<TFeedExtraField, TFeedEntryExtraField>;
+export function extractFromJson<TFeedExtraField extends object = {}, TFeedEntryExtraField extends object = {}>(json: string, options?: ReaderOptions<TFeedExtraField, TFeedEntryExtraField>): MergedFeedEntry<TFeedExtraField, TFeedEntryExtraField>;
 
-export function extract(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;
+export function extract<TFeedExtraField extends object = {}, TFeedEntryExtraField extends object = {}>(url: string, options?: ReaderOptions<TFeedExtraField, TFeedEntryExtraField>, fetchOptions?: FetchOptions): Promise<MergedFeedEntry<TFeedExtraField, TFeedEntryExtraField>>;
 
-export function read(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;
+export function read<TFeedExtraField extends object = {}, TFeedEntryExtraField extends object = {}>(url: string, options?: ReaderOptions<TFeedExtraField, TFeedEntryExtraField>, fetchOptions?: FetchOptions): Promise<MergedFeedEntry<TFeedExtraField, TFeedEntryExtraField>>;
