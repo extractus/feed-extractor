@@ -1,5 +1,16 @@
 // Type definitions
 
+interface EnclosureField {
+    url: string;
+    type: string;
+    length: string;
+}
+
+interface CategoryField {
+    text: string;
+    domain: string;
+}
+
 export interface FeedEntry {
   /**
    * id, guid, or generated identifier for the entry
@@ -9,11 +20,14 @@ export interface FeedEntry {
   title?: string;
   description?: string;
   published?: Date;
+  category?: Array<string> | Array<CategoryField>;
+  enclosure?: Array<string> | Array<EnclosureField>;
 }
 
 export interface FeedData {
   link?: string;
   title?: string;
+  subtitle?: string;
   description?: string;
   generator?: string;
   language?: string;
@@ -24,6 +38,15 @@ export interface FeedData {
 export interface ProxyConfig {
   target?: string;
   headers?: any;
+}
+
+export interface ExtraEntryFields {
+  category?: string | CategoryField;
+  enclosure?: string | EnclosureField;
+}
+
+export interface ExtraFeedFields {
+  subtitle?: string;
 }
 
 export interface ReaderOptions {
@@ -50,11 +73,11 @@ export interface ReaderOptions {
   /**
    * merge extra feed fields in result
    */
-  getExtraFeedFields?: (feedData: object) => object;
+  getExtraFeedFields?: (feedData: FeedData) => ExtraFeedFields;
   /**
    * merge extra entry fields in result
    */
-  getExtraEntryFields?: (entryData: object) => object;
+  getExtraEntryFields?: (entryData: FeedEntry) => ExtraEntryFields;
 }
 
 export interface FetchOptions {
