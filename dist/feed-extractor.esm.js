@@ -1,4 +1,4 @@
-// @extractus/feed-extractor@6.2.1, by @extractus - built with esbuild at 2023-01-12T04:44:59.011Z - published under MIT license
+// @extractus/feed-extractor@6.2.2, by @extractus - built with esbuild at 2023-05-11T13:00:40.815Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -25,9 +25,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/util.js
+// node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/util.js
 var require_util = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/util.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/util.js"(exports) {
     "use strict";
     var nameStartChar = ":A-Za-z_\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
     var nameChar = nameStartChar + "\\-.\\d\\u00B7\\u0300-\\u036F\\u203F-\\u2040";
@@ -84,9 +84,9 @@ var require_util = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/validator.js
+// node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/validator.js
 var require_validator = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/validator.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/validator.js"(exports) {
     "use strict";
     var util = require_util();
     var defaultOptions = {
@@ -396,9 +396,9 @@ var require_validator = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
+// node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js
 var require_OptionsBuilder = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/OptionsBuilder.js"(exports) {
     var defaultOptions = {
       preserveOrder: false,
       attributeNamePrefix: "@_",
@@ -417,13 +417,14 @@ var require_OptionsBuilder = __commonJS({
       cdataPropName: false,
       numberParseOptions: {
         hex: true,
-        leadingZeros: true
+        leadingZeros: true,
+        eNotation: true
       },
-      tagValueProcessor: function(tagName, val) {
-        return val;
+      tagValueProcessor: function(tagName, val2) {
+        return val2;
       },
-      attributeValueProcessor: function(attrName, val) {
-        return val;
+      attributeValueProcessor: function(attrName, val2) {
+        return val2;
       },
       stopNodes: [],
       //nested tags will not be parsed even for errors
@@ -436,7 +437,11 @@ var require_OptionsBuilder = __commonJS({
       ignoreDeclaration: false,
       ignorePiTags: false,
       transformTagName: false,
-      transformAttributeName: false
+      transformAttributeName: false,
+      updateTag: function(tagName, jPath, attrs) {
+        return tagName;
+      }
+      // skipEmptyListItem: false
     };
     var buildOptions = function(options) {
       return Object.assign({}, defaultOptions, options);
@@ -446,9 +451,9 @@ var require_OptionsBuilder = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
+// node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js
 var require_xmlNode = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/xmlNode.js"(exports, module) {
     "use strict";
     var XmlNode = class {
       constructor(tagname) {
@@ -456,10 +461,14 @@ var require_xmlNode = __commonJS({
         this.child = [];
         this[":@"] = {};
       }
-      add(key, val) {
-        this.child.push({ [key]: val });
+      add(key, val2) {
+        if (key === "__proto__")
+          key = "#__proto__";
+        this.child.push({ [key]: val2 });
       }
       addChild(node) {
+        if (node.tagname === "__proto__")
+          node.tagname = "#__proto__";
         if (node[":@"] && Object.keys(node[":@"]).length > 0) {
           this.child.push({ [node.tagname]: node.child, [":@"]: node[":@"] });
         } else {
@@ -471,49 +480,47 @@ var require_xmlNode = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
+// node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js
 var require_DocTypeReader = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/DocTypeReader.js"(exports, module) {
     function readDocType(xmlData, i) {
       const entities = {};
       if (xmlData[i + 3] === "O" && xmlData[i + 4] === "C" && xmlData[i + 5] === "T" && xmlData[i + 6] === "Y" && xmlData[i + 7] === "P" && xmlData[i + 8] === "E") {
         i = i + 9;
         let angleBracketsCount = 1;
-        let hasBody = false, entity = false, comment = false;
+        let hasBody = false, comment = false;
         let exp = "";
         for (; i < xmlData.length; i++) {
-          if (xmlData[i] === "<") {
-            if (hasBody && xmlData[i + 1] === "!" && xmlData[i + 2] === "E" && xmlData[i + 3] === "N" && xmlData[i + 4] === "T" && xmlData[i + 5] === "I" && xmlData[i + 6] === "T" && xmlData[i + 7] === "Y") {
+          if (xmlData[i] === "<" && !comment) {
+            if (hasBody && isEntity(xmlData, i)) {
               i += 7;
-              entity = true;
-            } else if (hasBody && xmlData[i + 1] === "!" && xmlData[i + 2] === "E" && xmlData[i + 3] === "L" && xmlData[i + 4] === "E" && xmlData[i + 5] === "M" && xmlData[i + 6] === "E" && xmlData[i + 7] === "N" && xmlData[i + 8] === "T") {
+              [entityName, val, i] = readEntityExp(xmlData, i + 1);
+              if (val.indexOf("&") === -1)
+                entities[entityName] = {
+                  regx: RegExp(`&${entityName};`, "g"),
+                  val
+                };
+            } else if (hasBody && isElement(xmlData, i))
               i += 8;
-            } else if (hasBody && xmlData[i + 1] === "!" && xmlData[i + 2] === "A" && xmlData[i + 3] === "T" && xmlData[i + 4] === "T" && xmlData[i + 5] === "L" && xmlData[i + 6] === "I" && xmlData[i + 7] === "S" && xmlData[i + 8] === "T") {
+            else if (hasBody && isAttlist(xmlData, i))
               i += 8;
-            } else if (hasBody && xmlData[i + 1] === "!" && xmlData[i + 2] === "N" && xmlData[i + 3] === "O" && xmlData[i + 4] === "T" && xmlData[i + 5] === "A" && xmlData[i + 6] === "T" && xmlData[i + 7] === "I" && xmlData[i + 8] === "O" && xmlData[i + 9] === "N") {
+            else if (hasBody && isNotation(xmlData, i))
               i += 9;
-            } else if (
-              //comment
-              xmlData[i + 1] === "!" && xmlData[i + 2] === "-" && xmlData[i + 3] === "-"
-            ) {
+            else if (isComment)
               comment = true;
-            } else {
+            else
               throw new Error("Invalid DOCTYPE");
-            }
             angleBracketsCount++;
             exp = "";
           } else if (xmlData[i] === ">") {
             if (comment) {
               if (xmlData[i - 1] === "-" && xmlData[i - 2] === "-") {
                 comment = false;
-              } else {
-                throw new Error(`Invalid XML comment in DOCTYPE`);
+                angleBracketsCount--;
               }
-            } else if (entity) {
-              parseEntityExp(exp, entities);
-              entity = false;
+            } else {
+              angleBracketsCount--;
             }
-            angleBracketsCount--;
             if (angleBracketsCount === 0) {
               break;
             }
@@ -531,15 +538,45 @@ var require_DocTypeReader = __commonJS({
       }
       return { entities, i };
     }
-    var entityRegex = RegExp(`^\\s([a-zA-z0-0]+)[ 	](['"])([^&]+)\\2`);
-    function parseEntityExp(exp, entities) {
-      const match = entityRegex.exec(exp);
-      if (match) {
-        entities[match[1]] = {
-          regx: RegExp(`&${match[1]};`, "g"),
-          val: match[3]
-        };
+    function readEntityExp(xmlData, i) {
+      let entityName2 = "";
+      for (; i < xmlData.length && (xmlData[i] !== "'" && xmlData[i] !== '"'); i++) {
+        entityName2 += xmlData[i];
       }
+      entityName2 = entityName2.trim();
+      if (entityName2.indexOf(" ") !== -1)
+        throw new Error("External entites are not supported");
+      const startChar = xmlData[i++];
+      let val2 = "";
+      for (; i < xmlData.length && xmlData[i] !== startChar; i++) {
+        val2 += xmlData[i];
+      }
+      return [entityName2, val2, i];
+    }
+    function isComment(xmlData, i) {
+      if (xmlData[i + 1] === "!" && xmlData[i + 2] === "-" && xmlData[i + 3] === "-")
+        return true;
+      return false;
+    }
+    function isEntity(xmlData, i) {
+      if (xmlData[i + 1] === "!" && xmlData[i + 2] === "E" && xmlData[i + 3] === "N" && xmlData[i + 4] === "T" && xmlData[i + 5] === "I" && xmlData[i + 6] === "T" && xmlData[i + 7] === "Y")
+        return true;
+      return false;
+    }
+    function isElement(xmlData, i) {
+      if (xmlData[i + 1] === "!" && xmlData[i + 2] === "E" && xmlData[i + 3] === "L" && xmlData[i + 4] === "E" && xmlData[i + 5] === "M" && xmlData[i + 6] === "E" && xmlData[i + 7] === "N" && xmlData[i + 8] === "T")
+        return true;
+      return false;
+    }
+    function isAttlist(xmlData, i) {
+      if (xmlData[i + 1] === "!" && xmlData[i + 2] === "A" && xmlData[i + 3] === "T" && xmlData[i + 4] === "T" && xmlData[i + 5] === "L" && xmlData[i + 6] === "I" && xmlData[i + 7] === "S" && xmlData[i + 8] === "T")
+        return true;
+      return false;
+    }
+    function isNotation(xmlData, i) {
+      if (xmlData[i + 1] === "!" && xmlData[i + 2] === "N" && xmlData[i + 3] === "O" && xmlData[i + 4] === "T" && xmlData[i + 5] === "A" && xmlData[i + 6] === "T" && xmlData[i + 7] === "I" && xmlData[i + 8] === "O" && xmlData[i + 9] === "N")
+        return true;
+      return false;
     }
     module.exports = readDocType;
   }
@@ -642,9 +679,9 @@ var require_strnum = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
+// node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js
 var require_OrderedObjParser = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/OrderedObjParser.js"(exports, module) {
     "use strict";
     var util = require_util();
     var xmlNode = require_xmlNode();
@@ -688,6 +725,7 @@ var require_OrderedObjParser = __commonJS({
         this.replaceEntitiesValue = replaceEntitiesValue;
         this.readStopNodeData = readStopNodeData;
         this.saveTextToParentTag = saveTextToParentTag;
+        this.addChild = addChild;
       }
     };
     function addExternalEntities(externalEntities) {
@@ -700,27 +738,27 @@ var require_OrderedObjParser = __commonJS({
         };
       }
     }
-    function parseTextData(val, tagName, jPath, dontTrim, hasAttributes, isLeafNode, escapeEntities) {
-      if (val !== void 0) {
+    function parseTextData(val2, tagName, jPath, dontTrim, hasAttributes, isLeafNode, escapeEntities) {
+      if (val2 !== void 0) {
         if (this.options.trimValues && !dontTrim) {
-          val = val.trim();
+          val2 = val2.trim();
         }
-        if (val.length > 0) {
+        if (val2.length > 0) {
           if (!escapeEntities)
-            val = this.replaceEntitiesValue(val);
-          const newval = this.options.tagValueProcessor(tagName, val, jPath, hasAttributes, isLeafNode);
+            val2 = this.replaceEntitiesValue(val2);
+          const newval = this.options.tagValueProcessor(tagName, val2, jPath, hasAttributes, isLeafNode);
           if (newval === null || newval === void 0) {
-            return val;
-          } else if (typeof newval !== typeof val || newval !== val) {
+            return val2;
+          } else if (typeof newval !== typeof val2 || newval !== val2) {
             return newval;
           } else if (this.options.trimValues) {
-            return parseValue(val, this.options.parseTagValue, this.options.numberParseOptions);
+            return parseValue(val2, this.options.parseTagValue, this.options.numberParseOptions);
           } else {
-            const trimmedVal = val.trim();
-            if (trimmedVal === val) {
-              return parseValue(val, this.options.parseTagValue, this.options.numberParseOptions);
+            const trimmedVal = val2.trim();
+            if (trimmedVal === val2) {
+              return parseValue(val2, this.options.parseTagValue, this.options.numberParseOptions);
             } else {
-              return val;
+              return val2;
             }
           }
         }
@@ -740,7 +778,7 @@ var require_OrderedObjParser = __commonJS({
       return tagname;
     }
     var attrsRegx = new RegExp(`([^\\s=]+)\\s*(=\\s*(['"])([\\s\\S]*?)\\3)?`, "gm");
-    function buildAttributesMap(attrStr, jPath) {
+    function buildAttributesMap(attrStr, jPath, tagName) {
       if (!this.options.ignoreAttributes && typeof attrStr === "string") {
         const matches = util.getAllMatches(attrStr, attrsRegx);
         const len = matches.length;
@@ -753,6 +791,8 @@ var require_OrderedObjParser = __commonJS({
             if (this.options.transformAttributeName) {
               aName = this.options.transformAttributeName(aName);
             }
+            if (aName === "__proto__")
+              aName = "#__proto__";
             if (oldVal !== void 0) {
               if (this.options.trimValues) {
                 oldVal = oldVal.trim();
@@ -810,7 +850,18 @@ var require_OrderedObjParser = __commonJS({
             if (currentNode) {
               textData = this.saveTextToParentTag(textData, currentNode, jPath);
             }
-            jPath = jPath.substr(0, jPath.lastIndexOf("."));
+            const lastTagName = jPath.substring(jPath.lastIndexOf(".") + 1);
+            if (tagName && this.options.unpairedTags.indexOf(tagName) !== -1) {
+              throw new Error(`Unpaired tag can not be used as closing tag: </${tagName}>`);
+            }
+            let propIndex = 0;
+            if (lastTagName && this.options.unpairedTags.indexOf(lastTagName) !== -1) {
+              propIndex = jPath.lastIndexOf(".", jPath.lastIndexOf(".") - 1);
+              this.tagsNodeStack.pop();
+            } else {
+              propIndex = jPath.lastIndexOf(".");
+            }
+            jPath = jPath.substring(0, propIndex);
             currentNode = this.tagsNodeStack.pop();
             textData = "";
             i = closeIndex;
@@ -824,9 +875,9 @@ var require_OrderedObjParser = __commonJS({
               const childNode = new xmlNode(tagData.tagName);
               childNode.add(this.options.textNodeName, "");
               if (tagData.tagName !== tagData.tagExp && tagData.attrExpPresent) {
-                childNode[":@"] = this.buildAttributesMap(tagData.tagExp, jPath);
+                childNode[":@"] = this.buildAttributesMap(tagData.tagExp, jPath, tagData.tagName);
               }
-              currentNode.addChild(childNode);
+              this.addChild(currentNode, childNode, jPath);
             }
             i = tagData.closeIndex + 1;
           } else if (xmlData.substr(i + 1, 3) === "!--") {
@@ -848,10 +899,10 @@ var require_OrderedObjParser = __commonJS({
             if (this.options.cdataPropName) {
               currentNode.add(this.options.cdataPropName, [{ [this.options.textNodeName]: tagExp }]);
             } else {
-              let val = this.parseTextData(tagExp, currentNode.tagname, jPath, true, false, true);
-              if (val == void 0)
-                val = "";
-              currentNode.add(this.options.textNodeName, val);
+              let val2 = this.parseTextData(tagExp, currentNode.tagname, jPath, true, false, true);
+              if (val2 == void 0)
+                val2 = "";
+              currentNode.add(this.options.textNodeName, val2);
             }
             i = closeIndex + 2;
           } else {
@@ -868,12 +919,13 @@ var require_OrderedObjParser = __commonJS({
                 textData = this.saveTextToParentTag(textData, currentNode, jPath, false);
               }
             }
-            if (tagName !== xmlObj.tagname) {
-              jPath += jPath ? "." + tagName : tagName;
-            }
             const lastTag = currentNode;
             if (lastTag && this.options.unpairedTags.indexOf(lastTag.tagname) !== -1) {
               currentNode = this.tagsNodeStack.pop();
+              jPath = jPath.substring(0, jPath.lastIndexOf("."));
+            }
+            if (tagName !== xmlObj.tagname) {
+              jPath += jPath ? "." + tagName : tagName;
             }
             if (this.isItStopNode(this.options.stopNodes, jPath, tagName)) {
               let tagContent = "";
@@ -890,14 +942,14 @@ var require_OrderedObjParser = __commonJS({
               }
               const childNode = new xmlNode(tagName);
               if (tagName !== tagExp && attrExpPresent) {
-                childNode[":@"] = this.buildAttributesMap(tagExp, jPath);
+                childNode[":@"] = this.buildAttributesMap(tagExp, jPath, tagName);
               }
               if (tagContent) {
                 tagContent = this.parseTextData(tagContent, tagName, jPath, true, attrExpPresent, true, true);
               }
               jPath = jPath.substr(0, jPath.lastIndexOf("."));
               childNode.add(this.options.textNodeName, tagContent);
-              currentNode.addChild(childNode);
+              this.addChild(currentNode, childNode, jPath);
             } else {
               if (tagExp.length > 0 && tagExp.lastIndexOf("/") === tagExp.length - 1) {
                 if (tagName[tagName.length - 1] === "/") {
@@ -911,17 +963,17 @@ var require_OrderedObjParser = __commonJS({
                 }
                 const childNode = new xmlNode(tagName);
                 if (tagName !== tagExp && attrExpPresent) {
-                  childNode[":@"] = this.buildAttributesMap(tagExp, jPath);
+                  childNode[":@"] = this.buildAttributesMap(tagExp, jPath, tagName);
                 }
+                this.addChild(currentNode, childNode, jPath);
                 jPath = jPath.substr(0, jPath.lastIndexOf("."));
-                currentNode.addChild(childNode);
               } else {
                 const childNode = new xmlNode(tagName);
                 this.tagsNodeStack.push(currentNode);
                 if (tagName !== tagExp && attrExpPresent) {
-                  childNode[":@"] = this.buildAttributesMap(tagExp, jPath);
+                  childNode[":@"] = this.buildAttributesMap(tagExp, jPath, tagName);
                 }
-                currentNode.addChild(childNode);
+                this.addChild(currentNode, childNode, jPath);
                 currentNode = childNode;
               }
               textData = "";
@@ -934,25 +986,35 @@ var require_OrderedObjParser = __commonJS({
       }
       return xmlObj.child;
     };
-    var replaceEntitiesValue = function(val) {
+    function addChild(currentNode, childNode, jPath) {
+      const result = this.options.updateTag(childNode.tagname, jPath, childNode[":@"]);
+      if (result === false) {
+      } else if (typeof result === "string") {
+        childNode.tagname = result;
+        currentNode.addChild(childNode);
+      } else {
+        currentNode.addChild(childNode);
+      }
+    }
+    var replaceEntitiesValue = function(val2) {
       if (this.options.processEntities) {
-        for (let entityName in this.docTypeEntities) {
-          const entity = this.docTypeEntities[entityName];
-          val = val.replace(entity.regx, entity.val);
+        for (let entityName2 in this.docTypeEntities) {
+          const entity = this.docTypeEntities[entityName2];
+          val2 = val2.replace(entity.regx, entity.val);
         }
-        for (let entityName in this.lastEntities) {
-          const entity = this.lastEntities[entityName];
-          val = val.replace(entity.regex, entity.val);
+        for (let entityName2 in this.lastEntities) {
+          const entity = this.lastEntities[entityName2];
+          val2 = val2.replace(entity.regex, entity.val);
         }
         if (this.options.htmlEntities) {
-          for (let entityName in this.htmlEntities) {
-            const entity = this.htmlEntities[entityName];
-            val = val.replace(entity.regex, entity.val);
+          for (let entityName2 in this.htmlEntities) {
+            const entity = this.htmlEntities[entityName2];
+            val2 = val2.replace(entity.regex, entity.val);
           }
         }
-        val = val.replace(this.ampEntity.regex, this.ampEntity.val);
+        val2 = val2.replace(this.ampEntity.regex, this.ampEntity.val);
       }
-      return val;
+      return val2;
     };
     function saveTextToParentTag(textData, currentNode, jPath, isLeafNode) {
       if (textData) {
@@ -1086,18 +1148,18 @@ var require_OrderedObjParser = __commonJS({
         }
       }
     }
-    function parseValue(val, shouldParse, options) {
-      if (shouldParse && typeof val === "string") {
-        const newval = val.trim();
+    function parseValue(val2, shouldParse, options) {
+      if (shouldParse && typeof val2 === "string") {
+        const newval = val2.trim();
         if (newval === "true")
           return true;
         else if (newval === "false")
           return false;
         else
-          return toNumber(val, options);
+          return toNumber(val2, options);
       } else {
-        if (util.isExist(val)) {
-          return val;
+        if (util.isExist(val2)) {
+          return val2;
         } else {
           return "";
         }
@@ -1107,9 +1169,9 @@ var require_OrderedObjParser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/node2json.js
+// node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/node2json.js
 var require_node2json = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/node2json.js"(exports) {
+  "node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/node2json.js"(exports) {
     "use strict";
     function prettify(node, options) {
       return compress(node, options);
@@ -1133,28 +1195,28 @@ var require_node2json = __commonJS({
         } else if (property === void 0) {
           continue;
         } else if (tagObj[property]) {
-          let val = compress(tagObj[property], options, newJpath);
-          const isLeaf = isLeafTag(val, options);
+          let val2 = compress(tagObj[property], options, newJpath);
+          const isLeaf = isLeafTag(val2, options);
           if (tagObj[":@"]) {
-            assignAttributes(val, tagObj[":@"], newJpath, options);
-          } else if (Object.keys(val).length === 1 && val[options.textNodeName] !== void 0 && !options.alwaysCreateTextNode) {
-            val = val[options.textNodeName];
-          } else if (Object.keys(val).length === 0) {
+            assignAttributes(val2, tagObj[":@"], newJpath, options);
+          } else if (Object.keys(val2).length === 1 && val2[options.textNodeName] !== void 0 && !options.alwaysCreateTextNode) {
+            val2 = val2[options.textNodeName];
+          } else if (Object.keys(val2).length === 0) {
             if (options.alwaysCreateTextNode)
-              val[options.textNodeName] = "";
+              val2[options.textNodeName] = "";
             else
-              val = "";
+              val2 = "";
           }
           if (compressedObj[property] !== void 0 && compressedObj.hasOwnProperty(property)) {
             if (!Array.isArray(compressedObj[property])) {
               compressedObj[property] = [compressedObj[property]];
             }
-            compressedObj[property].push(val);
+            compressedObj[property].push(val2);
           } else {
             if (options.isArray(property, newJpath, isLeaf)) {
-              compressedObj[property] = [val];
+              compressedObj[property] = [val2];
             } else {
-              compressedObj[property] = val;
+              compressedObj[property] = val2;
             }
           }
         }
@@ -1189,18 +1251,23 @@ var require_node2json = __commonJS({
       }
     }
     function isLeafTag(obj, options) {
+      const { textNodeName } = options;
       const propCount = Object.keys(obj).length;
-      if (propCount === 0 || propCount === 1 && obj[options.textNodeName])
+      if (propCount === 0) {
         return true;
+      }
+      if (propCount === 1 && (obj[textNodeName] || typeof obj[textNodeName] === "boolean" || obj[textNodeName] === 0)) {
+        return true;
+      }
       return false;
     }
     exports.prettify = prettify;
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
+// node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js
 var require_XMLParser = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlparser/XMLParser.js"(exports, module) {
     var { buildOptions } = require_OptionsBuilder();
     var OrderedObjParser = require_OrderedObjParser();
     var { prettify } = require_node2json();
@@ -1259,9 +1326,9 @@ var require_XMLParser = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js
+// node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js
 var require_orderedJs2Xml = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlbuilder/orderedJs2Xml.js"(exports, module) {
     var EOL = "\n";
     function toXml(jArray, options) {
       let indentation = "";
@@ -1387,9 +1454,9 @@ var require_orderedJs2Xml = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
+// node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js
 var require_json2xml = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/xmlbuilder/json2xml.js"(exports, module) {
     "use strict";
     var buildFromOrderedJs = require_orderedJs2Xml();
     var defaultOptions = {
@@ -1421,9 +1488,10 @@ var require_json2xml = __commonJS({
         { regex: new RegExp('"', "g"), val: "&quot;" }
       ],
       processEntities: true,
-      stopNodes: []
+      stopNodes: [],
       // transformTagName: false,
       // transformAttributeName: false,
+      oneListGroup: false
     };
     function Builder(options) {
       this.options = Object.assign({}, defaultOptions, options);
@@ -1447,17 +1515,6 @@ var require_json2xml = __commonJS({
         this.tagEndChar = ">";
         this.newLine = "";
       }
-      if (this.options.suppressEmptyNode) {
-        this.buildTextNode = buildEmptyTextNode;
-        this.buildObjNode = buildEmptyObjNode;
-      } else {
-        this.buildTextNode = buildTextValNode;
-        this.buildObjNode = buildObjectNode;
-      }
-      this.buildTextValNode = buildTextValNode;
-      this.buildObjectNode = buildObjectNode;
-      this.replaceEntitiesValue = replaceEntitiesValue;
-      this.buildAttrPairStr = buildAttrPairStr;
     }
     Builder.prototype.build = function(jObj) {
       if (this.options.preserveOrder) {
@@ -1473,16 +1530,16 @@ var require_json2xml = __commonJS({
     };
     Builder.prototype.j2x = function(jObj, level) {
       let attrStr = "";
-      let val = "";
+      let val2 = "";
       for (let key in jObj) {
         if (typeof jObj[key] === "undefined") {
         } else if (jObj[key] === null) {
           if (key[0] === "?")
-            val += this.indentate(level) + "<" + key + "?" + this.tagEndChar;
+            val2 += this.indentate(level) + "<" + key + "?" + this.tagEndChar;
           else
-            val += this.indentate(level) + "<" + key + "/" + this.tagEndChar;
+            val2 += this.indentate(level) + "<" + key + "/" + this.tagEndChar;
         } else if (jObj[key] instanceof Date) {
-          val += this.buildTextNode(jObj[key], key, "", level);
+          val2 += this.buildTextValNode(jObj[key], key, "", level);
         } else if (typeof jObj[key] !== "object") {
           const attr = this.isAttribute(key);
           if (attr) {
@@ -1490,27 +1547,36 @@ var require_json2xml = __commonJS({
           } else {
             if (key === this.options.textNodeName) {
               let newval = this.options.tagValueProcessor(key, "" + jObj[key]);
-              val += this.replaceEntitiesValue(newval);
+              val2 += this.replaceEntitiesValue(newval);
             } else {
-              val += this.buildTextNode(jObj[key], key, "", level);
+              val2 += this.buildTextValNode(jObj[key], key, "", level);
             }
           }
         } else if (Array.isArray(jObj[key])) {
           const arrLen = jObj[key].length;
+          let listTagVal = "";
           for (let j = 0; j < arrLen; j++) {
             const item = jObj[key][j];
             if (typeof item === "undefined") {
             } else if (item === null) {
               if (key[0] === "?")
-                val += this.indentate(level) + "<" + key + "?" + this.tagEndChar;
+                val2 += this.indentate(level) + "<" + key + "?" + this.tagEndChar;
               else
-                val += this.indentate(level) + "<" + key + "/" + this.tagEndChar;
+                val2 += this.indentate(level) + "<" + key + "/" + this.tagEndChar;
             } else if (typeof item === "object") {
-              val += this.processTextOrObjNode(item, key, level);
+              if (this.options.oneListGroup) {
+                listTagVal += this.j2x(item, level + 1).val;
+              } else {
+                listTagVal += this.processTextOrObjNode(item, key, level);
+              }
             } else {
-              val += this.buildTextNode(item, key, "", level);
+              listTagVal += this.buildTextValNode(item, key, "", level);
             }
           }
+          if (this.options.oneListGroup) {
+            listTagVal = this.buildObjectNode(listTagVal, key, "", level);
+          }
+          val2 += listTagVal;
         } else {
           if (this.options.attributesGroupName && key === this.options.attributesGroupName) {
             const Ks = Object.keys(jObj[key]);
@@ -1519,73 +1585,81 @@ var require_json2xml = __commonJS({
               attrStr += this.buildAttrPairStr(Ks[j], "" + jObj[key][Ks[j]]);
             }
           } else {
-            val += this.processTextOrObjNode(jObj[key], key, level);
+            val2 += this.processTextOrObjNode(jObj[key], key, level);
           }
         }
       }
-      return { attrStr, val };
+      return { attrStr, val: val2 };
     };
-    function buildAttrPairStr(attrName, val) {
-      val = this.options.attributeValueProcessor(attrName, "" + val);
-      val = this.replaceEntitiesValue(val);
-      if (this.options.suppressBooleanAttributes && val === "true") {
+    Builder.prototype.buildAttrPairStr = function(attrName, val2) {
+      val2 = this.options.attributeValueProcessor(attrName, "" + val2);
+      val2 = this.replaceEntitiesValue(val2);
+      if (this.options.suppressBooleanAttributes && val2 === "true") {
         return " " + attrName;
       } else
-        return " " + attrName + '="' + val + '"';
-    }
+        return " " + attrName + '="' + val2 + '"';
+    };
     function processTextOrObjNode(object, key, level) {
       const result = this.j2x(object, level + 1);
       if (object[this.options.textNodeName] !== void 0 && Object.keys(object).length === 1) {
-        return this.buildTextNode(object[this.options.textNodeName], key, result.attrStr, level);
+        return this.buildTextValNode(object[this.options.textNodeName], key, result.attrStr, level);
       } else {
-        return this.buildObjNode(result.val, key, result.attrStr, level);
+        return this.buildObjectNode(result.val, key, result.attrStr, level);
       }
     }
-    function buildObjectNode(val, key, attrStr, level) {
-      let tagEndExp = "</" + key + this.tagEndChar;
-      let piClosingChar = "";
-      if (key[0] === "?") {
-        piClosingChar = "?";
-        tagEndExp = "";
-      }
-      if (attrStr && val.indexOf("<") === -1) {
-        return this.indentate(level) + "<" + key + attrStr + piClosingChar + ">" + val + tagEndExp;
-      } else if (this.options.commentPropName !== false && key === this.options.commentPropName && piClosingChar.length === 0) {
-        return this.indentate(level) + `<!--${val}-->` + this.newLine;
-      } else {
-        return this.indentate(level) + "<" + key + attrStr + piClosingChar + this.tagEndChar + val + this.indentate(level) + tagEndExp;
-      }
-    }
-    function buildEmptyObjNode(val, key, attrStr, level) {
-      if (val !== "") {
-        return this.buildObjectNode(val, key, attrStr, level);
-      } else {
+    Builder.prototype.buildObjectNode = function(val2, key, attrStr, level) {
+      if (val2 === "") {
         if (key[0] === "?")
           return this.indentate(level) + "<" + key + attrStr + "?" + this.tagEndChar;
-        else
-          return this.indentate(level) + "<" + key + attrStr + "/" + this.tagEndChar;
-      }
-    }
-    function buildTextValNode(val, key, attrStr, level) {
-      if (this.options.cdataPropName !== false && key === this.options.cdataPropName) {
-        return this.indentate(level) + `<![CDATA[${val}]]>` + this.newLine;
-      } else if (this.options.commentPropName !== false && key === this.options.commentPropName) {
-        return this.indentate(level) + `<!--${val}-->` + this.newLine;
+        else {
+          return this.indentate(level) + "<" + key + attrStr + this.closeTag(key) + this.tagEndChar;
+        }
       } else {
-        let textValue = this.options.tagValueProcessor(key, val);
+        let tagEndExp = "</" + key + this.tagEndChar;
+        let piClosingChar = "";
+        if (key[0] === "?") {
+          piClosingChar = "?";
+          tagEndExp = "";
+        }
+        if (attrStr && val2.indexOf("<") === -1) {
+          return this.indentate(level) + "<" + key + attrStr + piClosingChar + ">" + val2 + tagEndExp;
+        } else if (this.options.commentPropName !== false && key === this.options.commentPropName && piClosingChar.length === 0) {
+          return this.indentate(level) + `<!--${val2}-->` + this.newLine;
+        } else {
+          return this.indentate(level) + "<" + key + attrStr + piClosingChar + this.tagEndChar + val2 + this.indentate(level) + tagEndExp;
+        }
+      }
+    };
+    Builder.prototype.closeTag = function(key) {
+      let closeTag = "";
+      if (this.options.unpairedTags.indexOf(key) !== -1) {
+        if (!this.options.suppressUnpairedNode)
+          closeTag = "/";
+      } else if (this.options.suppressEmptyNode) {
+        closeTag = "/";
+      } else {
+        closeTag = `></${key}`;
+      }
+      return closeTag;
+    };
+    Builder.prototype.buildTextValNode = function(val2, key, attrStr, level) {
+      if (this.options.cdataPropName !== false && key === this.options.cdataPropName) {
+        return this.indentate(level) + `<![CDATA[${val2}]]>` + this.newLine;
+      } else if (this.options.commentPropName !== false && key === this.options.commentPropName) {
+        return this.indentate(level) + `<!--${val2}-->` + this.newLine;
+      } else if (key[0] === "?") {
+        return this.indentate(level) + "<" + key + attrStr + "?" + this.tagEndChar;
+      } else {
+        let textValue = this.options.tagValueProcessor(key, val2);
         textValue = this.replaceEntitiesValue(textValue);
-        if (textValue === "" && this.options.unpairedTags.indexOf(key) !== -1) {
-          if (this.options.suppressUnpairedNode) {
-            return this.indentate(level) + "<" + key + this.tagEndChar;
-          } else {
-            return this.indentate(level) + "<" + key + "/" + this.tagEndChar;
-          }
+        if (textValue === "") {
+          return this.indentate(level) + "<" + key + attrStr + this.closeTag(key) + this.tagEndChar;
         } else {
           return this.indentate(level) + "<" + key + attrStr + ">" + textValue + "</" + key + this.tagEndChar;
         }
       }
-    }
-    function replaceEntitiesValue(textValue) {
+    };
+    Builder.prototype.replaceEntitiesValue = function(textValue) {
       if (textValue && textValue.length > 0 && this.options.processEntities) {
         for (let i = 0; i < this.options.entities.length; i++) {
           const entity = this.options.entities[i];
@@ -1593,23 +1667,7 @@ var require_json2xml = __commonJS({
         }
       }
       return textValue;
-    }
-    function buildEmptyTextNode(val, key, attrStr, level) {
-      if (val === "" && this.options.unpairedTags.indexOf(key) !== -1) {
-        if (this.options.suppressUnpairedNode) {
-          return this.indentate(level) + "<" + key + this.tagEndChar;
-        } else {
-          return this.indentate(level) + "<" + key + "/" + this.tagEndChar;
-        }
-      } else if (val !== "") {
-        return this.buildTextValNode(val, key, attrStr, level);
-      } else {
-        if (key[0] === "?")
-          return this.indentate(level) + "<" + key + attrStr + "?" + this.tagEndChar;
-        else
-          return this.indentate(level) + "<" + key + attrStr + "/" + this.tagEndChar;
-      }
-    }
+    };
     function indentate(level) {
       return this.options.indentBy.repeat(level);
     }
@@ -1624,9 +1682,9 @@ var require_json2xml = __commonJS({
   }
 });
 
-// node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/fxp.js
+// node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/fxp.js
 var require_fxp = __commonJS({
-  "node_modules/.pnpm/fast-xml-parser@4.0.13/node_modules/fast-xml-parser/src/fxp.js"(exports, module) {
+  "node_modules/.pnpm/fast-xml-parser@4.2.2/node_modules/fast-xml-parser/src/fxp.js"(exports, module) {
     "use strict";
     var validator = require_validator();
     var XMLParser2 = require_XMLParser();
@@ -1970,21 +2028,21 @@ var retrieve_default = async (url, options = {}) => {
   throw new Error(`Invalid content type: ${contentType}`);
 };
 
-// node_modules/.pnpm/bellajs@11.1.1/node_modules/bellajs/src/utils/detection.js
-var ob2Str = (val) => {
-  return {}.toString.call(val);
+// node_modules/.pnpm/bellajs@11.1.2/node_modules/bellajs/src/utils/detection.js
+var ob2Str = (val2) => {
+  return {}.toString.call(val2);
 };
-var isArray = (val) => {
-  return Array.isArray(val);
+var isArray = (val2) => {
+  return Array.isArray(val2);
 };
-var isString = (val) => {
-  return String(val) === val;
+var isString = (val2) => {
+  return String(val2) === val2;
 };
-var isNumber = (val) => {
-  return Number(val) === val;
+var isNumber = (val2) => {
+  return Number(val2) === val2;
 };
-var isObject = (val) => {
-  return ob2Str(val) === "[object Object]" && !isArray(val);
+var isObject = (val2) => {
+  return ob2Str(val2) === "[object Object]" && !isArray(val2);
 };
 var hasProperty = (ob, k) => {
   if (!ob || !k) {
@@ -1993,7 +2051,7 @@ var hasProperty = (ob, k) => {
   return Object.prototype.hasOwnProperty.call(ob, k);
 };
 
-// node_modules/.pnpm/bellajs@11.1.1/node_modules/bellajs/src/utils/string.js
+// node_modules/.pnpm/bellajs@11.1.2/node_modules/bellajs/src/utils/string.js
 var toString = (input) => {
   const s = isNumber(input) ? String(input) : input;
   if (!isString(s)) {
@@ -2051,15 +2109,15 @@ var toISODateString = (dstr) => {
     return "";
   }
 };
-var buildDescription = (val, maxlen) => {
-  const stripped = stripTags(String(val));
+var buildDescription = (val2, maxlen) => {
+  const stripped = stripTags(String(val2));
   return truncate(stripped, maxlen).replace(/\n+/g, " ");
 };
-var getText = (val) => {
-  const txt = isObject(val) ? val._text || val["#text"] || val._cdata || val.$t : val;
+var getText = (val2) => {
+  const txt = isObject(val2) ? val2._text || val2["#text"] || val2._cdata || val2.$t : val2;
   return txt ? (0, import_html_entities.decode)(String(txt).trim()) : "";
 };
-var getLink = (val = [], id = "") => {
+var getLink = (val2 = [], id = "") => {
   if (id && isValid(id)) {
     return id;
   }
@@ -2072,7 +2130,7 @@ var getLink = (val = [], id = "") => {
     });
     return items.length > 0 ? items[0] : "";
   };
-  return isString(val) ? getText(val) : isObject(val) && hasProperty(val, "href") ? getText(val.href) : isObject(val) && hasProperty(val, "@_href") ? getText(val["@_href"]) : isObject(val) && hasProperty(val, "@_url") ? getText(val["@_url"]) : isObject(val) && hasProperty(val, "_attributes") ? getText(val._attributes.href) : isArray(val) ? getEntryLink(val) : "";
+  return isString(val2) ? getText(val2) : isObject(val2) && hasProperty(val2, "href") ? getText(val2.href) : isObject(val2) && hasProperty(val2, "@_href") ? getText(val2["@_href"]) : isObject(val2) && hasProperty(val2, "@_url") ? getText(val2["@_url"]) : isObject(val2) && hasProperty(val2, "_attributes") ? getText(val2._attributes.href) : isArray(val2) ? getEntryLink(val2) : "";
 };
 var getPureUrl = (url, id = "") => {
   const link = getLink(url, id);
@@ -2082,10 +2140,10 @@ var hash = (str) => Math.abs(str.split("").reduce((s, c) => Math.imul(31, s) + c
 var getEntryId = (id, url, pubDate) => {
   return id ? getText(id) : hash(getPureUrl(url)) + "-" + new Date(pubDate).getTime();
 };
-var getEnclosure = (val) => {
-  const url = hasProperty(val, "@_url") ? val["@_url"] : "";
-  const type = hasProperty(val, "@_type") ? val["@_type"] : "";
-  const length = Number(hasProperty(val, "@_length") ? val["@_length"] : 0);
+var getEnclosure = (val2) => {
+  const url = hasProperty(val2, "@_url") ? val2["@_url"] : "";
+  const type = hasProperty(val2, "@_type") ? val2["@_type"] : "";
+  const length = Number(hasProperty(val2, "@_length") ? val2["@_length"] : 0);
   return !url || !type ? null : {
     url,
     type,
@@ -2098,20 +2156,20 @@ var getCategory = (v) => {
     domain: v["@_domain"]
   } : v;
 };
-var getOptionalTags = (val, key) => {
+var getOptionalTags = (val2, key) => {
   if (key === "source") {
     return {
-      text: getText(val),
-      url: getLink(val)
+      text: getText(val2),
+      url: getLink(val2)
     };
   }
   if (key === "category") {
-    return isArray(val) ? val.map(getCategory) : getCategory(val);
+    return isArray(val2) ? val2.map(getCategory) : getCategory(val2);
   }
   if (key === "enclosure") {
-    return getEnclosure(val);
+    return getEnclosure(val2);
   }
-  return val;
+  return val2;
 };
 
 // src/utils/parseJsonFeed.js

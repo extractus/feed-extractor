@@ -6,7 +6,6 @@ To read & normalize RSS/ATOM/JSON feed data.
 ![CodeQL](https://github.com/extractus/feed-extractor/workflows/CodeQL/badge.svg)
 ![CI test](https://github.com/extractus/feed-extractor/workflows/ci-test/badge.svg)
 [![Coverage Status](https://img.shields.io/coveralls/github/extractus/feed-extractor)](https://coveralls.io/github/extractus/feed-extractor?branch=main)
-[![CodeFactor](https://www.codefactor.io/repository/github/extractus/feed-extractor/badge)](https://www.codefactor.io/repository/github/extractus/feed-extractor)
 
 (This library is derived from [feed-reader](https://www.npmjs.com/package/feed-reader) renamed.)
 
