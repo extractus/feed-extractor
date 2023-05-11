@@ -11,6 +11,7 @@
   "main": "./src/main.js",
   "type": "module",
   "exports": {
+    "types": "./index.d.ts",
     "import": "./src/main.js",
     "require": "./dist/cjs/feed-extractor.js"
   },
