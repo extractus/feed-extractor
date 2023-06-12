@@ -13,7 +13,7 @@ import {
   getEntryId
 } from './normalizer.js'
 
-const transform = (item, options) => {
+const transform = (item, options, hostname) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
@@ -37,7 +37,7 @@ const transform = (item, options) => {
   const entry = {
     id: getEntryId(id, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link, id),
+    link: getPureUrl(link, id, hostname),
     published: useISODateFormat ? toISODateString(pubDate) : pubDate,
     description: buildDescription(htmlContent || summary, descriptionMaxLen),
   }
@@ -50,7 +50,7 @@ const transform = (item, options) => {
   }
 }
 
-const flatten = (feed) => {
+const flatten = (feed, hostname) => {
   const {
     id,
     title = '',
@@ -70,7 +70,7 @@ const flatten = (feed) => {
     const item = {
       ...entry,
       title: getText(title),
-      link: getPureUrl(link, id),
+      link: getPureUrl(link, id, hostname),
     }
     if (hasProperty(item, 'summary')) {
       item.summary = getText(summary)
@@ -84,20 +84,20 @@ const flatten = (feed) => {
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link, id),
+    link: getPureUrl(link, id, hostname),
     entry: isArray(entry) ? items : items[0],
   }
   return output
 }
 
-const parseAtom = (data, options = {}) => {
+const parseAtom = (data, options = {}, hostname) => {
   const {
     normalization,
     getExtraFeedFields,
   } = options
 
   if (!normalization) {
-    return flatten(data.feed)
+    return flatten(data.feed, hostname)
   }
 
   const {
@@ -119,18 +119,18 @@ const parseAtom = (data, options = {}) => {
 
   return {
     title: getText(title),
-    link: getPureUrl(link, id),
+    link: getPureUrl(link, id, hostname),
     description: subtitle,
     language,
     generator,
     published,
     ...extraFields,
     entries: items.map((item) => {
-      return transform(item, options)
+      return transform(item, options, hostname)
     }),
   }
 }
 
-export default (data, options = {}) => {
-  return parseAtom(data, options)
+export default (data, options = {}, hostname) => {
+  return parseAtom(data, options, hostname)
 }

@@ -7,12 +7,13 @@ import { isArray } from 'bellajs'
 import {
   toISODateString,
   buildDescription,
-  getEntryId
+  getEntryId,
+  getHref
 } from './normalizer.js'
 
 import { purify as purifyUrl } from './linker.js'
 
-const transform = (item, options) => {
+const transform = (item, options, hostname) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
@@ -35,7 +36,7 @@ const transform = (item, options) => {
   const entry = {
     id: getEntryId(id, link, pubDate),
     title,
-    link: purifyUrl(link),
+    link: purifyUrl(link) || getHref(link, hostname),
     published,
     description: buildDescription(textContent || htmlContent || summary, descriptionMaxLen),
   }
@@ -46,7 +47,7 @@ const transform = (item, options) => {
   }
 }
 
-const parseJson = (data, options) => {
+const parseJson = (data, options, hostname) => {
   const {
     normalization,
     getExtraFeedFields,
@@ -70,18 +71,18 @@ const parseJson = (data, options) => {
 
   return {
     title,
-    link: purifyUrl(homepageUrl),
+    link: purifyUrl(homepageUrl) || getHref(homepageUrl, hostname),
     description,
     language,
     published: '',
     generator: '',
     ...extraFields,
     entries: items.map((item) => {
-      return transform(item, options)
+      return transform(item, options, hostname)
     }),
   }
 }
 
-export default (data, options = {}) => {
-  return parseJson(data, options)
+export default (data, options = {}, hostname) => {
+  return parseJson(data, options, hostname)
 }

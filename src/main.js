@@ -28,11 +28,11 @@ const getopt = (options = {}) => {
   }
 }
 
-export const extractFromJson = (json, options = {}) => {
-  return parseJsonFeed(json, getopt(options))
+export const extractFromJson = (json, options = {}, hostname = '') => {
+  return parseJsonFeed(json, getopt(options), hostname)
 }
 
-export const extractFromXml = (xml, options = {}) => {
+export const extractFromXml = (xml, options = {}, hostname = '') => {
   if (!validate(xml)) {
     throw new Error('The XML document is not well-formed')
   }
@@ -41,9 +41,9 @@ export const extractFromXml = (xml, options = {}) => {
 
   const data = xml2obj(xml, opts.xmlParserOptions)
   return isRSS(data)
-    ? parseRssFeed(data, opts)
+    ? parseRssFeed(data, opts, hostname)
     : isAtom(data)
-      ? parseAtomFeed(data, opts)
+      ? parseAtomFeed(data, opts, hostname)
       : null
 }
 
@@ -51,6 +51,9 @@ export const extract = async (url, options = {}, fetchOptions = {}) => {
   if (!isValidUrl(url)) {
     throw new Error('Input param must be a valid URL')
   }
+
+  const u = new URL(url)
+  const hostname = u.protocol + '//' + u.hostname
   const data = await retrieve(url, fetchOptions)
   if (!data.text && !data.json) {
     throw new Error(`Failed to load content from "${url}"`)
@@ -58,7 +61,7 @@ export const extract = async (url, options = {}, fetchOptions = {}) => {
 
   const { type, json, text } = data
 
-  return type === 'json' ? extractFromJson(json, options) : extractFromXml(text, options)
+  return type === 'json' ? extractFromJson(json, options, hostname) : extractFromXml(text, options, hostname)
 }
 
 export const read = async (url, options, fetchOptions) => {

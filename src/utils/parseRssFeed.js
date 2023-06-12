@@ -13,7 +13,7 @@ import {
   getEntryId
 } from './normalizer.js'
 
-const transform = (item, options) => {
+const transform = (item, options, hostname) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
@@ -33,7 +33,7 @@ const transform = (item, options) => {
   const entry = {
     id: getEntryId(guid, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link, guid),
+    link: getPureUrl(link, guid, hostname),
     published,
     description: buildDescription(description, descriptionMaxLen),
   }
@@ -46,7 +46,7 @@ const transform = (item, options) => {
   }
 }
 
-const flatten = (feed) => {
+const flatten = (feed, hostname) => {
   const {
     title = '',
     link = '',
@@ -64,7 +64,7 @@ const flatten = (feed) => {
     const item = {
       ...entry,
       title: getText(title),
-      link: getPureUrl(link, id),
+      link: getPureUrl(link, id, hostname),
     }
 
     const txtTags = 'guid description source'.split(' ')
@@ -88,20 +88,20 @@ const flatten = (feed) => {
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link),
+    link: getPureUrl(link, hostname),
     item: isArray(item) ? entries : entries[0],
   }
   return output
 }
 
-const parseRss = (data, options = {}) => {
+const parseRss = (data, options = {}, hostname) => {
   const {
     normalization,
     getExtraFeedFields,
   } = options
 
   if (!normalization) {
-    return flatten(data.rss.channel)
+    return flatten(data.rss.channel, hostname)
   }
 
   const {
@@ -122,18 +122,18 @@ const parseRss = (data, options = {}) => {
 
   return {
     title: getText(title),
-    link: getPureUrl(link),
+    link: getPureUrl(link, '', hostname),
     description,
     language,
     generator,
     published,
     ...extraFields,
     entries: items.map((item) => {
-      return transform(item, options)
+      return transform(item, options, hostname)
     }),
   }
 }
 
-export default (data, options = {}) => {
-  return parseRss(data, options)
+export default (data, options = {}, hostname) => {
+  return parseRss(data, options, hostname)
 }

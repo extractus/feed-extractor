@@ -57,9 +57,27 @@ export const getLink = (val = [], id = '') => {
             : isArray(val) ? getEntryLink(val) : ''
 }
 
-export const getPureUrl = (url, id = '') => {
+export const getHref = (url, hostname) => {
+  let u = ''
+
+  try {
+    u = new URL(url, hostname).href
+  } catch {
+    //
+  }
+
+  return u
+}
+
+export const getPureUrl = (url, id = '', hostname) => {
   const link = getLink(url, id)
-  return link ? purifyUrl(link) : ''
+  const pu = purifyUrl(link)
+
+  return link
+    ? pu
+      ? pu
+      : getHref(link, hostname)
+    : ''
 }
 
 const hash = (str) => Math.abs(str.split('').reduce((s, c) => Math.imul(31, s) + c.charCodeAt(0) | 0, 0)).toString(36)

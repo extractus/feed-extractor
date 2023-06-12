@@ -7,7 +7,7 @@ import nock from 'nock'
 
 import { hasProperty, isString } from 'bellajs'
 
-import { extract, read } from './main.js'
+import { extract, extractFromXml, extractFromJson, read } from './main.js'
 import { isValid as isValidUrl } from './utils/linker.js'
 
 const feedAttrs = 'title link description generator language published entries'.split(' ')
@@ -333,6 +333,66 @@ describe('test extract() without normalization', () => {
     })
     expect(hasProperty(result, 'itunes:owner')).toBe(true)
     expect(hasProperty(result.item[0], 'itunes:duration')).toBe(true)
+  })
+})
+
+describe('test extract with hostname is not included', () => {
+  test('extract rss feed with xml', () => {
+    const hostname = 'https://huggingface.co'
+    const xml = readFileSync('test-data/rss-feed-miss-hostname.xml', 'utf8')
+    const result = extractFromXml(xml, {}, hostname)
+
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(result, k)).toBe(true)
+    })
+
+    entryAttrs.forEach((k) => {
+      expect(hasProperty(result.entries[0], k)).toBe(true)
+    })
+
+    expect(validateProps(result.entries[0])).toBe(true)
+    expect(result.link).toBe(hostname + '/blog')
+    expect(result.entries[0].link).toBe(hostname + '/blog/intro-graphml')
+  })
+
+  test('extract rss feed with json', () => {
+    const hostname = 'https://www.jsonfeed.org'
+    const json = readFileSync('test-data/json-feed-miss-hostname.json', 'utf8')
+    const result = extractFromJson(JSON.parse(json), {}, hostname)
+
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(result, k)).toBe(true)
+    })
+
+    entryAttrs.forEach((k) => {
+      expect(hasProperty(result.entries[0], k)).toBe(true)
+    })
+
+    expect(result.link).toBe(hostname + '/')
+    expect(result.entries[0].link).toBe(hostname + '/2020/08/07/json-feed-version.html')
+  })
+
+  test('extract rss feed with url', async () => {
+    const url = 'https://huggingface.co/blog/rss'
+    const hostname = "https://huggingface.co"
+    const xml = readFileSync('test-data/rss-feed-miss-hostname.xml', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, xml, {
+      'Content-Type': 'application/xml',
+    })
+    const result = await extract(url)
+
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(result, k)).toBe(true)
+    })
+
+    entryAttrs.forEach((k) => {
+      expect(hasProperty(result.entries[0], k)).toBe(true)
+    })
+
+    expect(validateProps(result.entries[0])).toBe(true)
+    expect(result.link).toBe(hostname + '/blog')
+    expect(result.entries[0].link).toBe(hostname + '/blog/intro-graphml')
   })
 })
 

@@ -72,8 +72,8 @@ export interface FetchOptions {
   proxy?: ProxyConfig;
 }
 
-export function extractFromXml(xml: string, options?: ReaderOptions): FeedData;
-export function extractFromJson(json: string, options?: ReaderOptions): FeedData;
+export function extractFromXml(xml: string, options?: ReaderOptions, hostname?: string): FeedData;
+export function extractFromJson(json: string, options?: ReaderOptions, hostname?: string): FeedData;
 
 export function extract(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;
 
