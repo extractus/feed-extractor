@@ -7,16 +7,16 @@ import { isArray } from 'bellajs'
 import {
   toISODateString,
   buildDescription,
-  getEntryId,
-  getHref
+  getEntryId
 } from './normalizer.js'
 
-import { purify as purifyUrl } from './linker.js'
+import { absolutify, purify as purifyUrl } from './linker.js'
 
-const transform = (item, options, baseUrl) => {
+const transform = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
+    baseUrl,
     getExtraEntryFields,
   } = options
 
@@ -36,7 +36,7 @@ const transform = (item, options, baseUrl) => {
   const entry = {
     id: getEntryId(id, link, pubDate),
     title,
-    link: purifyUrl(link) || getHref(link, baseUrl),
+    link: purifyUrl(link) || absolutify(baseUrl, link),
     published,
     description: buildDescription(textContent || htmlContent || summary, descriptionMaxLen),
   }
@@ -47,9 +47,10 @@ const transform = (item, options, baseUrl) => {
   }
 }
 
-const parseJson = (data, options, baseUrl) => {
+const parseJson = (data, options) => {
   const {
     normalization,
+    baseUrl,
     getExtraFeedFields,
   } = options
 
@@ -71,18 +72,18 @@ const parseJson = (data, options, baseUrl) => {
 
   return {
     title,
-    link: purifyUrl(homepageUrl) || getHref(homepageUrl, baseUrl),
+    link: purifyUrl(homepageUrl) || absolutify(baseUrl, homepageUrl),
     description,
     language,
     published: '',
     generator: '',
     ...extraFields,
     entries: items.map((item) => {
-      return transform(item, options, baseUrl)
+      return transform(item, options)
     }),
   }
 }
 
-export default (data, options = {}, baseUrl) => {
-  return parseJson(data, options, baseUrl)
+export default (data, options = {}) => {
+  return parseJson(data, options)
 }

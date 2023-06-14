@@ -1,4 +1,4 @@
-// @extractus/feed-extractor@6.2.2, by @extractus - built with esbuild at 2023-06-12T03:31:52.335Z - published under MIT license
+// @extractus/feed-extractor@6.2.2, by @extractus - built with esbuild at 2023-06-14T03:10:14.570Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -1915,6 +1915,14 @@ var isValid = (url = "") => {
     return false;
   }
 };
+var absolutify = (fullUrl = "", relativeUrl = "") => {
+  try {
+    const result = new URL(relativeUrl, fullUrl);
+    return result.toString();
+  } catch (err) {
+    return "";
+  }
+};
 var blacklistKeys = [
   "CNDID",
   "__twitter_impression",
@@ -2132,18 +2140,10 @@ var getLink = (val2 = [], id = "") => {
   };
   return isString(val2) ? getText(val2) : isObject(val2) && hasProperty(val2, "href") ? getText(val2.href) : isObject(val2) && hasProperty(val2, "@_href") ? getText(val2["@_href"]) : isObject(val2) && hasProperty(val2, "@_url") ? getText(val2["@_url"]) : isObject(val2) && hasProperty(val2, "_attributes") ? getText(val2._attributes.href) : isArray(val2) ? getEntryLink(val2) : "";
 };
-var getHref = (url, hostname) => {
-  let u = "";
-  try {
-    u = new URL(url, hostname).href;
-  } catch {
-  }
-  return u;
-};
-var getPureUrl = (url, id = "", hostname) => {
+var getPureUrl = (url, id = "", baseUrl) => {
   const link = getLink(url, id);
   const pu = purify(link);
-  return link ? pu ? pu : getHref(link, hostname) : "";
+  return link ? pu ? pu : absolutify(baseUrl, link) : "";
 };
 var hash = (str) => Math.abs(str.split("").reduce((s, c) => Math.imul(31, s) + c.charCodeAt(0) | 0, 0)).toString(36);
 var getEntryId = (id, url, pubDate) => {
@@ -2182,10 +2182,11 @@ var getOptionalTags = (val2, key) => {
 };
 
 // src/utils/parseJsonFeed.js
-var transform = (item, options, hostname) => {
+var transform = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
+    baseUrl,
     getExtraEntryFields
   } = options;
   const {
@@ -2202,7 +2203,7 @@ var transform = (item, options, hostname) => {
   const entry = {
     id: getEntryId(id, link, pubDate),
     title,
-    link: purify(link) || getHref(link, hostname),
+    link: purify(link) || absolutify(baseUrl, link),
     published,
     description: buildDescription(textContent || htmlContent || summary, descriptionMaxLen)
   };
@@ -2211,9 +2212,10 @@ var transform = (item, options, hostname) => {
     ...extraFields
   };
 };
-var parseJson = (data, options, hostname) => {
+var parseJson = (data, options) => {
   const {
     normalization,
+    baseUrl,
     getExtraFeedFields
   } = options;
   if (!normalization) {
@@ -2230,26 +2232,27 @@ var parseJson = (data, options, hostname) => {
   const items = isArray(item) ? item : [item];
   return {
     title,
-    link: purify(homepageUrl) || getHref(homepageUrl, hostname),
+    link: purify(homepageUrl) || absolutify(baseUrl, homepageUrl),
     description,
     language,
     published: "",
     generator: "",
     ...extraFields,
     entries: items.map((item2) => {
-      return transform(item2, options, hostname);
+      return transform(item2, options);
     })
   };
 };
-var parseJsonFeed_default = (data, options = {}, hostname) => {
-  return parseJson(data, options, hostname);
+var parseJsonFeed_default = (data, options = {}) => {
+  return parseJson(data, options);
 };
 
 // src/utils/parseRssFeed.js
-var transform2 = (item, options, hostname) => {
+var transform2 = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
+    baseUrl,
     getExtraEntryFields
   } = options;
   const {
@@ -2263,7 +2266,7 @@ var transform2 = (item, options, hostname) => {
   const entry = {
     id: getEntryId(guid, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link, guid, hostname),
+    link: getPureUrl(link, guid, baseUrl),
     published,
     description: buildDescription(description, descriptionMaxLen)
   };
@@ -2273,7 +2276,7 @@ var transform2 = (item, options, hostname) => {
     ...extraFields
   };
 };
-var flatten = (feed, hostname) => {
+var flatten = (feed, baseUrl) => {
   const {
     title = "",
     link = "",
@@ -2289,7 +2292,7 @@ var flatten = (feed, hostname) => {
     const item2 = {
       ...entry,
       title: getText(title2),
-      link: getPureUrl(link2, id, hostname)
+      link: getPureUrl(link2, id, baseUrl)
     };
     const txtTags = "guid description source".split(" ");
     txtTags.forEach((key) => {
@@ -2308,18 +2311,19 @@ var flatten = (feed, hostname) => {
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link, hostname),
+    link: getPureUrl(link, baseUrl),
     item: isArray(item) ? entries : entries[0]
   };
   return output;
 };
-var parseRss = (data, options = {}, hostname) => {
+var parseRss = (data, options = {}) => {
   const {
     normalization,
+    baseUrl,
     getExtraFeedFields
   } = options;
   if (!normalization) {
-    return flatten(data.rss.channel, hostname);
+    return flatten(data.rss.channel, baseUrl);
   }
   const {
     title = "",
@@ -2335,26 +2339,27 @@ var parseRss = (data, options = {}, hostname) => {
   const published = options.useISODateFormat ? toISODateString(lastBuildDate) : lastBuildDate;
   return {
     title: getText(title),
-    link: getPureUrl(link, "", hostname),
+    link: getPureUrl(link, "", baseUrl),
     description,
     language,
     generator,
     published,
     ...extraFields,
     entries: items.map((item2) => {
-      return transform2(item2, options, hostname);
+      return transform2(item2, options);
     })
   };
 };
-var parseRssFeed_default = (data, options = {}, hostname) => {
-  return parseRss(data, options, hostname);
+var parseRssFeed_default = (data, options = {}) => {
+  return parseRss(data, options);
 };
 
 // src/utils/parseAtomFeed.js
-var transform3 = (item, options, hostname) => {
+var transform3 = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
+    baseUrl,
     getExtraEntryFields
   } = options;
   const {
@@ -2373,7 +2378,7 @@ var transform3 = (item, options, hostname) => {
   const entry = {
     id: getEntryId(id, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link, id, hostname),
+    link: getPureUrl(link, id, baseUrl),
     published: useISODateFormat ? toISODateString(pubDate) : pubDate,
     description: buildDescription(htmlContent || summary, descriptionMaxLen)
   };
@@ -2383,7 +2388,7 @@ var transform3 = (item, options, hostname) => {
     ...extraFields
   };
 };
-var flatten2 = (feed, hostname) => {
+var flatten2 = (feed, baseUrl) => {
   const {
     id,
     title = "",
@@ -2402,7 +2407,7 @@ var flatten2 = (feed, hostname) => {
     const item = {
       ...entry2,
       title: getText(title2),
-      link: getPureUrl(link2, id2, hostname)
+      link: getPureUrl(link2, id2, baseUrl)
     };
     if (hasProperty(item, "summary")) {
       item.summary = getText(summary);
@@ -2415,18 +2420,19 @@ var flatten2 = (feed, hostname) => {
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link, id, hostname),
+    link: getPureUrl(link, id, baseUrl),
     entry: isArray(entry) ? items : items[0]
   };
   return output;
 };
-var parseAtom = (data, options = {}, hostname) => {
+var parseAtom = (data, options = {}) => {
   const {
     normalization,
+    baseUrl,
     getExtraFeedFields
   } = options;
   if (!normalization) {
-    return flatten2(data.feed, hostname);
+    return flatten2(data.feed, baseUrl);
   }
   const {
     id = "",
@@ -2443,19 +2449,19 @@ var parseAtom = (data, options = {}, hostname) => {
   const published = options.useISODateFormat ? toISODateString(updated) : updated;
   return {
     title: getText(title),
-    link: getPureUrl(link, id, hostname),
+    link: getPureUrl(link, id, baseUrl),
     description: subtitle,
     language,
     generator,
     published,
     ...extraFields,
     entries: items.map((item2) => {
-      return transform3(item2, options, hostname);
+      return transform3(item2, options);
     })
   };
 };
-var parseAtomFeed_default = (data, options = {}, hostname) => {
-  return parseAtom(data, options, hostname);
+var parseAtomFeed_default = (data, options = {}) => {
+  return parseAtom(data, options);
 };
 
 // src/main.js
@@ -2465,6 +2471,7 @@ var getopt = (options = {}) => {
     descriptionMaxLen = 210,
     useISODateFormat = true,
     xmlParserOptions = {},
+    baseUrl = "",
     getExtraFeedFields = () => ({}),
     getExtraEntryFields = () => ({})
   } = options;
@@ -2473,33 +2480,32 @@ var getopt = (options = {}) => {
     descriptionMaxLen,
     useISODateFormat,
     xmlParserOptions,
+    baseUrl,
     getExtraFeedFields,
     getExtraEntryFields
   };
 };
-var extractFromJson = (json, options = {}, hostname = "") => {
-  return parseJsonFeed_default(json, getopt(options), hostname);
+var extractFromJson = (json, options = {}) => {
+  return parseJsonFeed_default(json, getopt(options));
 };
-var extractFromXml = (xml, options = {}, hostname = "") => {
+var extractFromXml = (xml, options = {}) => {
   if (!validate(xml)) {
     throw new Error("The XML document is not well-formed");
   }
   const opts = getopt(options);
   const data = xml2obj(xml, opts.xmlParserOptions);
-  return isRSS(data) ? parseRssFeed_default(data, opts, hostname) : isAtom(data) ? parseAtomFeed_default(data, opts, hostname) : null;
+  return isRSS(data) ? parseRssFeed_default(data, opts) : isAtom(data) ? parseAtomFeed_default(data, opts) : null;
 };
 var extract = async (url, options = {}, fetchOptions = {}) => {
   if (!isValid(url)) {
     throw new Error("Input param must be a valid URL");
   }
-  const u = new URL(url);
-  const hostname = u.protocol + "//" + u.hostname;
   const data = await retrieve_default(url, fetchOptions);
   if (!data.text && !data.json) {
     throw new Error(`Failed to load content from "${url}"`);
   }
   const { type, json, text } = data;
-  return type === "json" ? extractFromJson(json, options, hostname) : extractFromXml(text, options, hostname);
+  return type === "json" ? extractFromJson(json, options) : extractFromXml(text, options);
 };
 var read = async (url, options, fetchOptions) => {
   console.warn("WARNING: read() is deprecated. Please use extract() instead!");

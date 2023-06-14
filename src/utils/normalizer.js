@@ -11,7 +11,7 @@ import {
 
 import { decode } from 'html-entities'
 
-import { isValid as isValidUrl, purify as purifyUrl } from './linker.js'
+import { absolutify, isValid as isValidUrl, purify as purifyUrl } from './linker.js'
 
 export const toISODateString = (dstr) => {
   try {
@@ -57,18 +57,6 @@ export const getLink = (val = [], id = '') => {
             : isArray(val) ? getEntryLink(val) : ''
 }
 
-export const getHref = (url, baseUrl) => {
-  let u = ''
-
-  try {
-    u = new URL(url, baseUrl).href
-  } catch {
-    //
-  }
-
-  return u
-}
-
 export const getPureUrl = (url, id = '', baseUrl) => {
   const link = getLink(url, id)
   const pu = purifyUrl(link)
@@ -76,7 +64,7 @@ export const getPureUrl = (url, id = '', baseUrl) => {
   return link
     ? pu
       ? pu
-      : getHref(link, baseUrl)
+      : absolutify(baseUrl, link)
     : ''
 }
 

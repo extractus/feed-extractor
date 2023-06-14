@@ -13,10 +13,11 @@ import {
   getEntryId
 } from './normalizer.js'
 
-const transform = (item, options, baseUrl) => {
+const transform = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
+    baseUrl,
     getExtraEntryFields,
   } = options
 
@@ -94,9 +95,10 @@ const flatten = (feed, baseUrl) => {
   return output
 }
 
-const parseRss = (data, options = {}, baseUrl) => {
+const parseRss = (data, options = {}) => {
   const {
     normalization,
+    baseUrl,
     getExtraFeedFields,
   } = options
 
@@ -129,11 +131,11 @@ const parseRss = (data, options = {}, baseUrl) => {
     published,
     ...extraFields,
     entries: items.map((item) => {
-      return transform(item, options, baseUrl)
+      return transform(item, options)
     }),
   }
 }
 
-export default (data, options = {}, baseUrl) => {
-  return parseRss(data, options, baseUrl)
+export default (data, options = {}) => {
+  return parseRss(data, options)
 }

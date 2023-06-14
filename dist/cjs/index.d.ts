@@ -48,6 +48,11 @@ export interface ReaderOptions {
    */
   xmlParserOptions?: any;
   /**
+   * fill in the baseurl when it does not exist in the link
+   * default: ''
+   */
+  baseUrl?: string;
+  /**
    * merge extra feed fields in result
    */
   getExtraFeedFields?: (feedData: object) => object;
@@ -72,8 +77,8 @@ export interface FetchOptions {
   proxy?: ProxyConfig;
 }
 
-export function extractFromXml(xml: string, options?: ReaderOptions, hostname?: string): FeedData;
-export function extractFromJson(json: string, options?: ReaderOptions, hostname?: string): FeedData;
+export function extractFromXml(xml: string, options?: ReaderOptions): FeedData;
+export function extractFromJson(json: string, options?: ReaderOptions): FeedData;
 
 export function extract(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;
 

@@ -336,11 +336,11 @@ describe('test extract() without normalization', () => {
   })
 })
 
-describe('test extract with base url is not included', () => {
+describe('test extract with `baseUrl` option', () => {
   test('extract rss feed with xml', () => {
     const baseUrl = 'https://huggingface.co'
     const xml = readFileSync('test-data/rss-feed-miss-base-url.xml', 'utf8')
-    const result = extractFromXml(xml, {}, baseUrl)
+    const result = extractFromXml(xml, { baseUrl })
 
     feedAttrs.forEach((k) => {
       expect(hasProperty(result, k)).toBe(true)
@@ -358,7 +358,7 @@ describe('test extract with base url is not included', () => {
   test('extract rss feed with json', () => {
     const baseUrl = 'https://www.jsonfeed.org'
     const json = readFileSync('test-data/json-feed-miss-base-url.json', 'utf8')
-    const result = extractFromJson(JSON.parse(json), {}, baseUrl)
+    const result = extractFromJson(JSON.parse(json), { baseUrl })
 
     feedAttrs.forEach((k) => {
       expect(hasProperty(result, k)).toBe(true)
@@ -379,7 +379,7 @@ describe('test extract with base url is not included', () => {
     nock(baseUrl).get(path).reply(200, xml, {
       'Content-Type': 'application/xml',
     })
-    const result = await extract(url)
+    const result = await extract(url, { baseUrl })
 
     feedAttrs.forEach((k) => {
       expect(hasProperty(result, k)).toBe(true)
