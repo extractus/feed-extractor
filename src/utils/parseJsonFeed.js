@@ -13,7 +13,7 @@ import {
 
 import { purify as purifyUrl } from './linker.js'
 
-const transform = (item, options, hostname) => {
+const transform = (item, options, baseUrl) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
@@ -36,7 +36,7 @@ const transform = (item, options, hostname) => {
   const entry = {
     id: getEntryId(id, link, pubDate),
     title,
-    link: purifyUrl(link) || getHref(link, hostname),
+    link: purifyUrl(link) || getHref(link, baseUrl),
     published,
     description: buildDescription(textContent || htmlContent || summary, descriptionMaxLen),
   }
@@ -47,7 +47,7 @@ const transform = (item, options, hostname) => {
   }
 }
 
-const parseJson = (data, options, hostname) => {
+const parseJson = (data, options, baseUrl) => {
   const {
     normalization,
     getExtraFeedFields,
@@ -71,18 +71,18 @@ const parseJson = (data, options, hostname) => {
 
   return {
     title,
-    link: purifyUrl(homepageUrl) || getHref(homepageUrl, hostname),
+    link: purifyUrl(homepageUrl) || getHref(homepageUrl, baseUrl),
     description,
     language,
     published: '',
     generator: '',
     ...extraFields,
     entries: items.map((item) => {
-      return transform(item, options, hostname)
+      return transform(item, options, baseUrl)
     }),
   }
 }
 
-export default (data, options = {}, hostname) => {
-  return parseJson(data, options, hostname)
+export default (data, options = {}, baseUrl) => {
+  return parseJson(data, options, baseUrl)
 }

@@ -336,11 +336,11 @@ describe('test extract() without normalization', () => {
   })
 })
 
-describe('test extract with hostname is not included', () => {
+describe('test extract with base url is not included', () => {
   test('extract rss feed with xml', () => {
-    const hostname = 'https://huggingface.co'
-    const xml = readFileSync('test-data/rss-feed-miss-hostname.xml', 'utf8')
-    const result = extractFromXml(xml, {}, hostname)
+    const baseUrl = 'https://huggingface.co'
+    const xml = readFileSync('test-data/rss-feed-miss-base-url.xml', 'utf8')
+    const result = extractFromXml(xml, {}, baseUrl)
 
     feedAttrs.forEach((k) => {
       expect(hasProperty(result, k)).toBe(true)
@@ -351,14 +351,14 @@ describe('test extract with hostname is not included', () => {
     })
 
     expect(validateProps(result.entries[0])).toBe(true)
-    expect(result.link).toBe(hostname + '/blog')
-    expect(result.entries[0].link).toBe(hostname + '/blog/intro-graphml')
+    expect(result.link).toBe(baseUrl + '/blog')
+    expect(result.entries[0].link).toBe(baseUrl + '/blog/intro-graphml')
   })
 
   test('extract rss feed with json', () => {
-    const hostname = 'https://www.jsonfeed.org'
-    const json = readFileSync('test-data/json-feed-miss-hostname.json', 'utf8')
-    const result = extractFromJson(JSON.parse(json), {}, hostname)
+    const baseUrl = 'https://www.jsonfeed.org'
+    const json = readFileSync('test-data/json-feed-miss-base-url.json', 'utf8')
+    const result = extractFromJson(JSON.parse(json), {}, baseUrl)
 
     feedAttrs.forEach((k) => {
       expect(hasProperty(result, k)).toBe(true)
@@ -368,14 +368,13 @@ describe('test extract with hostname is not included', () => {
       expect(hasProperty(result.entries[0], k)).toBe(true)
     })
 
-    expect(result.link).toBe(hostname + '/')
-    expect(result.entries[0].link).toBe(hostname + '/2020/08/07/json-feed-version.html')
+    expect(result.link).toBe(baseUrl + '/')
+    expect(result.entries[0].link).toBe(baseUrl + '/2020/08/07/json-feed-version.html')
   })
 
   test('extract rss feed with url', async () => {
     const url = 'https://huggingface.co/blog/rss'
-    const hostname = 'https://huggingface.co'
-    const xml = readFileSync('test-data/rss-feed-miss-hostname.xml', 'utf8')
+    const xml = readFileSync('test-data/rss-feed-miss-base-url.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
       'Content-Type': 'application/xml',
@@ -391,8 +390,8 @@ describe('test extract with hostname is not included', () => {
     })
 
     expect(validateProps(result.entries[0])).toBe(true)
-    expect(result.link).toBe(hostname + '/blog')
-    expect(result.entries[0].link).toBe(hostname + '/blog/intro-graphml')
+    expect(result.link).toBe(baseUrl + '/blog')
+    expect(result.entries[0].link).toBe(baseUrl + '/blog/intro-graphml')
   })
 })
 

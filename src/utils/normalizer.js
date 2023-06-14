@@ -57,11 +57,11 @@ export const getLink = (val = [], id = '') => {
             : isArray(val) ? getEntryLink(val) : ''
 }
 
-export const getHref = (url, hostname) => {
+export const getHref = (url, baseUrl) => {
   let u = ''
 
   try {
-    u = new URL(url, hostname).href
+    u = new URL(url, baseUrl).href
   } catch {
     //
   }
@@ -69,14 +69,14 @@ export const getHref = (url, hostname) => {
   return u
 }
 
-export const getPureUrl = (url, id = '', hostname) => {
+export const getPureUrl = (url, id = '', baseUrl) => {
   const link = getLink(url, id)
   const pu = purifyUrl(link)
 
   return link
     ? pu
       ? pu
-      : getHref(link, hostname)
+      : getHref(link, baseUrl)
     : ''
 }
 

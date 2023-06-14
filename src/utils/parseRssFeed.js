@@ -13,7 +13,7 @@ import {
   getEntryId
 } from './normalizer.js'
 
-const transform = (item, options, hostname) => {
+const transform = (item, options, baseUrl) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
@@ -33,7 +33,7 @@ const transform = (item, options, hostname) => {
   const entry = {
     id: getEntryId(guid, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link, guid, hostname),
+    link: getPureUrl(link, guid, baseUrl),
     published,
     description: buildDescription(description, descriptionMaxLen),
   }
@@ -46,7 +46,7 @@ const transform = (item, options, hostname) => {
   }
 }
 
-const flatten = (feed, hostname) => {
+const flatten = (feed, baseUrl) => {
   const {
     title = '',
     link = '',
@@ -64,7 +64,7 @@ const flatten = (feed, hostname) => {
     const item = {
       ...entry,
       title: getText(title),
-      link: getPureUrl(link, id, hostname),
+      link: getPureUrl(link, id, baseUrl),
     }
 
     const txtTags = 'guid description source'.split(' ')
@@ -88,20 +88,20 @@ const flatten = (feed, hostname) => {
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link, hostname),
+    link: getPureUrl(link, baseUrl),
     item: isArray(item) ? entries : entries[0],
   }
   return output
 }
 
-const parseRss = (data, options = {}, hostname) => {
+const parseRss = (data, options = {}, baseUrl) => {
   const {
     normalization,
     getExtraFeedFields,
   } = options
 
   if (!normalization) {
-    return flatten(data.rss.channel, hostname)
+    return flatten(data.rss.channel, baseUrl)
   }
 
   const {
@@ -122,18 +122,18 @@ const parseRss = (data, options = {}, hostname) => {
 
   return {
     title: getText(title),
-    link: getPureUrl(link, '', hostname),
+    link: getPureUrl(link, '', baseUrl),
     description,
     language,
     generator,
     published,
     ...extraFields,
     entries: items.map((item) => {
-      return transform(item, options, hostname)
+      return transform(item, options, baseUrl)
     }),
   }
 }
 
-export default (data, options = {}, hostname) => {
-  return parseRss(data, options, hostname)
+export default (data, options = {}, baseUrl) => {
+  return parseRss(data, options, baseUrl)
 }

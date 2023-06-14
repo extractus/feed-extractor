@@ -13,7 +13,7 @@ import {
   getEntryId
 } from './normalizer.js'
 
-const transform = (item, options, hostname) => {
+const transform = (item, options, baseUrl) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
@@ -37,7 +37,7 @@ const transform = (item, options, hostname) => {
   const entry = {
     id: getEntryId(id, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link, id, hostname),
+    link: getPureUrl(link, id, baseUrl),
     published: useISODateFormat ? toISODateString(pubDate) : pubDate,
     description: buildDescription(htmlContent || summary, descriptionMaxLen),
   }
@@ -50,7 +50,7 @@ const transform = (item, options, hostname) => {
   }
 }
 
-const flatten = (feed, hostname) => {
+const flatten = (feed, baseUrl) => {
   const {
     id,
     title = '',
@@ -70,7 +70,7 @@ const flatten = (feed, hostname) => {
     const item = {
       ...entry,
       title: getText(title),
-      link: getPureUrl(link, id, hostname),
+      link: getPureUrl(link, id, baseUrl),
     }
     if (hasProperty(item, 'summary')) {
       item.summary = getText(summary)
@@ -84,20 +84,20 @@ const flatten = (feed, hostname) => {
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link, id, hostname),
+    link: getPureUrl(link, id, baseUrl),
     entry: isArray(entry) ? items : items[0],
   }
   return output
 }
 
-const parseAtom = (data, options = {}, hostname) => {
+const parseAtom = (data, options = {}, baseUrl) => {
   const {
     normalization,
     getExtraFeedFields,
   } = options
 
   if (!normalization) {
-    return flatten(data.feed, hostname)
+    return flatten(data.feed, baseUrl)
   }
 
   const {
@@ -119,18 +119,18 @@ const parseAtom = (data, options = {}, hostname) => {
 
   return {
     title: getText(title),
-    link: getPureUrl(link, id, hostname),
+    link: getPureUrl(link, id, baseUrl),
     description: subtitle,
     language,
     generator,
     published,
     ...extraFields,
     entries: items.map((item) => {
-      return transform(item, options, hostname)
+      return transform(item, options, baseUrl)
     }),
   }
 }
 
-export default (data, options = {}, hostname) => {
-  return parseAtom(data, options, hostname)
+export default (data, options = {}, baseUrl) => {
+  return parseAtom(data, options, baseUrl)
 }
