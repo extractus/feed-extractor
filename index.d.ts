@@ -48,6 +48,11 @@ export interface ReaderOptions {
    */
   xmlParserOptions?: any;
   /**
+   * fill in the baseurl when it does not exist in the link
+   * default: ''
+   */
+  baseUrl?: string;
+  /**
    * merge extra feed fields in result
    */
   getExtraFeedFields?: (feedData: object) => object;

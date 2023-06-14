@@ -1,4 +1,4 @@
-// @extractus/feed-extractor@6.2.2, by @extractus - built with esbuild at 2023-05-11T13:00:40.815Z - published under MIT license
+// @extractus/feed-extractor@6.2.2, by @extractus - built with esbuild at 2023-06-14T03:10:14.570Z - published under MIT license
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -1915,6 +1915,14 @@ var isValid = (url = "") => {
     return false;
   }
 };
+var absolutify = (fullUrl = "", relativeUrl = "") => {
+  try {
+    const result = new URL(relativeUrl, fullUrl);
+    return result.toString();
+  } catch (err) {
+    return "";
+  }
+};
 var blacklistKeys = [
   "CNDID",
   "__twitter_impression",
@@ -2132,9 +2140,10 @@ var getLink = (val2 = [], id = "") => {
   };
   return isString(val2) ? getText(val2) : isObject(val2) && hasProperty(val2, "href") ? getText(val2.href) : isObject(val2) && hasProperty(val2, "@_href") ? getText(val2["@_href"]) : isObject(val2) && hasProperty(val2, "@_url") ? getText(val2["@_url"]) : isObject(val2) && hasProperty(val2, "_attributes") ? getText(val2._attributes.href) : isArray(val2) ? getEntryLink(val2) : "";
 };
-var getPureUrl = (url, id = "") => {
+var getPureUrl = (url, id = "", baseUrl) => {
   const link = getLink(url, id);
-  return link ? purify(link) : "";
+  const pu = purify(link);
+  return link ? pu ? pu : absolutify(baseUrl, link) : "";
 };
 var hash = (str) => Math.abs(str.split("").reduce((s, c) => Math.imul(31, s) + c.charCodeAt(0) | 0, 0)).toString(36);
 var getEntryId = (id, url, pubDate) => {
@@ -2177,6 +2186,7 @@ var transform = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
+    baseUrl,
     getExtraEntryFields
   } = options;
   const {
@@ -2193,7 +2203,7 @@ var transform = (item, options) => {
   const entry = {
     id: getEntryId(id, link, pubDate),
     title,
-    link: purify(link),
+    link: purify(link) || absolutify(baseUrl, link),
     published,
     description: buildDescription(textContent || htmlContent || summary, descriptionMaxLen)
   };
@@ -2205,6 +2215,7 @@ var transform = (item, options) => {
 var parseJson = (data, options) => {
   const {
     normalization,
+    baseUrl,
     getExtraFeedFields
   } = options;
   if (!normalization) {
@@ -2221,7 +2232,7 @@ var parseJson = (data, options) => {
   const items = isArray(item) ? item : [item];
   return {
     title,
-    link: purify(homepageUrl),
+    link: purify(homepageUrl) || absolutify(baseUrl, homepageUrl),
     description,
     language,
     published: "",
@@ -2241,6 +2252,7 @@ var transform2 = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
+    baseUrl,
     getExtraEntryFields
   } = options;
   const {
@@ -2254,7 +2266,7 @@ var transform2 = (item, options) => {
   const entry = {
     id: getEntryId(guid, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link, guid),
+    link: getPureUrl(link, guid, baseUrl),
     published,
     description: buildDescription(description, descriptionMaxLen)
   };
@@ -2264,7 +2276,7 @@ var transform2 = (item, options) => {
     ...extraFields
   };
 };
-var flatten = (feed) => {
+var flatten = (feed, baseUrl) => {
   const {
     title = "",
     link = "",
@@ -2280,7 +2292,7 @@ var flatten = (feed) => {
     const item2 = {
       ...entry,
       title: getText(title2),
-      link: getPureUrl(link2, id)
+      link: getPureUrl(link2, id, baseUrl)
     };
     const txtTags = "guid description source".split(" ");
     txtTags.forEach((key) => {
@@ -2299,7 +2311,7 @@ var flatten = (feed) => {
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link),
+    link: getPureUrl(link, baseUrl),
     item: isArray(item) ? entries : entries[0]
   };
   return output;
@@ -2307,10 +2319,11 @@ var flatten = (feed) => {
 var parseRss = (data, options = {}) => {
   const {
     normalization,
+    baseUrl,
     getExtraFeedFields
   } = options;
   if (!normalization) {
-    return flatten(data.rss.channel);
+    return flatten(data.rss.channel, baseUrl);
   }
   const {
     title = "",
@@ -2326,7 +2339,7 @@ var parseRss = (data, options = {}) => {
   const published = options.useISODateFormat ? toISODateString(lastBuildDate) : lastBuildDate;
   return {
     title: getText(title),
-    link: getPureUrl(link),
+    link: getPureUrl(link, "", baseUrl),
     description,
     language,
     generator,
@@ -2346,6 +2359,7 @@ var transform3 = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
+    baseUrl,
     getExtraEntryFields
   } = options;
   const {
@@ -2364,7 +2378,7 @@ var transform3 = (item, options) => {
   const entry = {
     id: getEntryId(id, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link, id),
+    link: getPureUrl(link, id, baseUrl),
     published: useISODateFormat ? toISODateString(pubDate) : pubDate,
     description: buildDescription(htmlContent || summary, descriptionMaxLen)
   };
@@ -2374,7 +2388,7 @@ var transform3 = (item, options) => {
     ...extraFields
   };
 };
-var flatten2 = (feed) => {
+var flatten2 = (feed, baseUrl) => {
   const {
     id,
     title = "",
@@ -2393,7 +2407,7 @@ var flatten2 = (feed) => {
     const item = {
       ...entry2,
       title: getText(title2),
-      link: getPureUrl(link2, id2)
+      link: getPureUrl(link2, id2, baseUrl)
     };
     if (hasProperty(item, "summary")) {
       item.summary = getText(summary);
@@ -2406,7 +2420,7 @@ var flatten2 = (feed) => {
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link, id),
+    link: getPureUrl(link, id, baseUrl),
     entry: isArray(entry) ? items : items[0]
   };
   return output;
@@ -2414,10 +2428,11 @@ var flatten2 = (feed) => {
 var parseAtom = (data, options = {}) => {
   const {
     normalization,
+    baseUrl,
     getExtraFeedFields
   } = options;
   if (!normalization) {
-    return flatten2(data.feed);
+    return flatten2(data.feed, baseUrl);
   }
   const {
     id = "",
@@ -2434,7 +2449,7 @@ var parseAtom = (data, options = {}) => {
   const published = options.useISODateFormat ? toISODateString(updated) : updated;
   return {
     title: getText(title),
-    link: getPureUrl(link, id),
+    link: getPureUrl(link, id, baseUrl),
     description: subtitle,
     language,
     generator,
@@ -2456,6 +2471,7 @@ var getopt = (options = {}) => {
     descriptionMaxLen = 210,
     useISODateFormat = true,
     xmlParserOptions = {},
+    baseUrl = "",
     getExtraFeedFields = () => ({}),
     getExtraEntryFields = () => ({})
   } = options;
@@ -2464,6 +2480,7 @@ var getopt = (options = {}) => {
     descriptionMaxLen,
     useISODateFormat,
     xmlParserOptions,
+    baseUrl,
     getExtraFeedFields,
     getExtraEntryFields
   };

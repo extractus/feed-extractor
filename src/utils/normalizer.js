@@ -11,7 +11,7 @@ import {
 
 import { decode } from 'html-entities'
 
-import { isValid as isValidUrl, purify as purifyUrl } from './linker.js'
+import { absolutify, isValid as isValidUrl, purify as purifyUrl } from './linker.js'
 
 export const toISODateString = (dstr) => {
   try {
@@ -57,9 +57,15 @@ export const getLink = (val = [], id = '') => {
             : isArray(val) ? getEntryLink(val) : ''
 }
 
-export const getPureUrl = (url, id = '') => {
+export const getPureUrl = (url, id = '', baseUrl) => {
   const link = getLink(url, id)
-  return link ? purifyUrl(link) : ''
+  const pu = purifyUrl(link)
+
+  return link
+    ? pu
+      ? pu
+      : absolutify(baseUrl, link)
+    : ''
 }
 
 const hash = (str) => Math.abs(str.split('').reduce((s, c) => Math.imul(31, s) + c.charCodeAt(0) | 0, 0)).toString(36)

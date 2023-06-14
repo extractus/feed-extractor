@@ -7,7 +7,7 @@ import nock from 'nock'
 
 import { hasProperty, isString } from 'bellajs'
 
-import { extract, read } from './main.js'
+import { extract, extractFromXml, extractFromJson, read } from './main.js'
 import { isValid as isValidUrl } from './utils/linker.js'
 
 const feedAttrs = 'title link description generator language published entries'.split(' ')
@@ -333,6 +333,65 @@ describe('test extract() without normalization', () => {
     })
     expect(hasProperty(result, 'itunes:owner')).toBe(true)
     expect(hasProperty(result.item[0], 'itunes:duration')).toBe(true)
+  })
+})
+
+describe('test extract with `baseUrl` option', () => {
+  test('extract rss feed with xml', () => {
+    const baseUrl = 'https://huggingface.co'
+    const xml = readFileSync('test-data/rss-feed-miss-base-url.xml', 'utf8')
+    const result = extractFromXml(xml, { baseUrl })
+
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(result, k)).toBe(true)
+    })
+
+    entryAttrs.forEach((k) => {
+      expect(hasProperty(result.entries[0], k)).toBe(true)
+    })
+
+    expect(validateProps(result.entries[0])).toBe(true)
+    expect(result.link).toBe(baseUrl + '/blog')
+    expect(result.entries[0].link).toBe(baseUrl + '/blog/intro-graphml')
+  })
+
+  test('extract rss feed with json', () => {
+    const baseUrl = 'https://www.jsonfeed.org'
+    const json = readFileSync('test-data/json-feed-miss-base-url.json', 'utf8')
+    const result = extractFromJson(JSON.parse(json), { baseUrl })
+
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(result, k)).toBe(true)
+    })
+
+    entryAttrs.forEach((k) => {
+      expect(hasProperty(result.entries[0], k)).toBe(true)
+    })
+
+    expect(result.link).toBe(baseUrl + '/')
+    expect(result.entries[0].link).toBe(baseUrl + '/2020/08/07/json-feed-version.html')
+  })
+
+  test('extract rss feed with url', async () => {
+    const url = 'https://huggingface.co/blog/rss'
+    const xml = readFileSync('test-data/rss-feed-miss-base-url.xml', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, xml, {
+      'Content-Type': 'application/xml',
+    })
+    const result = await extract(url, { baseUrl })
+
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(result, k)).toBe(true)
+    })
+
+    entryAttrs.forEach((k) => {
+      expect(hasProperty(result.entries[0], k)).toBe(true)
+    })
+
+    expect(validateProps(result.entries[0])).toBe(true)
+    expect(result.link).toBe(baseUrl + '/blog')
+    expect(result.entries[0].link).toBe(baseUrl + '/blog/intro-graphml')
   })
 })
 
