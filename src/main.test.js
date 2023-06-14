@@ -374,7 +374,7 @@ describe('test extract with hostname is not included', () => {
 
   test('extract rss feed with url', async () => {
     const url = 'https://huggingface.co/blog/rss'
-    const hostname = "https://huggingface.co"
+    const hostname = 'https://huggingface.co'
     const xml = readFileSync('test-data/rss-feed-miss-hostname.xml', 'utf8')
     const { baseUrl, path } = parseUrl(url)
     nock(baseUrl).get(path).reply(200, xml, {
