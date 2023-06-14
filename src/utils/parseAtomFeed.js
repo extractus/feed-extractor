@@ -17,6 +17,7 @@ const transform = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
+    baseUrl,
     getExtraEntryFields,
   } = options
 
@@ -37,7 +38,7 @@ const transform = (item, options) => {
   const entry = {
     id: getEntryId(id, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link, id),
+    link: getPureUrl(link, id, baseUrl),
     published: useISODateFormat ? toISODateString(pubDate) : pubDate,
     description: buildDescription(htmlContent || summary, descriptionMaxLen),
   }
@@ -50,7 +51,7 @@ const transform = (item, options) => {
   }
 }
 
-const flatten = (feed) => {
+const flatten = (feed, baseUrl) => {
   const {
     id,
     title = '',
@@ -70,7 +71,7 @@ const flatten = (feed) => {
     const item = {
       ...entry,
       title: getText(title),
-      link: getPureUrl(link, id),
+      link: getPureUrl(link, id, baseUrl),
     }
     if (hasProperty(item, 'summary')) {
       item.summary = getText(summary)
@@ -84,7 +85,7 @@ const flatten = (feed) => {
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link, id),
+    link: getPureUrl(link, id, baseUrl),
     entry: isArray(entry) ? items : items[0],
   }
   return output
@@ -93,11 +94,12 @@ const flatten = (feed) => {
 const parseAtom = (data, options = {}) => {
   const {
     normalization,
+    baseUrl,
     getExtraFeedFields,
   } = options
 
   if (!normalization) {
-    return flatten(data.feed)
+    return flatten(data.feed, baseUrl)
   }
 
   const {
@@ -119,7 +121,7 @@ const parseAtom = (data, options = {}) => {
 
   return {
     title: getText(title),
-    link: getPureUrl(link, id),
+    link: getPureUrl(link, id, baseUrl),
     description: subtitle,
     language,
     generator,

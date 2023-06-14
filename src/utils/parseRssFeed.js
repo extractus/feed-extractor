@@ -17,6 +17,7 @@ const transform = (item, options) => {
   const {
     useISODateFormat,
     descriptionMaxLen,
+    baseUrl,
     getExtraEntryFields,
   } = options
 
@@ -33,7 +34,7 @@ const transform = (item, options) => {
   const entry = {
     id: getEntryId(guid, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link, guid),
+    link: getPureUrl(link, guid, baseUrl),
     published,
     description: buildDescription(description, descriptionMaxLen),
   }
@@ -46,7 +47,7 @@ const transform = (item, options) => {
   }
 }
 
-const flatten = (feed) => {
+const flatten = (feed, baseUrl) => {
   const {
     title = '',
     link = '',
@@ -64,7 +65,7 @@ const flatten = (feed) => {
     const item = {
       ...entry,
       title: getText(title),
-      link: getPureUrl(link, id),
+      link: getPureUrl(link, id, baseUrl),
     }
 
     const txtTags = 'guid description source'.split(' ')
@@ -88,7 +89,7 @@ const flatten = (feed) => {
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link),
+    link: getPureUrl(link, baseUrl),
     item: isArray(item) ? entries : entries[0],
   }
   return output
@@ -97,11 +98,12 @@ const flatten = (feed) => {
 const parseRss = (data, options = {}) => {
   const {
     normalization,
+    baseUrl,
     getExtraFeedFields,
   } = options
 
   if (!normalization) {
-    return flatten(data.rss.channel)
+    return flatten(data.rss.channel, baseUrl)
   }
 
   const {
@@ -122,7 +124,7 @@ const parseRss = (data, options = {}) => {
 
   return {
     title: getText(title),
-    link: getPureUrl(link),
+    link: getPureUrl(link, '', baseUrl),
     description,
     language,
     generator,
