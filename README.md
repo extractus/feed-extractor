@@ -134,6 +134,7 @@ Object with all or several of the following properties:
   - `xmlParserOptions`: Object, used by xml parser, view [fast-xml-parser's docs](https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/docs/v4/2.XMLparseOptions.md)
   - `getExtraFeedFields`: Function, to get more fields from feed data
   - `getExtraEntryFields`: Function, to get more fields from feed entry data
+  - `baseUrl`: URL string, to absolutify the links within feed content
 
 For example:
 
