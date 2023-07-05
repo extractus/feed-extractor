@@ -214,6 +214,26 @@ await extract(url, null, {
 Passing requests to proxy is useful while running `@extractus/feed-extractor` on browser.
 View `examples/browser-feed-reader` as reference example.
 
+Another way to work with proxy is use `agent` option instead of `proxy` as below:
+
+```js
+import { extract } from '@extractus/feed-extractor'
+
+import { HttpsProxyAgent } from 'https-proxy-agent'
+
+const proxy = 'http://abc:RaNdoMpasswORd_country-France@proxy.packetstream.io:31113'
+
+const url = 'https://news.google.com/rss'
+
+const feed = await extract(url, null, {
+  agent: new HttpsProxyAgent(proxy),
+})
+console.log('Run feed-extractor with proxy:', proxy)
+console.log(feed)
+```
+
+For more info about [https-proxy-agent](https://www.npmjs.com/package/https-proxy-agent), check [its repo](https://github.com/TooTallNate/proxy-agents).
+
 
 ### `extractFromJson()`
 

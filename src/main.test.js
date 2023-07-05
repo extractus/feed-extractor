@@ -4,11 +4,15 @@
 import { readFileSync } from 'fs'
 
 import nock from 'nock'
+import { HttpsProxyAgent } from 'https-proxy-agent'
 
 import { hasProperty, isString } from 'bellajs'
 
 import { extract, extractFromXml, extractFromJson, read } from './main.js'
 import { isValid as isValidUrl } from './utils/linker.js'
+
+const env = process.env || {}
+const PROXY_SERVER = env.PROXY_SERVER || ''
 
 const feedAttrs = 'title link description generator language published entries'.split(' ')
 const entryAttrs = 'title link description published id'.split(' ')
@@ -394,6 +398,19 @@ describe('test extract with `baseUrl` option', () => {
     expect(result.entries[0].link).toBe(baseUrl + '/blog/intro-graphml')
   })
 })
+
+if (PROXY_SERVER !== '') {
+  describe('test extract live RSS via proxy server', () => {
+    test('check if extract method works with proxy server', async () => {
+      const url = 'https://news.google.com/rss'
+      const result = await extract(url, {}, {
+        agent: new HttpsProxyAgent(PROXY_SERVER),
+      })
+      expect(result.title).toContain('Google News')
+      expect(result.entries.length).toBeGreaterThan(0)
+    }, 10000)
+  })
+}
 
 describe('check old method read()', () => {
   test('ensure that depricated method read() still works', async () => {
