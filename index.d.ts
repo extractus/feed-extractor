@@ -75,6 +75,11 @@ export interface FetchOptions {
   referrerPolicy?: "referrer" | "no-referrer-when-downgrade" | "origin" | "origin-when-cross-origin" | "unsafe-url";
   integrity?: any;
   proxy?: ProxyConfig;
+  /**
+   * http proxy agent
+   * default: null
+   */
+  agent?: object;
 }
 
 export function extractFromXml(xml: string, options?: ReaderOptions): FeedData;
