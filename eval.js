@@ -5,10 +5,12 @@ import { read } from './src/main.js'
 
 const run = async (url) => {
   try {
-    const art = await read(url)
-    console.log(art)
+    console.time('extract-feed')
+    const feed = await read(url)
+    console.log(feed)
+    console.timeEnd('extract-feed')
   } catch (err) {
-    console.trace(err)
+    console.log(err.message)
   }
 }
 

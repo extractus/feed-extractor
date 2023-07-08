@@ -7,7 +7,7 @@ With `deno`, we have not much thing to do. Just start the server:
 deno cache --reload index.ts
 
 # start server
-deno run --allow-net --allow-env --allow-read index.ts
+deno task dev
 ```
 
 Open `http://localhost:3103/?url=https://news.google.com/rss` to see the result.

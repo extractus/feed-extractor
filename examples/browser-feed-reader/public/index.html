@@ -27,7 +27,7 @@
           <fieldset>
             <legend>enter feed url</legend>
             <p>
-              <input id="input_url" type="url" value="https://feeds.washingtonpost.com/rss/business/technology">
+              <input id="input_url" type="url" value="https://feeds.feedblitz.com/baeldung/cs&x=1">
             </p>
             <p>
               <label><input type="checkbox" id="ckb_proxy"> Use proxy</label>
@@ -45,7 +45,7 @@
     </div>
   </body>
   <script type="module">
-    import { extract } from 'https://unpkg.com/@extractus/feed-extractor@latest/dist/feed-extractor.esm.js'
+    import { extract } from "https://esm.sh/@extractus/feed-extractor@latest"
 
     const loadFeed = async (url, useProxy = false) => {
       const data = await extract(url, {

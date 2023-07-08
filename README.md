@@ -174,9 +174,14 @@ await extract('https://news.google.com/rss', {
 
 ##### `fetchOptions` *optional*
 
-You can use this param to set request headers to fetch.
+`fetchOptions` is an object that can have the following properties:
 
-For example:
+- `headers`: to set request headers
+- `proxy`: another endpoint to forward the request to
+- `agent`: a HTTP proxy agent
+- `signal`: AbortController signal or AbortSignal timeout to terminate the request
+
+For example, you can use this param to set request headers to fetch as below:
 
 ```js
 import { extract } from '@extractus/feed-extractor'
@@ -233,6 +238,37 @@ console.log(feed)
 ```
 
 For more info about [https-proxy-agent](https://www.npmjs.com/package/https-proxy-agent), check [its repo](https://github.com/TooTallNate/proxy-agents).
+
+By default, there is no request timeout. You can use the option `signal` to cancel request at the right time.
+
+The common way is to use AbortControler:
+
+```js
+const controller = new AbortController()
+
+// stop after 5 seconds
+setTimeout(() => {
+  controller.abort()
+}, 5000)
+
+const data = await extract(url, null, {
+  signal: controller.signal,
+})
+```
+
+A newer solution is AbortSignal's `timeout()` static method:
+
+```js
+// stop after 5 seconds
+const data = await extract(url, null, {
+  signal: AbortSignal.timeout(5000),
+})
+```
+
+For more info:
+
+- [AbortController constructor](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)
+- [AbortSignal: timeout() static method](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal/timeout_static)
 
 
 ### `extractFromJson()`
