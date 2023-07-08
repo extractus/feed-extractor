@@ -80,6 +80,11 @@ export interface FetchOptions {
    * default: null
    */
   agent?: object;
+  /**
+   * signal to terminate request
+   * default: null
+   */
+  signal?: object;
 }
 
 export function extractFromXml(xml: string, options?: ReaderOptions): FeedData;

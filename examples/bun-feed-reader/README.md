@@ -9,7 +9,7 @@ bun install
 Start server:
 
 ```bash
-bun run index.ts
+bun start
 ```
 
 Open `http://localhost:3103/?url=https://news.google.com/rss` to see the result.

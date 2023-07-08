@@ -21,7 +21,7 @@ Open `http://localhost:3103/` to test.
 Basically `feed-extractor` only works at server side.
 
 However there are some noble publishers those enable `Access-Control-Allow-Origin` on their service.
-For example with feed resource from [Washington Post](https://feeds.washingtonpost.com/rss/business/technology), [Decrypt](https://decrypt.co/feed) or [FeedBlitz](https://feeds.feedblitz.com/baeldung/cs&x=1) we can read from browser.
+For example with feed resource from [FeedBlitz](https://feeds.feedblitz.com/baeldung/cs&x=1) we can read from browser.
 
 Another ideal environment to run `feed-extractor` directly is browser extensions.
 
