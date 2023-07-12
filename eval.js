@@ -1,12 +1,12 @@
 // eval.js
 // to quickly test with a single url or file
 
-import { read } from './src/main.js'
+import { extract } from './src/main.js'
 
 const run = async (url) => {
   try {
     console.time('extract-feed')
-    const feed = await read(url)
+    const feed = await extract(url)
     console.log(feed)
     console.timeEnd('extract-feed')
   } catch (err) {

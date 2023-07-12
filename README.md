@@ -23,14 +23,7 @@ npm i @extractus/feed-extractor
 ```
 
 ```ts
-// es6 module
 import { extract } from '@extractus/feed-extractor'
-
-// CommonJS
-const { extract } = require('@extractus/feed-extractor')
-
-// you can specify exactly path to CommonJS version
-const { extract } = require('@extractus/feed-extractor/dist/cjs/feed-extractor.js')
 
 // extract a RSS
 const result = await extract('https://news.google.com/rss')
@@ -50,7 +43,7 @@ import { extract } from 'npm:@extractus/feed-extractor'
 ### Browser
 
 ```ts
-import { extract } from 'https://unpkg.com/@extractus/feed-extractor@latest/dist/feed-extractor.esm.js'
+import { extract } from 'https://esm.sh/@extractus/feed-extractor'
 ```
 
 Please check [the examples](https://github.com/extractus/feed-extractor/tree/main/examples) for reference.
@@ -354,8 +347,8 @@ See [parserOptions](#parseroptions-optional) above.
 ```bash
 git clone https://github.com/extractus/feed-extractor.git
 cd feed-extractor
-npm i
-npm test
+pnpm i
+pnpm test
 ```
 
 ![feed-extractor-test.png](https://i.imgur.com/2b5xt6S.png)
@@ -366,9 +359,8 @@ npm test
 ```bash
 git clone https://github.com/extractus/feed-extractor.git
 cd feed-extractor
-npm install
-
-npm run eval https://news.google.com/rss
+pnpm i
+pnpm eval https://news.google.com/rss
 ```
 
 ## License
