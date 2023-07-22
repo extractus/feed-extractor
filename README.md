@@ -123,7 +123,7 @@ Object with all or several of the following properties:
 
   - `normalization`: Boolean, normalize feed data or keep original. Default `true`.
   - `useISODateFormat`: Boolean, convert datetime to ISO format. Default `true`.
-  - `descriptionMaxLen`: Number, to truncate description. Default `210` characters. Set to `0` = no truncation.
+  - `descriptionMaxLen`: Number, to truncate description. Default `250` characters. Set to `0` = no truncation.
   - `xmlParserOptions`: Object, used by xml parser, view [fast-xml-parser's docs](https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/docs/v4/2.XMLparseOptions.md)
   - `getExtraFeedFields`: Function, to get more fields from feed data
   - `getExtraEntryFields`: Function, to get more fields from feed entry data
