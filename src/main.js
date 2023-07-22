@@ -11,7 +11,7 @@ import parseAtomFeed from './utils/parseAtomFeed.js'
 const getopt = (options = {}) => {
   const {
     normalization = true,
-    descriptionMaxLen = 210,
+    descriptionMaxLen = 250,
     useISODateFormat = true,
     xmlParserOptions = {},
     baseUrl = '',

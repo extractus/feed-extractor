@@ -21,9 +21,10 @@ export const toISODateString = (dstr) => {
   }
 }
 
-export const buildDescription = (val, maxlen) => {
+export const buildDescription = (val, maxlen = 0) => {
   const stripped = stripTags(String(val))
-  return truncate(stripped, maxlen).replace(/\n+/g, ' ')
+  const text = maxlen > 0 ? truncate(stripped, maxlen) : stripped
+  return text.replace(/\n+/g, ' ')
 }
 
 export const getText = (val) => {
