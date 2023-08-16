@@ -30,7 +30,6 @@ const transform = (item, options) => {
   } = item
 
   const published = useISODateFormat ? toISODateString(pubDate) : pubDate
-
   const entry = {
     id: getEntryId(guid, link, pubDate),
     title: getText(title),
