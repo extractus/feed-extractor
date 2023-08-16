@@ -22,7 +22,7 @@ export const toISODateString = (dstr) => {
 }
 
 export const buildDescription = (val, maxlen = 0) => {
-  const stripped = stripTags(String(val))
+  const stripped = stripTags(String(val).trim().replace(/^<!\[CDATA\[|\]\]>$/g, ''))
   const text = maxlen > 0 ? truncate(stripped, maxlen) : stripped
   return text.replace(/\n+/g, ' ')
 }
