@@ -366,4 +366,14 @@ pnpm eval https://news.google.com/rss
 ## License
 The MIT License (MIT)
 
+## Support the project
+
+If you find value from this open source project, you can support in the following ways:
+
+- Give it a star ⭐
+- Buy me a coffee: https://paypal.me/ndaidong 🍵
+- Subscribe [Feed Reader service](https://rapidapi.com/pwshub-pwshub-default/api/feed-reader1/) on RapidAPI 😉
+
+Thank you.
+
 ---
