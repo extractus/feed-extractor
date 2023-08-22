@@ -212,6 +212,23 @@ describe('test extract() standard feed', () => {
     })
     expect(validateProps(result.entries[0])).toBe(true)
   })
+
+  test('extract rss feed from medium.com (content:encoded)', async () => {
+    const url = 'https://medium.com/feed/@ameliakusiak'
+    const xml = readFileSync('test-data/medium-feed.xml', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, xml, {
+      'Content-Type': 'application/xml',
+    })
+    const result = await extract(url)
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(result, k)).toBe(true)
+    })
+    entryAttrs.forEach((k) => {
+      expect(hasProperty(result.entries[0], k)).toBe(true)
+    })
+    expect(validateProps(result.entries[0])).toBe(true)
+  })
 })
 
 describe('test extract() with `useISODateFormat` option', () => {
