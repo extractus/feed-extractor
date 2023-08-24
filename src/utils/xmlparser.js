@@ -12,15 +12,19 @@ export const isAtom = (data = {}) => {
   return hasProperty(data, 'feed') && hasProperty(data.feed, 'entry')
 }
 
+export const isRdf = (data = {}) => {
+  return hasProperty(data, 'rdf:RDF') && hasProperty(data['rdf:RDF'], 'channel')
+}
+
 export const validate = (xml) => {
   return (!isString(xml) || !xml.length) ? false : XMLValidator.validate(xml) === true
 }
 
 export const xml2obj = (xml = '', extraOptions = {}) => {
   const options = {
-    ...extraOptions,
-    ignoreAttributes: false,
     attributeNamePrefix: '@_',
+    ignoreAttributes: false,
+    ...extraOptions,
   }
   const parser = new XMLParser(options)
   const jsonObj = parser.parse(xml)

@@ -3,10 +3,11 @@
 import { isValid as isValidUrl } from './utils/linker.js'
 
 import retrieve from './utils/retrieve.js'
-import { validate, xml2obj, isRSS, isAtom } from './utils/xmlparser.js'
+import { validate, xml2obj, isRSS, isAtom, isRdf } from './utils/xmlparser.js'
 import parseJsonFeed from './utils/parseJsonFeed.js'
 import parseRssFeed from './utils/parseRssFeed.js'
 import parseAtomFeed from './utils/parseAtomFeed.js'
+import parseRdfFeed from './utils/parseRdfFeed.js'
 
 const getopt = (options = {}) => {
   const {
@@ -42,11 +43,14 @@ export const extractFromXml = (xml, options = {}) => {
   const opts = getopt(options)
 
   const data = xml2obj(xml, opts.xmlParserOptions)
+
   return isRSS(data)
     ? parseRssFeed(data, opts)
     : isAtom(data)
       ? parseAtomFeed(data, opts)
-      : null
+      : isRdf(data)
+        ? parseRdfFeed(data, opts)
+        : null
 }
 
 export const extract = async (url, options = {}, fetchOptions = {}) => {

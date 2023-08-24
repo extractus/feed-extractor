@@ -98,8 +98,10 @@ const parseAtom = (data, options = {}) => {
     getExtraFeedFields,
   } = options
 
+  const feedData = data.feed
+
   if (!normalization) {
-    return flatten(data.feed, baseUrl)
+    return flatten(feedData, baseUrl)
   }
 
   const {
@@ -111,9 +113,9 @@ const parseAtom = (data, options = {}) => {
     language = '',
     updated = '',
     entry: item = [],
-  } = data.feed
+  } = feedData
 
-  const extraFields = getExtraFeedFields(data.feed)
+  const extraFields = getExtraFeedFields(feedData)
 
   const items = isArray(item) ? item : [item]
 

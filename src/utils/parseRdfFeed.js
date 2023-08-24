@@ -2,14 +2,13 @@
 
 // specs: https://www.rssboard.org/rss-specification
 
-import { isArray, hasProperty } from 'bellajs'
+import { isArray } from 'bellajs'
 
 import {
   getText,
   toISODateString,
   buildDescription,
   getPureUrl,
-  getOptionalTags,
   getEntryId
 } from './normalizer.js'
 
@@ -25,7 +24,7 @@ const transform = (item, options) => {
     guid = '',
     title = '',
     link = '',
-    pubDate = '',
+    'dc:date': pubDate = '',
     description = '',
     'content:encoded': content = '',
   } = item
@@ -69,21 +68,6 @@ const flatten = (feed, baseUrl) => {
       link: getPureUrl(link, id, baseUrl),
     }
 
-    const txtTags = 'guid description source'.split(' ')
-
-    txtTags.forEach((key) => {
-      if (hasProperty(entry, key)) {
-        item[key] = getText(entry[key])
-      }
-    })
-
-    const optionalProps = 'source category enclosure author image'.split(' ')
-    optionalProps.forEach((key) => {
-      if (hasProperty(item, key)) {
-        entry[key] = getOptionalTags(item[key], key)
-      }
-    })
-
     return item
   })
 
@@ -96,14 +80,14 @@ const flatten = (feed, baseUrl) => {
   return output
 }
 
-const parseRss = (data, options = {}) => {
+const parseRdf = (data, options = {}) => {
   const {
     normalization,
     baseUrl,
     getExtraFeedFields,
   } = options
 
-  const feedData = data.rss.channel
+  const feedData = data['rdf:RDF']
 
   if (!normalization) {
     return flatten(feedData, baseUrl)
@@ -114,10 +98,11 @@ const parseRss = (data, options = {}) => {
     link = '',
     description = '',
     generator = '',
-    language = '',
-    lastBuildDate = '',
-    item = [],
-  } = feedData
+    'dc:language': language = '',
+    'dc:date': lastBuildDate = '',
+  } = feedData.channel
+
+  const { item } = feedData
 
   const extraFields = getExtraFeedFields(feedData)
 
@@ -140,5 +125,5 @@ const parseRss = (data, options = {}) => {
 }
 
 export default (data, options = {}) => {
-  return parseRss(data, options)
+  return parseRdf(data, options)
 }
