@@ -2,14 +2,13 @@
 
 // specs: https://www.rssboard.org/rss-specification
 
-import { isArray, hasProperty } from 'bellajs'
+import { isArray } from 'bellajs'
 
 import {
   getText,
   toISODateString,
   buildDescription,
   getPureUrl,
-  getOptionalTags,
   getEntryId
 } from './normalizer.js'
 
