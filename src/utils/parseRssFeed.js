@@ -31,13 +31,13 @@ const transform = (item, options) => {
   } = item
 
   const published = useISODateFormat ? toISODateString(pubDate) : pubDate
-  const htmlContent = getText(content || description)
+  const htmlContent = getText(description || content)
   const entry = {
     id: getEntryId(guid, link, pubDate),
     title: getText(title),
     link: getPureUrl(link, guid, baseUrl),
     published,
-    description: buildDescription(htmlContent || description, descriptionMaxLen),
+    description: buildDescription(description || htmlContent, descriptionMaxLen),
   }
 
   const extraFields = getExtraEntryFields(item)
