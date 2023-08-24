@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns="http://purl.org/rss/1.0/"
+  xmlns:admin="http://webns.net/mvcb/"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+  xmlns:syn="http://purl.org/rss/1.0/modules/syndication/"
+  xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/"
+>
+  <channel rdf:about="https://slashdot.org/">
+    <title>Slashdot</title>
+    <link>https://slashdot.org/</link>
+    <description>News for nerds, stuff that matters</description>
+    <dc:language>en-us</dc:language>
+    <dc:rights>Copyright 1997-2016, SlashdotMedia. All Rights Reserved.</dc:rights>
+    <dc:date>2023-08-24T09:29:07+00:00</dc:date>
+    <dc:publisher>Dice</dc:publisher>
+    <dc:creator>help@slashdot.org</dc:creator>
+    <dc:subject>Technology</dc:subject>
+    <syn:updateBase>1970-01-01T00:00+00:00</syn:updateBase>
+    <syn:updateFrequency>1</syn:updateFrequency>
+    <syn:updatePeriod>hourly</syn:updatePeriod>
+    <items>
+      <rdf:Seq>
+        <rdf:li rdf:resource="https://tech.slashdot.org/story/23/08/23/2238246/spacex-working-with-cloudflare-to-speed-up-starlink-service?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+        <rdf:li rdf:resource="https://science.slashdot.org/story/23/08/23/2234246/paralyzed-woman-able-to-speak-through-digital-avatar-in-world-first?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+        <rdf:li rdf:resource="https://yro.slashdot.org/story/23/08/23/2230246/amazon-sues-online-stores-selling-pirated-dvds?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed" />
+      </rdf:Seq>
+    </items>
+    <image rdf:resource="https://a.fsdn.com/sd/topics/topicslashdot.gif" />
+    <textinput rdf:resource="https://slashdot.org/search.pl" />
+  </channel>
+  <image rdf:about="https://a.fsdn.com/sd/topics/topicslashdot.gif">
+    <title>Slashdot</title>
+    <url>https://a.fsdn.com/sd/topics/topicslashdot.gif</url>
+    <link>https://slashdot.org/</link>
+  </image>
+  <item rdf:about="https://tech.slashdot.org/story/23/08/23/2238246/spacex-working-with-cloudflare-to-speed-up-starlink-service?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+    <title>SpaceX Working With Cloudflare To Speed Up Starlink Service</title>
+    <link>https://tech.slashdot.org/story/23/08/23/2238246/spacex-working-with-cloudflare-to-speed-up-starlink-service?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</link>
+    <description>According to The Information (paywalled), SpaceX is working with Cloudlfare to boost the performance of its satellite internet service Starlink. Reuters reports: The two companies are working on a way to increase Starlink's network of mini data centers around the globe that could help it deliver faster network speeds to its customers, the report said. According to SpaceX's website, Starlink users typically have download speeds between 25 and 220 Mbps, with the "majority" over 100 Mbps. Upload speeds range between 5 and 20 Mbps.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=SpaceX+Working+With+Cloudflare+To+Speed+Up+Starlink+Service%3A+https%3A%2F%2Ftech.slashdot.org%2Fstory%2F23%2F08%2F23%2F2238246%2F%3Futm_source%3Dtwitter%26utm_medium%3Dtwitter"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Ftech.slashdot.org%2Fstory%2F23%2F08%2F23%2F2238246%2Fspacex-working-with-cloudflare-to-speed-up-starlink-service%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://tech.slashdot.org/story/23/08/23/2238246/spacex-working-with-cloudflare-to-speed-up-starlink-service?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=23035684&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;</description>
+    <dc:creator>BeauHD</dc:creator>
+    <dc:date>2023-08-24T07:00:00+00:00</dc:date>
+    <dc:subject>internet</dc:subject>
+    <slash:department>joining-forces</slash:department>
+    <slash:section>technology</slash:section>
+    <slash:hit_parade>0,0,0,0,0,0,0</slash:hit_parade>
+  </item>
+  <item rdf:about="https://science.slashdot.org/story/23/08/23/2234246/paralyzed-woman-able-to-speak-through-digital-avatar-in-world-first?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+    <title>Paralyzed Woman Able To 'Speak' Through Digital Avatar In World First</title>
+    <link>https://science.slashdot.org/story/23/08/23/2234246/paralyzed-woman-able-to-speak-through-digital-avatar-in-world-first?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</link>
+    <description>An anonymous reader quotes a report from The Guardian: A severely paralyzed woman has been able to speak through an avatar using technology that translated her brain signals into speech and facial expressions. The latest technology uses tiny electrodes implanted on the surface of the brain to detect electrical activity in the part of the brain that controls speech and face movements. These signals are translated directly into a digital avatar's speech and facial expressions including smiling, frowning or surprise. The patient, a 47-year-old woman, Ann, has been severely paralyzed since suffering a brainstem stroke more than 18 years ago. She cannot speak or type and normally communicates using movement-tracking technology that allows her to slowly select letters at up to 14 words a minute. She hopes the avatar technology could enable her to work as a counsellor in future.
+
+The team implanted a paper-thin rectangle of 253 electrodes on to the surface of Ann's brain over a region critical for speech. The electrodes intercepted the brain signals that, if not for the stroke, would have controlled muscles in her tongue, jaw, larynx and face. After implantation, Ann worked with the team to train the system's AI algorithm to detect her unique brain signals for various speech sounds by repeating different phrases repeatedly. The computer learned 39 distinctive sounds and a Chat GPT-style language model was used to translate the signals into intelligible sentences. This was then used to control an avatar with a voice personalized to sound like Ann's voice before the injury, based on a recording of her speaking at her wedding.
+
+The technology was not perfect, decoding words incorrectly 28% of the time in a test run involving more than 500 phrases, and it generated brain-to-text at a rate of 78 words a minute, compared with the 110-150 words typically spoken in natural conversation. However, scientists said the latest advances in accuracy, speed and sophistication suggest the technology is now at a point of being practically useful for patients. A crucial next step is to create a wireless version of the BCI that could be implanted beneath the skull. The findings have been published in the journal Nature.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Paralyzed+Woman+Able+To+'Speak'+Through+Digital+Avatar+In+World+First%3A+https%3A%2F%2Fscience.slashdot.org%2Fstory%2F23%2F08%2F23%2F2234246%2F%3Futm_source%3Dtwitter%26utm_medium%3Dtwitter"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fscience.slashdot.org%2Fstory%2F23%2F08%2F23%2F2234246%2Fparalyzed-woman-able-to-speak-through-digital-avatar-in-world-first%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://science.slashdot.org/story/23/08/23/2234246/paralyzed-woman-able-to-speak-through-digital-avatar-in-world-first?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=23035680&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;</description>
+    <dc:creator>BeauHD</dc:creator>
+    <dc:date>2023-08-24T03:30:00+00:00</dc:date>
+    <dc:subject>medicine</dc:subject>
+    <slash:department>we're-at-a-tipping-point</slash:department>
+    <slash:section>science</slash:section>
+    <slash:comments>5</slash:comments>
+    <slash:hit_parade>5,4,4,3,3,1,0</slash:hit_parade>
+  </item>
+  <item rdf:about="https://yro.slashdot.org/story/23/08/23/2230246/amazon-sues-online-stores-selling-pirated-dvds?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed">
+    <title>Amazon Sues Online Stores Selling Pirated DVDs</title>
+    <link>https://yro.slashdot.org/story/23/08/23/2230246/amazon-sues-online-stores-selling-pirated-dvds?utm_source=rss1.0mainlinkanon&amp;utm_medium=feed</link>
+    <description>Amazon has filed a lawsuit against a group of online stores that sell pirated DVDs of key titles such as "The Lord of the Rings: The Rings of Power" and "The Peripheral." TorrentFreak reports: In a complaint filed at a California federal court, Amazon accuses seven websites of selling pirated discs. These sites, including dvdshelf.com.au, dvds.trade, and dvdwholesale.co.uk, are presumably operated by the same group, using a variety of companies. For the public at large, it may not be immediately obvious that these discs are pirated. However, since Amazon doesn't produce or sell DVDs for these Prime Video series, there is no doubt that they are created from illicit sources.
+
+The piracy operation consists of at least seven websites and these all remain online today. According to Amazon, the sites ship to customers in the U.S. and abroad, twenty-four hours a day, seven days a week, resulting in mass copyright infringement. Before going to court, investigators conducted more than twenty test purchases of pirated DVDs. After these orders arrived, Amazon sent the discs to the Motion Picture Association which independently confirmed that they were all pirated.
+
+The complaint lists Yangchun Zhang as a key suspect. This person presumably resides in China and obtained the 'DVD Shelf' trademark in Australia. In addition, Zhang is also listed as the registrant of several of the domain names involved. The complaint accuses Zhang and the others of both copyright and trademark infringement. Through the lawsuit (PDF), Amazon hopes to recoup damages, which can run in the millions of dollars. Another key priority is to shut the sites down and Amazon asks the court for an injunction to stop all infringing activity.&lt;p&gt;&lt;div class="share_submission" style="position:relative;"&gt;
+&lt;a class="slashpop" href="http://twitter.com/home?status=Amazon+Sues+Online+Stores+Selling+Pirated+DVDs%3A+https%3A%2F%2Fyro.slashdot.org%2Fstory%2F23%2F08%2F23%2F2230246%2F%3Futm_source%3Dtwitter%26utm_medium%3Dtwitter"&gt;&lt;img src="https://a.fsdn.com/sd/twitter_icon_large.png"&gt;&lt;/a&gt;
+&lt;a class="slashpop" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fyro.slashdot.org%2Fstory%2F23%2F08%2F23%2F2230246%2Famazon-sues-online-stores-selling-pirated-dvds%3Futm_source%3Dslashdot%26utm_medium%3Dfacebook"&gt;&lt;img src="https://a.fsdn.com/sd/facebook_icon_large.png"&gt;&lt;/a&gt;
+
+
+
+&lt;/div&gt;&lt;/p&gt;&lt;p&gt;&lt;a href="https://yro.slashdot.org/story/23/08/23/2230246/amazon-sues-online-stores-selling-pirated-dvds?utm_source=rss1.0moreanon&amp;amp;utm_medium=feed"&gt;Read more of this story&lt;/a&gt; at Slashdot.&lt;/p&gt;&lt;iframe src="https://slashdot.org/slashdot-it.pl?op=discuss&amp;amp;id=23035666&amp;amp;smallembed=1" style="height: 300px; width: 100%; border: none;"&gt;&lt;/iframe&gt;</description>
+    <dc:creator>BeauHD</dc:creator>
+    <dc:date>2023-08-24T01:10:00+00:00</dc:date>
+    <dc:subject>piracy</dc:subject>
+    <slash:department>cease-and-desist</slash:department>
+    <slash:section>yro</slash:section>
+    <slash:comments>28</slash:comments>
+    <slash:hit_parade>28,28,25,22,5,3,1</slash:hit_parade>
+  </item>
+
+  <textinput rdf:about="https://slashdot.org/search.pl">
+    <title>Search Slashdot</title>
+    <description>Search Slashdot stories</description>
+    <name>query</name>
+    <link>https://slashdot.org/search.pl</link>
+  </textinput>
+</rdf:RDF>

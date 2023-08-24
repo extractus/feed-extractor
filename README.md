@@ -114,6 +114,7 @@ URL of a valid feed source
 Feed content must be accessible and conform one of the following standards:
 
   - [RSS Feed](https://www.rssboard.org/rss-specification)
+    - [RDF Feed](https://web.resource.org/rss/1.0/spec)
   - [ATOM Feed](https://datatracker.ietf.org/doc/html/rfc5023)
   - [JSON Feed](https://www.jsonfeed.org/version/1.1/)
 

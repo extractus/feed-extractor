@@ -138,6 +138,30 @@ describe('test extract() standard feed', () => {
     expect(validateProps(result.entries[0])).toBe(true)
   })
 
+  test('extract rdf feed from Slashdot with extraFields', async () => {
+    const url = 'https://some-news-page.tld/atom'
+    const xml = readFileSync('test-data/rdf-standard.xml', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, xml, {
+      'Content-Type': 'application/xml',
+    })
+    const result = await extract(url, {
+      getExtraFeedFields: data => {
+        return {
+          subject: data['dc:subject'],
+        }
+      },
+      getExtraEntryFields: data => {
+        return {
+          author: data['dc:creator'],
+        }
+      },
+    })
+    expect(hasProperty(result, 'subject')).toBe(true)
+    expect(hasProperty(result.entries[0], 'author')).toBe(true)
+    expect(validateProps(result.entries[0])).toBe(true)
+  })
+
   test('extract atom feed which contains multi links', async () => {
     const url = 'https://some-news-page.tld/atom/multilinks'
     const xml = readFileSync('test-data/atom-multilinks.xml', 'utf8')
@@ -291,6 +315,22 @@ describe('test extract() without normalization', () => {
     expect(hasProperty(result.item, 'guid')).toBe(true)
   })
 
+  test('extract rdf feed from Slashdot without normalization', async () => {
+    const url = 'https://some-news-page.tld/atom'
+    const xml = readFileSync('test-data/rdf-standard.xml', 'utf8')
+    const { baseUrl, path } = parseUrl(url)
+    nock(baseUrl).get(path).reply(200, xml, {
+      'Content-Type': 'application/xml',
+    })
+    const result = await extract(url, {
+      normalization: false,
+    })
+    expect(hasProperty(result.channel, 'syn:updateBase')).toBe(true)
+    expect(hasProperty(result.channel, 'dc:rights')).toBe(true)
+    expect(hasProperty(result, 'item')).toBe(true)
+    expect(hasProperty(result.item[0], 'slash:department')).toBe(true)
+  })
+
   test('extract atom feed from Google', async () => {
     const url = 'https://some-news-page.tld/atom'
     const xml = readFileSync('test-data/atom-feed-standard-realworld.xml', 'utf8')
@@ -358,7 +398,7 @@ describe('test extract() without normalization', () => {
 })
 
 describe('test extract with `baseUrl` option', () => {
-  test('extract rss feed with xml', () => {
+  test('extract rss feed from file', () => {
     const baseUrl = 'https://huggingface.co'
     const xml = readFileSync('test-data/rss-feed-miss-base-url.xml', 'utf8')
     const result = extractFromXml(xml, { baseUrl })
@@ -376,7 +416,26 @@ describe('test extract with `baseUrl` option', () => {
     expect(result.entries[0].link).toBe(baseUrl + '/blog/intro-graphml')
   })
 
-  test('extract rss feed with json', () => {
+  test('extract rdf feed from file', () => {
+    const baseUrl = 'https://slashdot.org'
+    const xml = readFileSync('test-data/rdf-standard.xml', 'utf8')
+    const result = extractFromXml(xml, { baseUrl })
+
+    feedAttrs.forEach((k) => {
+      expect(hasProperty(result, k)).toBe(true)
+    })
+
+    entryAttrs.forEach((k) => {
+      expect(hasProperty(result.entries[0], k)).toBe(true)
+    })
+
+    expect(validateProps(result.entries[0])).toBe(true)
+    expect(result.link).toBe(baseUrl + '/')
+    const firstItemLink = result.entries[0].link
+    expect(firstItemLink.startsWith('https://tech.slashdot.org/story/23/08/23/2238246/spacex-')).toBe(true)
+  })
+
+  test('extract json feed from file', () => {
     const baseUrl = 'https://www.jsonfeed.org'
     const json = readFileSync('test-data/json-feed-miss-base-url.json', 'utf8')
     const result = extractFromJson(JSON.parse(json), { baseUrl })

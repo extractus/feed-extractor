@@ -1,7 +1,6 @@
-// parseAtomFeed.js
+// parseRssFeed.js
 
-// specs: https://datatracker.ietf.org/doc/html/rfc5023
-// refer: https://validator.w3.org/feed/docs/atom.html
+// specs: https://www.rssboard.org/rss-specification
 
 import { isArray, hasProperty } from 'bellajs'
 
@@ -10,6 +9,7 @@ import {
   toISODateString,
   buildDescription,
   getPureUrl,
+  getOptionalTags,
   getEntryId
 } from './normalizer.js'
 
@@ -22,25 +22,22 @@ const transform = (item, options) => {
   } = options
 
   const {
-    id = '',
+    guid = '',
     title = '',
-    issued = '',
-    modified = '',
-    updated = '',
-    published = '',
     link = '',
-    summary = '',
-    content = '',
+    'dc:date': pubDate = '',
+    description = '',
+    'content:encoded': content = '',
   } = item
 
-  const pubDate = updated || modified || published || issued
-  const htmlContent = getText(summary || content)
+  const published = useISODateFormat ? toISODateString(pubDate) : pubDate
+  const htmlContent = getText(description || content)
   const entry = {
-    id: getEntryId(id, link, pubDate),
+    id: getEntryId(guid, link, pubDate),
     title: getText(title),
-    link: getPureUrl(link, id, baseUrl),
-    published: useISODateFormat ? toISODateString(pubDate) : pubDate,
-    description: buildDescription(summary || htmlContent, descriptionMaxLen),
+    link: getPureUrl(link, guid, baseUrl),
+    published,
+    description: buildDescription(description || htmlContent, descriptionMaxLen),
   }
 
   const extraFields = getExtraEntryFields(item)
@@ -53,78 +50,71 @@ const transform = (item, options) => {
 
 const flatten = (feed, baseUrl) => {
   const {
-    id,
     title = '',
     link = '',
-    entry,
+    item,
   } = feed
 
-  const entries = isArray(entry) ? entry : [entry]
-  const items = entries.map((entry) => {
+  const items = isArray(item) ? item : [item]
+  const entries = items.map((entry) => {
     const {
       id,
       title = '',
       link = '',
-      summary = '',
-      content = '',
     } = entry
+
     const item = {
       ...entry,
       title: getText(title),
       link: getPureUrl(link, id, baseUrl),
     }
-    if (hasProperty(item, 'summary')) {
-      item.summary = getText(summary)
-    }
-    if (hasProperty(item, 'content')) {
-      item.content = getText(content)
-    }
+
     return item
   })
 
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link, id, baseUrl),
-    entry: isArray(entry) ? items : items[0],
+    link: getPureUrl(link, baseUrl),
+    item: isArray(item) ? entries : entries[0],
   }
   return output
 }
 
-const parseAtom = (data, options = {}) => {
+const parseRdf = (data, options = {}) => {
   const {
     normalization,
     baseUrl,
     getExtraFeedFields,
   } = options
 
-  const feedData = data.feed
+  const feedData = data['rdf:RDF']
 
   if (!normalization) {
     return flatten(feedData, baseUrl)
   }
 
   const {
-    id = '',
     title = '',
     link = '',
-    subtitle = '',
+    description = '',
     generator = '',
-    language = '',
-    updated = '',
-    entry: item = [],
-  } = feedData
+    'dc:language': language = '',
+    'dc:date': lastBuildDate = '',
+  } = feedData.channel
+
+  const { item } = feedData
 
   const extraFields = getExtraFeedFields(feedData)
 
   const items = isArray(item) ? item : [item]
 
-  const published = options.useISODateFormat ? toISODateString(updated) : updated
+  const published = options.useISODateFormat ? toISODateString(lastBuildDate) : lastBuildDate
 
   return {
     title: getText(title),
-    link: getPureUrl(link, id, baseUrl),
-    description: subtitle,
+    link: getPureUrl(link, '', baseUrl),
+    description,
     language,
     generator,
     published,
@@ -136,5 +126,5 @@ const parseAtom = (data, options = {}) => {
 }
 
 export default (data, options = {}) => {
-  return parseAtom(data, options)
+  return parseRdf(data, options)
 }

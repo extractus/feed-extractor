@@ -103,8 +103,10 @@ const parseRss = (data, options = {}) => {
     getExtraFeedFields,
   } = options
 
+  const feedData = data.rss.channel
+
   if (!normalization) {
-    return flatten(data.rss.channel, baseUrl)
+    return flatten(feedData, baseUrl)
   }
 
   const {
@@ -115,9 +117,9 @@ const parseRss = (data, options = {}) => {
     language = '',
     lastBuildDate = '',
     item = [],
-  } = data.rss.channel
+  } = feedData
 
-  const extraFields = getExtraFeedFields(data.rss.channel)
+  const extraFields = getExtraFeedFields(feedData)
 
   const items = isArray(item) ? item : [item]
 
