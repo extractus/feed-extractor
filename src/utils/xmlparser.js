@@ -22,9 +22,9 @@ export const validate = (xml) => {
 
 export const xml2obj = (xml = '', extraOptions = {}) => {
   const options = {
-    ...extraOptions,
-    ignoreAttributes: false,
     attributeNamePrefix: '@_',
+    ignoreAttributes: false,
+    ...extraOptions,
   }
   const parser = new XMLParser(options)
   const jsonObj = parser.parse(xml)
