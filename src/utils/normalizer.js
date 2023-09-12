@@ -33,9 +33,6 @@ export const getText = (val) => {
 }
 
 export const getLink = (val = [], id = '') => {
-  if (id && isValidUrl(id)) {
-    return id
-  }
   if (isObject(id) && hasProperty(id, '@_isPermaLink') && id['@_isPermaLink'] === 'true') {
     return getText(id)
   }
@@ -45,7 +42,7 @@ export const getLink = (val = [], id = '') => {
     })
     return items.length > 0 ? items[0] : ''
   }
-  return isString(val)
+  const url = isString(val)
     ? getText(val)
     : isObject(val) && hasProperty(val, 'href')
       ? getText(val.href)
@@ -56,6 +53,8 @@ export const getLink = (val = [], id = '') => {
           : isObject(val) && hasProperty(val, '_attributes')
             ? getText(val._attributes.href)
             : isArray(val) ? getEntryLink(val) : ''
+
+  return url ? url : isValidUrl(id) ? id : ''
 }
 
 export const getPureUrl = (url, id = '', baseUrl) => {
