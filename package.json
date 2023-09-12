@@ -18,7 +18,7 @@
   },
   "types": "./index.d.ts",
   "engines": {
-    "node": ">= 15"
+    "node": ">= 16"
   },
   "scripts": {
     "lint": "eslint .",
