@@ -40,7 +40,7 @@ const transform = (item, options) => {
     title: getText(title),
     link: getPureUrl(link, id, baseUrl),
     published: useISODateFormat ? toISODateString(pubDate) : pubDate,
-    description: buildDescription(summary || htmlContent, descriptionMaxLen),
+    description: buildDescription(htmlContent, descriptionMaxLen),
   }
 
   const extraFields = getExtraEntryFields(item)

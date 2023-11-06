@@ -37,7 +37,7 @@ const transform = (item, options) => {
     title: getText(title),
     link: getPureUrl(link, guid, baseUrl),
     published,
-    description: buildDescription(description || htmlContent, descriptionMaxLen),
+    description: buildDescription(htmlContent, descriptionMaxLen),
   }
 
   const extraFields = getExtraEntryFields(item)
