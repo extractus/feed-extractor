@@ -10,6 +10,14 @@
   "author": "@extractus",
   "main": "./src/main.js",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./src/main.js",
+      "require": "./bundle.cjs",
+      "default": "./src/main.js"
+    }
+  },
   "imports": {
     "cross-fetch": "./src/deno/cross-fetch.js"
   },
@@ -23,6 +31,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
+    "build": "node build",
     "pretest": "npm run lint",
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage=true",
     "eval": "node eval",
@@ -35,6 +44,7 @@
     "html-entities": "^2.4.0"
   },
   "devDependencies": {
+    "esbuild": "^0.19.8",
     "eslint": "^8.53.0",
     "https-proxy-agent": "^7.0.2",
     "jest": "^29.7.0",
