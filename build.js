@@ -9,7 +9,7 @@ const externalDeps = Object.keys(dependencies)
   .filter(dep => !esmDependencies.has(dep))
 
 build({
-  entryPoints: ['./src/main.js'],
+  entryPoints: ['./src/cjs-entry.js'],
   bundle: true,
   platform: 'node',
   target: 'node16',
