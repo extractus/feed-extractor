@@ -49,6 +49,21 @@ import { extract } from 'https://esm.sh/@extractus/feed-extractor'
 Please check [the examples](https://github.com/extractus/feed-extractor/tree/main/examples) for reference.
 
 
+## Automate RSS feed extraction with GitHub Actions
+
+[RSS Feed Fetch Action](https://github.com/Promptly-Technologies-LLC/rss-fetch-action) is a GitHub Action designed to automate the fetching of RSS feeds.
+It fetches an RSS feed from a given URL and saves it to a specified file in your GitHub repository.
+This action is particularly useful for populating content on GitHub Pages websites or other static site generators.
+
+
+## CJS Deprecated
+
+CJS is deprecated for this package.  When calling `require('@extractus/feed-extractor')` a deprecation warning is now logged.  You should update your code to use the ESM export.
+
+- You can ignore this warning via the environment variable `FEED_EXTRACTOR_CJS_IGNORE_WARNING=true`
+- To see where the warning is coming from you can set the environment variable `FEED_EXTRACTOR_CJS_TRACE_WARNING=true`
+
+
 ## APIs
 
 - [extract()](#extract)

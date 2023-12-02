@@ -1,6 +1,6 @@
 import { serve } from 'https://deno.land/std/http/server.ts'
 
-import { Hono } from 'https://deno.land/x/hono@v3.2.7/mod.ts'
+import { Hono } from 'https://deno.land/x/hono@v3.10.2/mod.ts'
 
 import { extract } from 'npm:@extractus/feed-extractor'
 
