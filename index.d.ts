@@ -8,7 +8,7 @@ export interface FeedEntry {
   link?: string;
   title?: string;
   description?: string;
-  published?: Date;
+  published?: string;
 }
 
 export interface FeedData {
@@ -17,7 +17,7 @@ export interface FeedData {
   description?: string;
   generator?: string;
   language?: string;
-  published?: Date;
+  published?: string;
   entries?: Array<FeedEntry>;
 }
 
