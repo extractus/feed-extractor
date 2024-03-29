@@ -1,8 +1,8 @@
 {
   "imports": {
     "cross-fetch": "./src/deno/cross-fetch.js",
-    "html-entities": "https://esm.sh/html-entities@2.4.0",
-    "fast-xml-parser": "https://esm.sh/fast-xml-parser@4.3.3",
-    "bellajs": "https://esm.sh/bellajs@11.1.2"
+    "html-entities": "https://esm.sh/html-entities@2.5.2",
+    "fast-xml-parser": "https://esm.sh/fast-xml-parser@4.3.6",
+    "bellajs": "https://esm.sh/bellajs@11.1.3"
   }
 }
