@@ -1,6 +1,7 @@
 // utils -> retrieve
 
 import fetch from 'cross-fetch'
+import { XMLParser } from 'fast-xml-parser'
 
 const profetch = async (url, options = {}) => {
   const { proxy = {}, signal = null } = options
@@ -13,6 +14,20 @@ const profetch = async (url, options = {}) => {
     signal,
   })
   return res
+}
+
+const getCharsetFromText = (text) => {
+  try {
+    const firstLine = text.split('\n')[0].trim().replace('<?', '<').replace('?>', '>')
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+    })
+    let obj = parser.parse(firstLine)
+    const { xml: root = {} } = obj
+    return root['@_encoding'] || 'utf8'
+  } catch {
+    return 'utf8'
+  }
 }
 
 export default async (url, options = {}) => {
@@ -35,9 +50,10 @@ export default async (url, options = {}) => {
   const buffer = await res.arrayBuffer()
   const text = buffer ? Buffer.from(buffer).toString().trim() : ''
 
+  console.log(contentType)
   if (/(\+|\/)(xml|html)/.test(contentType)) {
     const arr = contentType.split('charset=')
-    const charset = arr.length === 2 ? arr[1].trim() : 'utf8'
+    let charset = arr.length === 2 ? arr[1].trim() : getCharsetFromText(text)
     const decoder = new TextDecoder(charset)
     const xml = decoder.decode(buffer)
     return { type: 'xml', text: xml.trim(), status, contentType }
