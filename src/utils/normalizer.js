@@ -16,7 +16,7 @@ import { absolutify, isValid as isValidUrl, purify as purifyUrl } from './linker
 export const toISODateString = (dstr) => {
   try {
     return dstr ? (new Date(dstr)).toISOString() : ''
-  } catch (err) {
+  } catch {
     return ''
   }
 }
