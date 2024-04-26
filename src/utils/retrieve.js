@@ -32,17 +32,22 @@ export default async (url, options = {}) => {
     throw new Error(`Request failed with error code ${status}`)
   }
   const contentType = res.headers.get('content-type')
-  const text = await res.text()
+  const buffer = await res.arrayBuffer()
+  const text = buffer ? Buffer.from(buffer).toString().trim() : ''
 
   if (/(\+|\/)(xml|html)/.test(contentType)) {
-    return { type: 'xml', text: text.trim(), status, contentType }
+    const arr = contentType.split('charset=')
+    const charset = arr.length === 2 ? arr[1].trim() : 'utf8'
+    const decoder = new TextDecoder(charset)
+    const xml = decoder.decode(buffer)
+    return { type: 'xml', text: xml.trim(), status, contentType }
   }
 
   if (/(\+|\/)json/.test(contentType)) {
     try {
       const data = JSON.parse(text)
       return { type: 'json', json: data, status, contentType }
-    } catch (err) {
+    } catch {
       throw new Error('Failed to convert data to JSON object')
     }
   }
