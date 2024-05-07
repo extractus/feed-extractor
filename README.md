@@ -33,10 +33,6 @@ console.log(result)
 ### Deno
 
 ```ts
-// deno < 1.28
-import { extract } from 'https://esm.sh/@extractus/feed-extractor'
-
-// deno > 1.28
 import { extract } from 'npm:@extractus/feed-extractor'
 ```
 
