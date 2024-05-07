@@ -50,7 +50,6 @@ export default async (url, options = {}) => {
   const buffer = await res.arrayBuffer()
   const text = buffer ? Buffer.from(buffer).toString().trim() : ''
 
-  console.log(contentType)
   if (/(\+|\/)(xml|html)/.test(contentType)) {
     const arr = contentType.split('charset=')
     let charset = arr.length === 2 ? arr[1].trim() : getCharsetFromText(text)
