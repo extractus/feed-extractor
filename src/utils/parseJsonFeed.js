@@ -7,7 +7,8 @@ import { isArray } from 'bellajs'
 import {
   toISODateString,
   buildDescription,
-  getEntryId
+  getEntryId,
+  getPureUrl
 } from './normalizer.js'
 
 import { absolutify, purify as purifyUrl } from './linker.js'
@@ -36,7 +37,7 @@ const transform = (item, options) => {
   const entry = {
     id: getEntryId(id, link, pubDate),
     title,
-    link: purifyUrl(link) || absolutify(baseUrl, link),
+    link: getPureUrl(link, '', baseUrl),
     published,
     description: buildDescription(textContent || htmlContent || summary, descriptionMaxLen),
   }

@@ -1,5 +1,6 @@
+import fs from 'node:fs'
+
 import { build } from 'esbuild'
-import fs from 'fs'
 
 const { dependencies } = JSON.parse(fs.readFileSync('./package.json', 'utf8'))
 // we need esbuild to process esm dependencies while leaving cjs compatible ones
