@@ -5,45 +5,32 @@ To read & normalize RSS/ATOM/JSON feed data.
 [![npm version](https://badge.fury.io/js/@extractus%2Ffeed-extractor.svg)](https://badge.fury.io/js/@extractus%2Ffeed-extractor)
 ![CodeQL](https://github.com/extractus/feed-extractor/workflows/CodeQL/badge.svg)
 ![CI test](https://github.com/extractus/feed-extractor/workflows/ci-test/badge.svg)
-[![Coverage Status](https://img.shields.io/coveralls/github/extractus/feed-extractor)](https://coveralls.io/github/extractus/feed-extractor?branch=main)
 
 (This library is derived from [feed-reader](https://www.npmjs.com/package/feed-reader) renamed.)
 
 ## Demo
 
-- [Give it a try!](https://extractor-demos.pages.dev/feed-extractor)
-- [Example FaaS](https://extractus.deno.dev/extract?apikey=rn0wbHos2e73W6ghQf705bdF&type=feed&url=https://news.google.com/rss)
+- [Give it a try!](https://extractus-demo.vercel.app/feed)
 
-## Install & Usage
 
-### Node.js
+## Install
 
 ```bash
+# npm, pnpm, yarn
 npm i @extractus/feed-extractor
+
+# bun
+bun add @extractus/feed-extractor
 ```
+
+## Usage
 
 ```ts
 import { extract } from '@extractus/feed-extractor'
 
-// extract a RSS
-const result = await extract('https://news.google.com/rss')
-console.log(result)
+const data = await extract(RSS_URL)
+console.log(data)
 ```
-
-### Deno
-
-```ts
-import { extract } from 'npm:@extractus/feed-extractor'
-```
-
-### Browser
-
-```ts
-import { extract } from 'https://esm.sh/@extractus/feed-extractor'
-```
-
-Please check [the examples](https://github.com/extractus/feed-extractor/tree/main/examples) for reference.
-
 
 ## Automate RSS feed extraction with GitHub Actions
 
