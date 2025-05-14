@@ -2,7 +2,7 @@
 
 // specs: https://www.rssboard.org/rss-specification
 
-import { isArray, hasProperty } from 'bellajs'
+import { isArray, hasProperty } from '@ndaidong/bellajs'
 
 import {
   getText,

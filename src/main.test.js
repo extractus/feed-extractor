@@ -1,12 +1,12 @@
 // main.test
 /* eslint-env jest */
 
-import { readFileSync } from 'fs'
+import { readFileSync } from 'node:fs'
 
 import nock from 'nock'
 import { HttpsProxyAgent } from 'https-proxy-agent'
 
-import { hasProperty, isString } from 'bellajs'
+import { hasProperty, isString } from '@ndaidong/bellajs'
 
 import { extract, extractFromXml, extractFromJson, read } from './main.js'
 import { isValid as isValidUrl } from './utils/linker.js'

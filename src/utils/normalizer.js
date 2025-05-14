@@ -7,7 +7,7 @@ import {
   hasProperty,
   stripTags,
   truncate
-} from 'bellajs'
+} from '@ndaidong/bellajs'
 
 import { decode } from 'html-entities'
 
