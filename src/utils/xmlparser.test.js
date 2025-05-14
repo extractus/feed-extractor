@@ -1,7 +1,7 @@
 // xmlparser.test
 /* eslint-env jest */
 
-import { readFileSync } from 'fs'
+import { readFileSync } from 'node:fs'
 
 import { validate, isRSS, isAtom, xml2obj } from './xmlparser.js'
 

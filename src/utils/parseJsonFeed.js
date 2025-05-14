@@ -2,7 +2,7 @@
 
 // specs: https://www.jsonfeed.org/version/1.1/
 
-import { isArray } from 'bellajs'
+import { isArray } from '@ndaidong/bellajs'
 
 import {
   toISODateString,

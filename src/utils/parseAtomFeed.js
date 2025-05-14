@@ -3,7 +3,7 @@
 // specs: https://datatracker.ietf.org/doc/html/rfc5023
 // refer: https://validator.w3.org/feed/docs/atom.html
 
-import { isArray, hasProperty } from 'bellajs'
+import { isArray, hasProperty } from '@ndaidong/bellajs'
 
 import {
   getText,
