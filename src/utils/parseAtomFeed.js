@@ -13,6 +13,13 @@ import {
   getEntryId
 } from './normalizer.js'
 
+/**
+ * Transform a single Atom entry into a normalized entry object.
+ *
+ * @param {Object} item - Raw Atom entry from parsed XML
+ * @param {Object} options - Parser options
+ * @returns {Object} Normalized entry with id, title, link, published, description
+ */
 const transform = (item, options) => {
   const {
     useISODateFormat,
@@ -51,6 +58,15 @@ const transform = (item, options) => {
   }
 }
 
+/**
+ * Flatten raw Atom feed data without normalization.
+ *
+ * Preserves original structure while cleaning text and links.
+ *
+ * @param {Object} feed - Raw Atom feed data
+ * @param {string} baseUrl - Base URL for resolving relative links
+ * @returns {Object} Feed data with cleaned entries
+ */
 const flatten = (feed, baseUrl) => {
   const {
     id,
@@ -91,6 +107,16 @@ const flatten = (feed, baseUrl) => {
   return output
 }
 
+/**
+ * Parse and normalize Atom feed data into a standard structure.
+ *
+ * When `normalization` is false, returns flattened raw data instead.
+ * Extracts language from `xml:lang` attribute when present.
+ *
+ * @param {Object} data - Parsed Atom XML object
+ * @param {Object} [options={}] - Parser options
+ * @returns {Object} Normalized feed object with entries array
+ */
 const parseAtom = (data, options = {}) => {
   const {
     normalization,
@@ -110,7 +136,7 @@ const parseAtom = (data, options = {}) => {
     link = '',
     subtitle = '',
     generator = '',
-    language = '',
+    language = feedData.language || feedData['@_xml:lang'] || '',
     updated = '',
     entry: item = [],
   } = feedData
@@ -135,6 +161,13 @@ const parseAtom = (data, options = {}) => {
   }
 }
 
+/**
+ * Parse Atom feed data from a parsed XML object.
+ *
+ * @param {Object} data - Parsed Atom XML object
+ * @param {Object} [options={}] - Parser options
+ * @returns {Object} Normalized or flattened feed data
+ */
 export default (data, options = {}) => {
   return parseAtom(data, options)
 }

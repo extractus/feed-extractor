@@ -12,6 +12,13 @@ import {
   getEntryId
 } from './normalizer.js'
 
+/**
+ * Transform a single RDF item into a normalized entry object.
+ *
+ * @param {Object} item - Raw RDF item from parsed XML
+ * @param {Object} options - Parser options
+ * @returns {Object} Normalized entry with id, title, link, published, description
+ */
 const transform = (item, options) => {
   const {
     useISODateFormat,
@@ -47,6 +54,15 @@ const transform = (item, options) => {
   }
 }
 
+/**
+ * Flatten raw RDF feed data without normalization.
+ *
+ * Preserves original structure while cleaning text and links.
+ *
+ * @param {Object} feed - Raw RDF channel data
+ * @param {string} baseUrl - Base URL for resolving relative links
+ * @returns {Object} Feed data with cleaned entries
+ */
 const flatten = (feed, baseUrl) => {
   const {
     title = '',
@@ -80,6 +96,15 @@ const flatten = (feed, baseUrl) => {
   return output
 }
 
+/**
+ * Parse and normalize RDF/RSS 1.0 feed data into a standard structure.
+ *
+ * When `normalization` is false, returns flattened raw data instead.
+ *
+ * @param {Object} data - Parsed RDF XML object
+ * @param {Object} [options={}] - Parser options
+ * @returns {Object} Normalized feed object with entries array
+ */
 const parseRdf = (data, options = {}) => {
   const {
     normalization,
@@ -124,6 +149,13 @@ const parseRdf = (data, options = {}) => {
   }
 }
 
+/**
+ * Parse RDF/RSS 1.0 feed data from a parsed XML object.
+ *
+ * @param {Object} data - Parsed RDF XML object
+ * @param {Object} [options={}] - Parser options
+ * @returns {Object} Normalized or flattened feed data
+ */
 export default (data, options = {}) => {
   return parseRdf(data, options)
 }

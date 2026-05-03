@@ -13,6 +13,13 @@ import {
   getEntryId
 } from './normalizer.js'
 
+/**
+ * Transform a single RSS item into a normalized entry object.
+ *
+ * @param {Object} item - Raw RSS item from parsed XML
+ * @param {Object} options - Parser options
+ * @returns {Object} Normalized entry with id, title, link, published, description
+ */
 const transform = (item, options) => {
   const {
     useISODateFormat,
@@ -48,6 +55,15 @@ const transform = (item, options) => {
   }
 }
 
+/**
+ * Flatten raw RSS feed data without normalization.
+ *
+ * Preserves original structure while cleaning text and links.
+ *
+ * @param {Object} feed - Raw RSS channel data
+ * @param {string} baseUrl - Base URL for resolving relative links
+ * @returns {Object} Feed data with cleaned entries
+ */
 const flatten = (feed, baseUrl) => {
   const {
     title = '',
@@ -69,7 +85,7 @@ const flatten = (feed, baseUrl) => {
       link: getPureUrl(link, id, baseUrl),
     }
 
-    const txtTags = 'guid description source'.split(' ')
+    const txtTags = 'guid description'.split(' ')
 
     txtTags.forEach((key) => {
       if (hasProperty(entry, key)) {
@@ -80,7 +96,7 @@ const flatten = (feed, baseUrl) => {
     const optionalProps = 'source category enclosure author image'.split(' ')
     optionalProps.forEach((key) => {
       if (hasProperty(item, key)) {
-        entry[key] = getOptionalTags(item[key], key)
+        item[key] = getOptionalTags(item[key], key)
       }
     })
 
@@ -96,6 +112,15 @@ const flatten = (feed, baseUrl) => {
   return output
 }
 
+/**
+ * Parse and normalize RSS 2.0 feed data into a standard structure.
+ *
+ * When `normalization` is false, returns flattened raw data instead.
+ *
+ * @param {Object} data - Parsed RSS XML object
+ * @param {Object} [options={}] - Parser options
+ * @returns {Object} Normalized feed object with entries array
+ */
 const parseRss = (data, options = {}) => {
   const {
     normalization,
@@ -139,6 +164,13 @@ const parseRss = (data, options = {}) => {
   }
 }
 
+/**
+ * Parse RSS 2.0 feed data from a parsed XML object.
+ *
+ * @param {Object} data - Parsed RSS XML object
+ * @param {Object} [options={}] - Parser options
+ * @returns {Object} Normalized or flattened feed data
+ */
 export default (data, options = {}) => {
   return parseRss(data, options)
 }

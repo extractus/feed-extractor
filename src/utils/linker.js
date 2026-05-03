@@ -1,5 +1,11 @@
 // utils -> linker
 
+/**
+ * Check if a string is a valid HTTP/HTTPS URL.
+ *
+ * @param {string} url - URL string to validate
+ * @returns {boolean} True if the URL is valid and uses http/https protocol
+ */
 export const isValid = (url = '') => {
   try {
     const ourl = new URL(url)
@@ -9,6 +15,13 @@ export const isValid = (url = '') => {
   }
 }
 
+/**
+ * Resolve a relative URL against an absolute base URL.
+ *
+ * @param {string} fullUrl - Base absolute URL
+ * @param {string} relativeUrl - Relative URL to resolve
+ * @returns {string} Resolved absolute URL, or empty string on failure
+ */
 export const absolutify = (fullUrl = '', relativeUrl = '') => {
   try {
     const result = new URL(relativeUrl, fullUrl)
@@ -18,6 +31,7 @@ export const absolutify = (fullUrl = '', relativeUrl = '') => {
   }
 }
 
+/** @type {string[]} Known tracking query param keys to strip from URLs */
 const blacklistKeys = [
   'CNDID',
   '__twitter_impression',
@@ -78,6 +92,12 @@ const blacklistKeys = [
   'pk_campaign',
 ]
 
+/**
+ * Remove known tracking parameters and hash fragment from a URL.
+ *
+ * @param {string} url - URL to purify
+ * @returns {string|null} Purified URL string, or null on failure
+ */
 export const purify = (url) => {
   try {
     const pureUrl = new URL(url)

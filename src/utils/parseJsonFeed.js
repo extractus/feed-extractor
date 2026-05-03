@@ -13,6 +13,13 @@ import {
 
 import { absolutify, purify as purifyUrl } from './linker.js'
 
+/**
+ * Transform a single JSON Feed item into a normalized entry object.
+ *
+ * @param {Object} item - Raw JSON Feed item
+ * @param {Object} options - Parser options
+ * @returns {Object} Normalized entry with id, title, link, published, description
+ */
 const transform = (item, options) => {
   const {
     useISODateFormat,
@@ -48,6 +55,16 @@ const transform = (item, options) => {
   }
 }
 
+/**
+ * Parse and normalize JSON Feed data into a standard structure.
+ *
+ * When `normalization` is false, returns the raw data as-is.
+ * Extracts feed-level published date from `date_published` or `date_modified`.
+ *
+ * @param {Object} data - JSON Feed object
+ * @param {Object} options - Parser options
+ * @returns {Object} Normalized feed object with entries array
+ */
 const parseJson = (data, options) => {
   const {
     normalization,
@@ -62,6 +79,8 @@ const parseJson = (data, options) => {
   const {
     title = '',
     home_page_url: homepageUrl = '',
+    date_published: pubDate = '',
+    date_modified: modDate = '',
     description = '',
     language = '',
     items: item = [],
@@ -76,7 +95,7 @@ const parseJson = (data, options) => {
     link: purifyUrl(homepageUrl) || absolutify(baseUrl, homepageUrl),
     description,
     language,
-    published: '',
+    published: pubDate || modDate,
     generator: '',
     ...extraFields,
     entries: items.map((item) => {
@@ -85,6 +104,13 @@ const parseJson = (data, options) => {
   }
 }
 
+/**
+ * Parse JSON Feed data from a JSON object.
+ *
+ * @param {Object} data - JSON Feed object
+ * @param {Object} [options={}] - Parser options
+ * @returns {Object} Normalized or raw feed data
+ */
 export default (data, options = {}) => {
   return parseJson(data, options)
 }

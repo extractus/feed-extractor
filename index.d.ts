@@ -1,95 +1,154 @@
 // Type definitions
 
+/**
+ * A single normalized feed entry.
+ */
 export interface FeedEntry {
-  /**
-   * id, guid, or generated identifier for the entry
-   */
+  /** Entry identifier (guid, id, or auto-generated) */
   id: string;
+  /** Permalink to the entry */
   link?: string;
+  /** Entry title */
   title?: string;
+  /** Entry description (HTML stripped, optionally truncated) */
   description?: string;
+  /** Publication date (ISO format or original) */
   published?: string;
 }
 
+/**
+ * Normalized feed data returned by all extract functions.
+ *
+ * Extra fields may be present if `getExtraFeedFields` or `getExtraEntryFields` are used.
+ */
 export interface FeedData {
-  link?: string;
+  /** Feed title */
   title?: string;
+  /** Feed link */
+  link?: string;
+  /** Feed description */
   description?: string;
+  /** Feed generator */
   generator?: string;
+  /** Feed language */
   language?: string;
+  /** Feed publication date */
   published?: string;
+  /** List of feed entries */
   entries?: Array<FeedEntry>;
 }
 
+/**
+ * Configuration for proxy-based feed fetching.
+ */
 export interface ProxyConfig {
+  /** Proxy endpoint URL; the target feed URL is appended as query param */
   target?: string;
-  headers?: any;
+  /** Custom headers to send to the proxy */
+  headers?: Record<string, string>;
 }
 
+/**
+ * Options for feed parsing and normalization.
+ */
 export interface ReaderOptions {
   /**
-   * normalize feed data or keep original
-   * default: true
+   * Normalize feed data or keep original structure.
+   * @default true
    */
   normalization?: boolean;
   /**
-   * convert datetime to ISO format
-   * default: true
+   * Convert dates to ISO 8601 format.
+   * @default true
    */
   useISODateFormat?: boolean;
   /**
-   * to truncate description
-   * default: 210
+   * Maximum length for entry descriptions (0 = no limit).
+   * @default 250
    */
   descriptionMaxLen?: number;
   /**
-   * fast-xml-parser options
-   * https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/docs/v4/2.XMLparseOptions.md
+   * Options passed directly to fast-xml-parser.
+   * @see https://github.com/NaturalIntelligence/fast-xml-parser/blob/master/docs/v4/2.XMLparseOptions.md
    */
-  xmlParserOptions?: any;
+  xmlParserOptions?: Record<string, unknown>;
   /**
-   * fill in the baseurl when it does not exist in the link
-   * default: ''
+   * Base URL for resolving relative links in the feed.
+   * @default ''
    */
   baseUrl?: string;
   /**
-   * merge extra feed fields in result
+   * Callback to extract extra fields from the raw feed data.
+   * Returned properties are merged into the top-level result.
    */
-  getExtraFeedFields?: (feedData: object) => object;
+  getExtraFeedFields?: (feedData: Record<string, unknown>) => Record<string, unknown>;
   /**
-   * merge extra entry fields in result
+   * Callback to extract extra fields from each raw entry.
+   * Returned properties are merged into each entry in the result.
    */
-  getExtraEntryFields?: (entryData: object) => object;
+  getExtraEntryFields?: (entryData: Record<string, unknown>) => Record<string, unknown>;
 }
 
+/**
+ * Options for the HTTP fetch request when using `extract()`.
+ *
+ * Only `headers`, `proxy`, `agent`, and `signal` are used by the library.
+ * Other standard fetch options may be passed through to `fetch()` in non-proxy mode.
+ */
 export interface FetchOptions {
-  //  Definitions by: Ryan Graham <https://github.com/ryan-codingintrigue>
-  method?: "GET" | "POST" | "DELETE" | "PATCH" | "PUT" | "HEAD" | "OPTIONS" | "CONNECT";
-  headers?: any;
-  body?: any;
-  mode?: "cors" | "no-cors" | "same-origin";
-  credentials?: "omit" | "same-origin" | "include";
-  cache?: "default" | "no-store" | "reload" | "no-cache" | "force-cache" | "only-if-cached";
-  redirect?: "follow" | "error" | "manual";
-  referrer?: string;
-  referrerPolicy?: "referrer" | "no-referrer-when-downgrade" | "origin" | "origin-when-cross-origin" | "unsafe-url";
-  integrity?: any;
+  /** Request headers (e.g. User-Agent) */
+  headers?: Record<string, string>;
+  /** Proxy configuration to route the request through an intermediary */
   proxy?: ProxyConfig;
-  /**
-   * http proxy agent
-   * default: null
-   */
+  /** HTTP/HTTPS proxy agent (e.g. HttpsProxyAgent) */
   agent?: object;
-  /**
-   * signal to terminate request
-   * default: null
-   */
+  /** AbortSignal to cancel the request (e.g. AbortSignal.timeout()) */
   signal?: object;
 }
 
+/**
+ * Parse an XML string into normalized feed data.
+ *
+ * Automatically detects RSS 2.0, Atom, and RDF/RSS 1.0 formats.
+ *
+ * @param xml - XML feed string
+ * @param options - Parser options
+ * @returns Normalized feed data
+ */
 export function extractFromXml(xml: string, options?: ReaderOptions): FeedData;
-export function extractFromJson(json: string, options?: ReaderOptions): FeedData;
 
+/**
+ * Parse a JSON Feed object (or JSON string) into normalized feed data.
+ *
+ * Accepts both a parsed JavaScript object or a JSON string.
+ *
+ * @param json - JSON Feed object or JSON string
+ * @param options - Parser options
+ * @returns Normalized feed data
+ */
+export function extractFromJson(json: Record<string, unknown> | string, options?: ReaderOptions): FeedData;
+
+/**
+ * Fetch and parse a feed from a URL.
+ *
+ * Supports RSS, Atom, RDF, and JSON Feed formats.
+ * Content type is auto-detected from the HTTP response.
+ *
+ * @param url - Feed source URL
+ * @param options - Parser options
+ * @param fetchOptions - HTTP fetch options
+ * @returns Promise resolving to normalized feed data
+ */
 export function extract(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;
 
+/**
+ * @deprecated Use `extract()` instead.
+ *
+ * Fetch and parse a feed from a URL.
+ *
+ * @param url - Feed source URL
+ * @param options - Parser options
+ * @param fetchOptions - HTTP fetch options
+ * @returns Promise resolving to normalized feed data
+ */
 export function read(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;
