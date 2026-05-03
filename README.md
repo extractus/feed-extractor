@@ -17,16 +17,16 @@ To read & normalize RSS/ATOM/JSON feed data.
 
 ```bash
 # bun
-bun add @extractus/oembed-extractor
+bun add @extractus/feed-extractor
 
 # npm
-npm i @extractus/oembed-extractor
+npm i @extractus/feed-extractor
 
 # pnpm
-pnpm install @extractus/oembed-extractor
+pnpm install @extractus/feed-extractor
 
 # yarn
-yarn add @extractus/oembed-extractor
+yarn add @extractus/feed-extractor
 ```
 
 ## Usage
