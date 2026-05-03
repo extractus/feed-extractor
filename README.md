@@ -10,17 +10,23 @@ To read & normalize RSS/ATOM/JSON feed data.
 
 ## Demo
 
-- [Give it a try!](https://extractus-demo.vercel.app/feed)
+- [Give it a try!](https://extractus.pwshub.com/feed)
 
 
 ## Install
 
 ```bash
-# npm, pnpm, yarn
-npm i @extractus/feed-extractor
-
 # bun
-bun add @extractus/feed-extractor
+bun add @extractus/oembed-extractor
+
+# npm
+npm i @extractus/oembed-extractor
+
+# pnpm
+pnpm install @extractus/oembed-extractor
+
+# yarn
+yarn add @extractus/oembed-extractor
 ```
 
 ## Usage

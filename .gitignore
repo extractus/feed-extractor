@@ -12,12 +12,14 @@ coverage
 .nyc_output
 
 yarn.lock
-coverage.lcov
-package-lock.json
 pnpm-lock.yaml
+package-lock.json
+deno.lock
+bun.lock
 
 output.json
-deno.lock
 
 bundle.cjs
 bundle.cjs.map
+
+.sessions

@@ -4,3 +4,6 @@ coverage
 pnpm-lock.yaml
 examples
 test-data
+
+.aiignore
+.sessions
