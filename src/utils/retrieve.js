@@ -77,7 +77,7 @@ export default async (url, options = {}) => {
   }
   const contentType = res.headers.get('content-type')
   const buffer = await res.arrayBuffer()
-  const text = buffer ? Buffer.from(buffer).toString().trim() : ''
+  const text = buffer ? new TextDecoder().decode(buffer).trim() : ''
 
   if (/(\+|\/)json/.test(contentType)) {
     try {
