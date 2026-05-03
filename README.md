@@ -214,9 +214,6 @@ await extract(url, null, {
 })
 ```
 
-Passing requests to proxy is useful while running `@extractus/feed-extractor` on browser.
-View `examples/browser-feed-reader` as reference example.
-
 Another way to work with proxy is use `agent` option instead of `proxy` as below:
 
 ```js
