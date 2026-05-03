@@ -90,7 +90,7 @@ const flatten = (feed, baseUrl) => {
   const output = {
     ...feed,
     title: getText(title),
-    link: getPureUrl(link, baseUrl),
+    link: getPureUrl(link, '', baseUrl),
     item: isArray(item) ? entries : entries[0],
   }
   return output
@@ -138,7 +138,7 @@ const parseRdf = (data, options = {}) => {
   return {
     title: getText(title),
     link: getPureUrl(link, '', baseUrl),
-    description,
+    description: getText(description),
     language,
     generator,
     published,

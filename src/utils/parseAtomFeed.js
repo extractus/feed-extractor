@@ -150,7 +150,7 @@ const parseAtom = (data, options = {}) => {
   return {
     title: getText(title),
     link: getPureUrl(link, id, baseUrl),
-    description: subtitle,
+    description: getText(subtitle),
     language,
     generator,
     published,
