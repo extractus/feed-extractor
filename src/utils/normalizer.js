@@ -6,8 +6,8 @@ import {
   isArray,
   hasProperty,
   stripTags,
-  truncate
-} from '@ndaidong/bellajs'
+  truncateByChar
+} from '@pwshub/bellajs'
 
 import { decode } from 'html-entities'
 
@@ -36,7 +36,7 @@ export const toISODateString = (dstr) => {
  */
 export const buildDescription = (val, maxlen = 0) => {
   const stripped = stripTags(String(val).trim().replace(/^<!\[CDATA\[|\]\]>$/g, ''))
-  const text = maxlen > 0 ? truncate(stripped, maxlen) : stripped
+  const text = maxlen > 0 ? truncateByChar(stripped, maxlen) : stripped
   return text.replace(/\n+/g, ' ')
 }
 

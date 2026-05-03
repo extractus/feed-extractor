@@ -4,7 +4,7 @@ import { describe, it } from 'node:test'
 import assert from 'node:assert'
 import { readFileSync } from 'node:fs'
 
-import { isObject } from '@ndaidong/bellajs'
+import { isObject } from '@pwshub/bellajs'
 
 import { validate, isRSS, isAtom, xml2obj } from './xmlparser.js'
 

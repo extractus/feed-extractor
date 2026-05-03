@@ -1,6 +1,6 @@
 // utils / xmlparser
 
-import { hasProperty, isString } from '@ndaidong/bellajs'
+import { hasProperty, isString } from '@pwshub/bellajs'
 
 import { XMLValidator, XMLParser } from 'fast-xml-parser'
 

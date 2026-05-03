@@ -1,5 +1,5 @@
 {
-  "version": "7.2.0",
+  "version": "7.2.1",
   "name": "@extractus/feed-extractor",
   "description": "To read and normalize RSS/ATOM/JSON feed data",
   "homepage": "https://github.com/extractus/feed-extractor",
@@ -33,7 +33,7 @@
     "reset": "node reset"
   },
   "dependencies": {
-    "@ndaidong/bellajs": "^12.0.1",
+    "@pwshub/bellajs": "13.0.2",
     "fast-xml-parser": "^5.7.2",
     "html-entities": "^2.6.0"
   },
