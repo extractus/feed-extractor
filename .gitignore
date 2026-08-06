@@ -1,25 +1,5 @@
-# Logs
-logs
-*.log
-*.debug
-
-# Runtime data
-*.pid
-*.seed
-
 node_modules
-coverage
-.nyc_output
 
-yarn.lock
-pnpm-lock.yaml
-package-lock.json
-deno.lock
-bun.lock
+.env
 
-output.json
-
-bundle.cjs
-bundle.cjs.map
-
-.sessions
+npm/
