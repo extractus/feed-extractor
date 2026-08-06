@@ -14,7 +14,7 @@
     "jsr:@std/path@^1.1.5": "1.1.6",
     "jsr:@ts-morph/bootstrap@0.29": "0.29.0",
     "jsr:@ts-morph/common@0.29": "0.29.0",
-    "npm:fast-xml-parser@^5.7.2": "5.10.1"
+    "npm:fast-xml-parser@^5.10.1": "5.10.1"
   },
   "jsr": {
     "@david/code-block-writer@13.0.3": {
@@ -123,7 +123,7 @@
       "jsr:@pwshub/bellajs@13.1.0",
       "jsr:@std/assert@1.0.12",
       "jsr:@std/html@1.0.7",
-      "npm:fast-xml-parser@^5.7.2"
+      "npm:fast-xml-parser@^5.10.1"
     ]
   }
 }
