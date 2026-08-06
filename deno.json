@@ -1,6 +1,6 @@
 {
   "name": "@extractus/feed-extractor",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "To read and normalize RSS/ATOM/JSON feed data",
   "homepage": "https://github.com/extractus/feed-extractor",
   "repository": {

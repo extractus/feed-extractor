@@ -9,42 +9,68 @@ import parseRssFeed from "./utils/parseRssFeed.ts";
 import parseAtomFeed from "./utils/parseAtomFeed.ts";
 import parseRdfFeed from "./utils/parseRdfFeed.ts";
 
+/** Represents a single entry (article/item) in a feed. */
 export interface FeedEntry {
+  /** Unique identifier for the entry */
   id: string;
+  /** URL link to the entry */
   link?: string;
+  /** Title of the entry */
   title?: string;
+  /** Description or summary of the entry */
   description?: string;
+  /** Publication date as ISO datetime string */
   published?: string;
+  /** Additional fields from the original feed */
   [key: string]: unknown;
 }
 
+/** Represents parsed feed data with metadata and entries. */
 export interface FeedData {
+  /** Title of the feed */
   title?: string;
+  /** URL link to the feed */
   link?: string;
+  /** Description of the feed */
   description?: string;
+  /** Generator or software that created the feed */
   generator?: string;
+  /** Language of the feed content */
   language?: string;
+  /** Publication date as ISO datetime string */
   published?: string;
+  /** Array of feed entries */
   entries?: FeedEntry[];
+  /** Additional fields from the original feed */
   [key: string]: unknown;
 }
 
+/** Custom fetch function type. Receives a URL and returns a Response promise. */
 export type Fetcher = (url: string) => Promise<Response>;
 
+/** Options for controlling feed parsing behavior. */
 export interface ParserOptions {
+  /** Normalize feed data to standard structure. Default: `true` */
   normalization?: boolean;
+  /** Convert datetime strings to ISO format. Default: `true` */
   useISODateFormat?: boolean;
+  /** Max description length before truncation. Default: `250`. Set to `0` for no truncation. */
   descriptionMaxLen?: number;
+  /** Options passed to the underlying XML parser */
   xmlParserOptions?: Record<string, unknown>;
+  /** Base URL to absolutify relative links in feed content */
   baseUrl?: string;
+  /** Function to extract additional fields from feed metadata */
   getExtraFeedFields?: (
     feedData: Record<string, unknown>,
   ) => Record<string, unknown>;
+  /** Function to extract additional fields from each entry */
   getExtraEntryFields?: (
     entryData: Record<string, unknown>,
   ) => Record<string, unknown>;
 }
 
+/** Internal normalized options with all defaults applied. */
 interface NormalizedOptions {
   normalization: boolean;
   descriptionMaxLen: number;
@@ -60,6 +86,7 @@ interface NormalizedOptions {
   [key: string]: unknown;
 }
 
+/** Apply default values to parser options. */
 const getopt = (options: ParserOptions = {}): NormalizedOptions => {
   const {
     normalization = true,
@@ -82,6 +109,13 @@ const getopt = (options: ParserOptions = {}): NormalizedOptions => {
   };
 };
 
+/**
+ * Extract feed data from a JSON object or string.
+ *
+ * @param json - JSON object or string from a JSON Feed resource
+ * @param options - Parser options
+ * @returns Parsed feed data
+ */
 export const extractFromJson = (
   json: Record<string, unknown> | string,
   options: ParserOptions = {},
@@ -90,6 +124,15 @@ export const extractFromJson = (
   return parseJsonFeed(data, getopt(options)) as FeedData;
 };
 
+/**
+ * Extract feed data from an XML string.
+ * Supports RSS, Atom, and RDF feed formats.
+ *
+ * @param xml - XML string from an RSS/Atom/RDF feed resource
+ * @param options - Parser options
+ * @returns Parsed feed data
+ * @throws {Error} If XML is not well-formed or format is unrecognized
+ */
 export const extractFromXml = (
   xml: string,
   options: ParserOptions = {},
@@ -115,6 +158,16 @@ export const extractFromXml = (
   return result as FeedData;
 };
 
+/**
+ * Load and extract feed data from a remote URL.
+ * Automatically detects RSS, Atom, RDF, or JSON feed formats.
+ *
+ * @param url - URL of the feed source
+ * @param options - Parser options
+ * @param fetcher - Custom fetch function (defaults to globalThis.fetch)
+ * @returns Parsed feed data
+ * @throws {Error} If URL is invalid or content cannot be loaded
+ */
 export const extract = async (
   url: string,
   options: ParserOptions = {},
