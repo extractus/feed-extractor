@@ -4,7 +4,7 @@ To read & normalize RSS/ATOM/JSON feed data.
 
 [![JSR](https://jsr.io/badges/@extractus/feed-extractor)](https://jsr.io/@extractus/feed-extractor)
 [![npm version](https://badge.fury.io/js/@extractus%2Ffeed-extractor.svg)](https://badge.fury.io/js/@extractus%2Ffeed-extractor)
-![CI test & release](https://github.com/extractus/feed-extractor/workflows/release/badge.svg)
+![CI test](https://github.com/extractus/feed-extractor/workflows/ci-test/badge.svg)
 
 ## Installation
 
