@@ -31,6 +31,7 @@ npm install @extractus/feed-extractor
 # or
 bun add @extractus/feed-extractor
 ```
+
 ## Usage
 
 ```ts
@@ -306,3 +307,15 @@ deno task build
 ## License
 
 The MIT License (MIT)
+
+## Support the project
+
+This project is maintained in my spare time. If you find it helpful, there are a few simple ways to support its continued development:
+
+* ⭐ Star this repository to help more people discover it.
+* ☕ Buy me a coffee: https://paypal.me/ndaidong
+* 🚀 Subscribe to the [Feed Reader service](https://rapidapi.com/pwshub-pwshub-default/api/feed-reader1/) on RapidAPI.
+
+Every bit of support helps keep this project actively maintained. Thank you! ❤️
+
+---
