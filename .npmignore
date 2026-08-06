@@ -1,9 +1,0 @@
-node_modules
-coverage
-.github
-pnpm-lock.yaml
-examples
-test-data
-
-.aiignore
-.sessions

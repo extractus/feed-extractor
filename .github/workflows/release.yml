@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: lts
+
+      - name: lint
+        run: deno lint
+
+      - name: test
+        run: deno test --allow-all
+
+      - name: audit
+        run: deno audit
+
+      - name: publish to jsr
+        run: deno publish
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "latest"
+
+      - name: build npm package
+        run: deno task build
+
+      - name: publish to npm
+        working-directory: npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

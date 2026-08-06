@@ -1,0 +1,44 @@
+{
+  "name": "@extractus/feed-extractor",
+  "version": "8.0.0",
+  "description": "To read and normalize RSS/ATOM/JSON feed data",
+  "homepage": "https://github.com/extractus/feed-extractor",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/extractus/feed-extractor.git"
+  },
+  "author": "@extractus",
+  "license": "MIT",
+  "exports": "./mod.ts",
+  "tasks": {
+    "test": "deno test --allow-all",
+    "lint": "deno lint",
+    "build": "deno run -A ./scripts/build_npm.ts"
+  },
+  "imports": {
+    "@deno/dnt": "jsr:@deno/dnt@^0.43.2",
+    "@pwshub/bellajs": "jsr:@pwshub/bellajs@13.1.0",
+    "@std/assert": "jsr:@std/assert@1.0.12",
+    "@std/html": "jsr:@std/html@1.0.7",
+    "fast-xml-parser": "npm:fast-xml-parser@^5.7.2"
+  },
+  "lint": {
+    "include": ["src/", "mod.ts", "scripts/", "tests/"],
+    "exclude": ["npm/"],
+    "rules": {
+      "tags": ["recommended"],
+      "exclude": ["no-explicit-any"]
+    }
+  },
+  "fmt": {
+    "include": ["src/", "mod.ts", "scripts/", "tests/"],
+    "exclude": ["npm/"]
+  },
+  "test": {
+    "include": ["tests/"]
+  },
+  "publish": {
+    "include": ["LICENSE", "README.md", "mod.ts", "src/"],
+    "exclude": ["tests/", "scripts/"]
+  }
+}
