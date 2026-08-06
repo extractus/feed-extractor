@@ -500,9 +500,9 @@ if (PROXY_SERVER !== '') {
   describe('test extract live RSS via proxy server', () => {
     it('check if extract method works with proxy server', async () => {
       const url = 'https://news.google.com/rss'
-      const result = await extract(url, {}, {
-        agent: new HttpsProxyAgent(PROXY_SERVER),
-      })
+      const agent = new HttpsProxyAgent(PROXY_SERVER)
+      const myFetcher = (url) => fetch(url, { agent })
+      const result = await extract(url, {}, myFetcher)
       assert.ok(result.title.includes('Google News'))
       assert.ok(result.entries.length > 0)
     }, 10000)

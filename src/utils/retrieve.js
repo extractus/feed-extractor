@@ -3,30 +3,6 @@
 import { XMLParser } from 'fast-xml-parser'
 
 /**
- * Fetch feed content through a proxy endpoint.
- *
- * Appends the target URL as an encoded query param to the proxy target.
- * Merges request headers with proxy-specific headers.
- *
- * @param {string} url - Feed URL to fetch
- * @param {Object} [options={}] - Fetch options including proxy config, headers, agent, signal
- * @returns {Promise<Response>} Fetch response object
- */
-const profetch = async (url, options = {}) => {
-  const { proxy = {}, headers = {}, agent = null, signal = null } = options
-  const {
-    target,
-    headers: proxyHeaders = {},
-  } = proxy
-  const res = await fetch(target + encodeURIComponent(url), {
-    headers: { ...headers, ...proxyHeaders },
-    agent,
-    signal,
-  })
-  return res
-}
-
-/**
  * Extract charset encoding from the first line of an XML document.
  *
  * @param {string} text - Raw XML text
@@ -53,23 +29,12 @@ const getCharsetFromText = (text) => {
  * along with decoded text and content metadata.
  *
  * @param {string} url - Feed URL to retrieve
- * @param {Object} [options={}] - Fetch options (headers, proxy, agent, signal)
+ * @param {Function} fetcher - Fetch function (url) => Promise<Response>
  * @returns {Promise<Object>} Object with `type`, `text` or `json`, `status`, `contentType`
  * @throws {Error} On HTTP errors, invalid content types, or parse failures
  */
-export default async (url, options = {}) => {
-  const {
-    headers = {
-      'user-agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0',
-    },
-    proxy = null,
-    agent = null,
-    signal = null,
-  } = options
-
-  const res = proxy
-    ? await profetch(url, { proxy, headers, agent, signal })
-    : await fetch(url, { headers, agent, signal })
+export default async (url, fetcher) => {
+  const res = await fetcher(url)
 
   const status = res.status
   if (status >= 400) {

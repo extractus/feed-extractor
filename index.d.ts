@@ -39,14 +39,12 @@ export interface FeedData {
 }
 
 /**
- * Configuration for proxy-based feed fetching.
+ * Custom fetch function signature.
+ *
+ * @param url - URL to fetch
+ * @returns Promise resolving to a Response object
  */
-export interface ProxyConfig {
-  /** Proxy endpoint URL; the target feed URL is appended as query param */
-  target?: string;
-  /** Custom headers to send to the proxy */
-  headers?: Record<string, string>;
-}
+export type Fetcher = (url: string) => Promise<Response>;
 
 /**
  * Options for feed parsing and normalization.
@@ -90,23 +88,6 @@ export interface ReaderOptions {
 }
 
 /**
- * Options for the HTTP fetch request when using `extract()`.
- *
- * Only `headers`, `proxy`, `agent`, and `signal` are used by the library.
- * Other standard fetch options may be passed through to `fetch()` in non-proxy mode.
- */
-export interface FetchOptions {
-  /** Request headers (e.g. User-Agent) */
-  headers?: Record<string, string>;
-  /** Proxy configuration to route the request through an intermediary */
-  proxy?: ProxyConfig;
-  /** HTTP/HTTPS proxy agent (e.g. HttpsProxyAgent) */
-  agent?: object;
-  /** AbortSignal to cancel the request (e.g. AbortSignal.timeout()) */
-  signal?: object;
-}
-
-/**
  * Parse an XML string into normalized feed data.
  *
  * Automatically detects RSS 2.0, Atom, and RDF/RSS 1.0 formats.
@@ -136,10 +117,10 @@ export function extractFromJson(json: Record<string, unknown> | string, options?
  *
  * @param url - Feed source URL
  * @param options - Parser options
- * @param fetchOptions - HTTP fetch options
+ * @param fetcher - Custom fetch function. Defaults to globalThis.fetch.
  * @returns Promise resolving to normalized feed data
  */
-export function extract(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;
+export function extract(url: string, options?: ReaderOptions, fetcher?: Fetcher): Promise<FeedData>;
 
 /**
  * @deprecated Use `extract()` instead.
@@ -148,7 +129,7 @@ export function extract(url: string, options?: ReaderOptions, fetchOptions?: Fet
  *
  * @param url - Feed source URL
  * @param options - Parser options
- * @param fetchOptions - HTTP fetch options
+ * @param fetcher - Custom fetch function
  * @returns Promise resolving to normalized feed data
  */
-export function read(url: string, options?: ReaderOptions, fetchOptions?: FetchOptions): Promise<FeedData>;
+export function read(url: string, options?: ReaderOptions, fetcher?: Fetcher): Promise<FeedData>;

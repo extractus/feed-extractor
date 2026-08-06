@@ -88,16 +88,16 @@ export const extractFromXml = (xml, options = {}) => {
  *
  * @param {string} url - Feed source URL
  * @param {Object} [options={}] - Parser options (normalization, date format, etc.)
- * @param {Object} [fetchOptions={}] - Fetch options (headers, proxy, agent, signal)
+ * @param {Function} [fetcher] - Custom fetch function (url) => Promise<Response>. Defaults to globalThis.fetch.
  * @returns {Promise<Object>} Normalized feed data
  * @throws {Error} On invalid URL, fetch failure, or parse failure
  */
-export const extract = async (url, options = {}, fetchOptions = {}) => {
+export const extract = async (url, options = {}, fetcher = globalThis.fetch) => {
   if (!isValidUrl(url)) {
     throw new Error('Input param must be a valid URL')
   }
 
-  const data = await retrieve(url, fetchOptions)
+  const data = await retrieve(url, fetcher)
   if (!data.text && !data.json) {
     throw new Error(`Failed to load content from "${url}"`)
   }
@@ -112,11 +112,11 @@ export const extract = async (url, options = {}, fetchOptions = {}) => {
  *
  * @param {string} url - Feed source URL
  * @param {Object} [options] - Parser options
- * @param {Object} [fetchOptions] - Fetch options
+ * @param {Function} [fetcher] - Custom fetch function
  * @returns {Promise<Object>} Normalized feed data
  * @deprecated Since v7.0. Use `extract()` instead
  */
-export const read = async (url, options, fetchOptions) => {
+export const read = async (url, options, fetcher) => {
   console.warn('WARNING: read() is deprecated. Please use extract() instead!')
-  return extract(url, options, fetchOptions)
+  return extract(url, options, fetcher)
 }

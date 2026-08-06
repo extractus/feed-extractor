@@ -74,7 +74,7 @@ Load and extract feed data from given RSS/ATOM/JSON source. Return a Promise obj
 ```ts
 extract(String url)
 extract(String url, Object parserOptions)
-extract(String url, Object parserOptions, Object fetchOptions)
+extract(String url, Object parserOptions, Function fetcher)
 ```
 
 Example:
@@ -170,100 +170,87 @@ await extract('https://news.google.com/rss', {
 })
 ```
 
-##### `fetchOptions` *optional*
+##### `fetcher` *optional*
 
-`fetchOptions` is an object that can have the following properties:
+A custom fetch function with the signature `(url: string) => Promise<Response>`.
+Use this to customize HTTP behavior: proxy, headers, TLS, authentication, timeouts, etc.
 
-- `headers`: to set request headers
-- `proxy`: another endpoint to forward the request to
-- `agent`: a HTTP proxy agent
-- `signal`: AbortController signal or AbortSignal timeout to terminate the request
+Defaults to `globalThis.fetch`.
 
-For example, you can use this param to set request headers to fetch as below:
+**Node.js** (with proxy via undici):
 
 ```js
 import { extract } from '@extractus/feed-extractor'
+import { fetch, ProxyAgent } from 'undici'
 
-const url = 'https://news.google.com/rss'
-await extract(url, null, {
-  headers: {
-    'user-agent': 'Opera/9.60 (Windows NT 6.0; U; en) Presto/2.1.1'
-  }
-})
+const dispatcher = new ProxyAgent('http://proxy.example.com:8080')
+const myFetcher = (url) => fetch(url, { dispatcher })
+
+const result = await extract('https://news.google.com/rss', {}, myFetcher)
 ```
 
-You can also specify a proxy endpoint to load remote content, instead of fetching directly.
-
-For example:
+**Bun** (with proxy):
 
 ```js
 import { extract } from '@extractus/feed-extractor'
 
-const url = 'https://news.google.com/rss'
-
-await extract(url, null, {
-  headers: {
-    'user-agent': 'Opera/9.60 (Windows NT 6.0; U; en) Presto/2.1.1'
-  },
+const myFetcher = (url) => fetch(url, {
   proxy: {
-    target: 'https://your-secret-proxy.io/loadXml?url=',
-    headers: {
-      'Proxy-Authorization': 'Bearer YWxhZGRpbjpvcGVuc2VzYW1l...'
-    }
-  }
+    url: 'http://proxy.example.com:8080',
+  },
 })
+
+const result = await extract('https://news.google.com/rss', {}, myFetcher)
 ```
 
-Another way to work with proxy is use `agent` option instead of `proxy` as below:
+**Deno** (with proxy):
+
+```js
+import { extract } from 'npm:@extractus/feed-extractor'
+
+const client = Deno.createHttpClient({
+  proxy: { url: 'http://localhost:8080' },
+})
+const myFetcher = (url) => fetch(url, { client })
+
+const result = await extract('https://news.google.com/rss', {}, myFetcher)
+```
+
+**Custom headers**:
+
+```js
+const myFetcher = (url) => fetch(url, {
+  headers: {
+    'user-agent': 'MyBot/1.0',
+    'authorization': 'Bearer token123',
+  },
+})
+
+const result = await extract(url, {}, myFetcher)
+```
+
+**Request timeout**:
+
+```js
+const myFetcher = (url) => fetch(url, {
+  signal: AbortSignal.timeout(5000),
+})
+
+const result = await extract(url, {}, myFetcher)
+```
+
+**With https-proxy-agent**:
 
 ```js
 import { extract } from '@extractus/feed-extractor'
-
 import { HttpsProxyAgent } from 'https-proxy-agent'
 
 const proxy = 'http://abc:RaNdoMpasswORd_country-France@proxy.packetstream.io:31113'
+const agent = new HttpsProxyAgent(proxy)
+const myFetcher = (url) => fetch(url, { agent })
 
-const url = 'https://news.google.com/rss'
-
-const feed = await extract(url, null, {
-  agent: new HttpsProxyAgent(proxy),
-})
-console.log('Run feed-extractor with proxy:', proxy)
-console.log(feed)
+const result = await extract('https://news.google.com/rss', {}, myFetcher)
 ```
-
-For more info about [https-proxy-agent](https://www.npmjs.com/package/https-proxy-agent), check [its repo](https://github.com/TooTallNate/proxy-agents).
-
-By default, there is no request timeout. You can use the option `signal` to cancel request at the right time.
-
-The common way is to use AbortControler:
-
-```js
-const controller = new AbortController()
-
-// stop after 5 seconds
-setTimeout(() => {
-  controller.abort()
-}, 5000)
-
-const data = await extract(url, null, {
-  signal: controller.signal,
-})
-```
-
-A newer solution is AbortSignal's `timeout()` static method:
-
-```js
-// stop after 5 seconds
-const data = await extract(url, null, {
-  signal: AbortSignal.timeout(5000),
-})
-```
-
-For more info:
-
-- [AbortController constructor](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)
-- [AbortSignal: timeout() static method](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal/timeout_static)
 
 
 ### `extractFromJson()`
