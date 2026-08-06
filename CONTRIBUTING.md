@@ -11,7 +11,7 @@ As an OSS, it's better to follow the Unix philosophy: "do one thing and do it we
 
 Please avoid using libaries other than those available in the standard library, unless necessary.
 
-This library needs to be simple and flexible to run on multiple platforms such as Deno, Bun, or even browser.
+This library needs to be simple and flexible to run on multiple platforms (Deno, Node, Bun).
 
 
 ## Coding convention
@@ -22,14 +22,11 @@ Make sure your code lints before opening a pull request.
 cd feed-extractor
 
 # check coding convention issue
-npm run lint
+deno lint
 
 # auto fix coding convention issue
-npm run lint:fix
+deno lint --fix
 ```
-
-*When you run `npm test`, the linting process will be triggered at first.*
-
 
 ## Testing
 
@@ -37,18 +34,8 @@ Be sure to run the unit test suite before opening a pull request. An example tes
 
 ```bash
 cd feed-extractor
-npm test
+deno test --allow-all
 ```
-
-![feed-extractor unit test](https://i.imgur.com/2b5xt6S.png)
-
-If test coverage decreased, please check test scripts and try to improve this number.
-
-
-## Documentation
-
-If you've changed APIs, please update README and [the examples](examples).
-
 
 ## Clean commit histories
 
@@ -57,12 +44,6 @@ Squash the commits into logical blocks, perhaps a single commit if that makes se
 
 What you want to avoid is commits such as "WIP" and "fix test" in the history.
 This is so we keep history on master clean and straightforward.
-
-For people new to git, please refer the following guides:
-
-- [Writing good commit messages](https://github.com/erlang/otp/wiki/writing-good-commit-messages)
-- [Commit Message Guidelines](https://gist.github.com/robertpainsi/b632364184e70900af4ab688decf6f53)
-
 
 ## License
 
