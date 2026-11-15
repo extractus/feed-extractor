@@ -72,6 +72,76 @@ Deno.test("extractFromXml - standard atom", () => {
     validateProps(result.entries![0] as Record<string, unknown>),
     true,
   );
+  // rel="self" must be skipped in favor of rel="alternate"
+  assertEquals(
+    result.link,
+    "https://news.google.com/?hl=en-US&gl=US&ceid=US%3Aen",
+  );
+});
+
+Deno.test("extractFromXml - standard atom (sample)", () => {
+  const xml = Deno.readTextFileSync(
+    "tests/test-data/atom-feed-standard.xml",
+  );
+  const result = extractFromXml(xml);
+  // rel="self" must be skipped in favor of the alternate link
+  assertEquals(result.link, "http://example.org/");
+  assertEquals(
+    result.entries![0].link,
+    "http://example.org/2003/12/13/atom03",
+  );
+  // <published> wins over <updated>
+  assertEquals(
+    result.entries![0].published,
+    "2003-11-09T17:23:02.000Z",
+  );
+});
+
+Deno.test("extractFromXml - atom with mixed link rels", () => {
+  const xml = Deno.readTextFileSync(
+    "tests/test-data/atom-feed-rel-links.xml",
+  );
+  const result = extractFromXml(xml);
+  assertEquals(result.link, "https://example.org/");
+  assertEquals(
+    result.entries![0].link,
+    "https://example.org/posts/ep1",
+  );
+  assertEquals(
+    result.entries![0].published,
+    "2023-11-09T17:23:02.000Z",
+  );
+  assertEquals(
+    result.entries![1].link,
+    "https://example.org/posts/ep2",
+  );
+  assertEquals(
+    result.entries![1].published,
+    "2026-01-02T00:00:00.000Z",
+  );
+});
+
+Deno.test("extractFromXml - atom with only self links", () => {
+  const xml = `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Self Only</title>
+  <id>urn:uuid:60a76c80-d399-11d9-b91c-0003939e0af7</id>
+  <updated>2026-01-01T00:00:00Z</updated>
+  <link rel="self" href="https://example.org/feed.atom"/>
+  <entry>
+    <title>Only self</title>
+    <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6b</id>
+    <updated>2026-01-01T00:00:00Z</updated>
+    <link rel="self" href="https://example.org/posts/only-self"/>
+  </entry>
+</feed>`;
+  const result = extractFromXml(xml);
+  // no alternate link: fall back to the first link instead of an empty value
+  assertEquals(result.link, "https://example.org/feed.atom");
+  assertEquals(
+    result.entries![0].link,
+    "https://example.org/posts/only-self",
+  );
 });
 
 Deno.test("extractFromXml - atom with extraFields", () => {
