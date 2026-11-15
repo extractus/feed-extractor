@@ -43,7 +43,9 @@ const transform = (
     content = "",
   } = item as Record<string, unknown>;
 
-  const pubDate = updated || modified || published || issued;
+  // RFC 4287: published/issued is the initial publication time,
+  // updated/modified is the last modification time.
+  const pubDate = published || issued || updated || modified;
   const htmlContent = getText(summary || content);
   const entry = {
     id: getEntryId(id, link, pubDate),

@@ -51,11 +51,29 @@ export const getLink = (val: unknown = [], id: unknown = ""): string => {
   ) {
     return getText(id);
   }
+  const getRel = (item: unknown): string => {
+    if (!isObject(item)) return "";
+    const rec = item as Record<string, unknown>;
+    const attrs = rec._attributes;
+    const rel = rec["@_rel"] ?? rec.rel ??
+      (isObject(attrs) ? (attrs as Record<string, unknown>).rel : "");
+    return typeof rel === "string" ? rel.trim().toLowerCase() : "";
+  };
+  const pickLink = (candidates: unknown[]): string => {
+    for (const item of candidates) {
+      const url = getLink(item);
+      if (url) return url;
+    }
+    return "";
+  };
   const getEntryLink = (links: unknown[]): string => {
-    const items = links.map((item) => {
-      return getLink(item);
+    // RFC 4287: a link without rel or with rel="alternate" points to
+    // the alternate representation of the resource.
+    const alternates = links.filter((item) => {
+      const rel = getRel(item);
+      return rel === "" || rel === "alternate";
     });
-    return items.length > 0 ? items[0] : "";
+    return pickLink(alternates) || pickLink(links);
   };
   const url = isString(val)
     ? getText(val)

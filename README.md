@@ -90,6 +90,12 @@ Without any options, the result should have the following structure:
 }
 ```
 
+Notes on `link` and `published` for Atom feeds (per [RFC 4287](https://datatracker.ietf.org/doc/html/rfc4287)):
+
+- `link`: the `<link>` element with `rel="alternate"`, or without a `rel` attribute, is preferred. If the feed has no alternate link, the first link is used.
+- `published` (entry): taken from `<published>`, falling back to `<issued>`, `<updated>`, then `<modified>` (first one available).
+- `published` (feed): taken from `<updated>`, since Atom feeds have no `<published>` element.
+
 #### Parameters
 
 ##### `url` *required*
